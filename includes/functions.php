@@ -1,23 +1,100 @@
 <?php
-// Exemple de fonction pour récupérer les derniers livres
-function get_derniers_livres()
+// Récupération des livres disponibles
+function get_livres_disponibles()
 {
-    // Ici, tu pourrais faire une requête SQL pour récupérer les livres depuis la base de données
-    // Pour l'exemple, je retourne un tableau statique
-    return [
-        ['titre' => 'Ether', 'auteur' => 'Laurent Genefort', 'image' => 'book1.jpg'],
-        ['titre' => 'The Knife Table', 'auteur' => 'Norman Williams', 'image' => 'book2.jpg'],
-        ['titre' => 'Wabi Sabi', 'auteur' => 'Beth Kempton', 'image' => 'book3.jpg'],
-        ['titre' => 'Milk & Honey', 'auteur' => 'Rupi Kaur', 'image' => 'book4.jpg'],
-    ];
+    $query = "SELECT * FROM livres WHERE statut = 'disponible'";
+    $result = db_query($query);
+    $livres = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $livres[] = $row;
+    }
+    return $livres;
 }
 
-// Fonction pour afficher un livre
-function afficher_livre($livre)
+// Récupération des livres d'un utilisateur
+function get_livres_utilisateur($user_id)
 {
-    echo '<div class="book-card">';
-    echo '    <img src="' . BASE_URL . 'assets/images/' . $livre['image'] . '" alt="' . $livre['titre'] . '">';
-    echo '    <h3>' . $livre['titre'] . '</h3>';
-    echo '    <p>par ' . $livre['auteur'] . '</p>';
-    echo '</div>';
+    $user_id = (int)$user_id;
+    $query = "SELECT * FROM livres WHERE utilisateur_id = $user_id";
+    $result = db_query($query);
+    $livres = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $livres[] = $row;
+    }
+    return $livres;
+}
+
+// Recherche de livres
+function rechercher_livres($terme)
+{
+    $terme = db_escape($terme);
+    $query = "SELECT * FROM livres WHERE titre LIKE '%$terme%' AND statut = 'disponible'";
+    $result = db_query($query);
+    $livres = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $livres[] = $row;
+    }
+    return $livres;
+}
+
+// Récupération des détails d'un livre
+function get_livre($livre_id)
+{
+    $livre_id = (int)$livre_id;
+    $query = "SELECT livres.*, utilisateurs.nom FROM livres JOIN utilisateurs ON livres.utilisateur_id = utilisateurs.id WHERE livres.id = $livre_id";
+    $result = db_query($query);
+    return $result ? mysqli_fetch_assoc($result) : null;
+}
+
+// Récupération des messages d'un utilisateur
+function get_messages_utilisateur($user_id)
+{
+    $user_id = (int)$user_id;
+    $query = "SELECT * FROM messages WHERE destinataire_id = $user_id ORDER BY date_envoi DESC";
+    $result = db_query($query);
+    $messages = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $messages[] = $row;
+    }
+    return $messages;
+}
+
+// Récupération d'un fil de discussion
+function get_fil_discussion($user_id, $correspondant_id)
+{
+    $user_id = (int)$user_id;
+    $correspondant_id = (int)$correspondant_id;
+    $query = "SELECT * FROM messages WHERE (expediteur_id = $user_id AND destinataire_id = $correspondant_id) OR (expediteur_id = $correspondant_id AND destinataire_id = $user_id) ORDER BY date_envoi ASC";
+    $result = db_query($query);
+    $messages = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $messages[] = $row;
+    }
+    return $messages;
+}
+
+// Envoi d'un message
+function envoyer_message($expediteur_id, $destinataire_id, $contenu)
+{
+    $expediteur_id = (int)$expediteur_id;
+    $destinataire_id = (int)$destinataire_id;
+    $contenu = db_escape($contenu);
+    $query = "INSERT INTO messages (expediteur_id, destinataire_id, contenu, date_envoi) VALUES ($expediteur_id, $destinataire_id, '$contenu', NOW())";
+    return db_query($query);
+}
+
+// Récupération des derniers livres ajoutés (par défaut 6)
+function get_derniers_livres($limit = 6)
+{
+    $limit = (int)$limit;
+    if ($limit <= 0) {
+        $limit = 6;
+    }
+    $query = "SELECT * FROM livres WHERE statut = 'disponible' ORDER BY id DESC LIMIT $limit";
+    $result = db_query($query);
+    $livres = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $livres[] = $row;
+    }
+    return $livres;
 }
