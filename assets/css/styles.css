@@ -1,0 +1,227 @@
+/* Réinitialisation et polices */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* En-tête */
+header {
+    background-color: #fff;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #2D8B6B;
+}
+
+.logo img {
+    width: 40px;
+    height: 40px;
+    margin-right: 0.5rem;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 1.5rem;
+}
+
+nav a {
+    text-decoration: none;
+    color: #2D8B6B;
+    font-weight: 500;
+}
+
+/* Section héro */
+.hero {
+    background-color: #f8f8f8;
+    padding: 4rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.hero-content {
+    flex: 1;
+    max-width: 500px;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    color: #2D8B6B;
+    margin-bottom: 1rem;
+}
+
+.hero p {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    color: #666;
+}
+
+.hero-image {
+    flex: 1;
+    text-align: center;
+}
+
+.hero-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.btn {
+    background-color: #2D8B6B;
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+/* Section "Les derniers livres ajoutés" */
+.section {
+    padding: 4rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section h2 {
+    font-size: 2rem;
+    color: #2D8B6B;
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.books-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+}
+
+.book-card {
+    text-align: center;
+}
+
+.book-card img {
+    width: 150px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+.book-card h3 {
+    font-size: 1.1rem;
+    color: #2D8B6B;
+    margin-bottom: 0.5rem;
+}
+
+.book-card p {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* Section "Comment ça marche ?" */
+.how-it-works {
+    background-color: #f8f8f8;
+    padding: 4rem 2rem;
+}
+
+.how-it-works h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.how-it-works p {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 3rem;
+    color: #666;
+}
+
+.steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.step {
+    text-align: center;
+    padding: 1rem;
+}
+
+.step-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1rem;
+    background-color: #e8e8e8;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.step h3 {
+    font-size: 1rem;
+    color: #2D8B6B;
+}
+
+/* Section "Nos valeurs" */
+.values {
+    padding: 4rem 2rem;
+    text-align: center;
+}
+
+.values h2 {
+    margin-bottom: 2rem;
+}
+
+.values-content {
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    text-align: left;
+}
+
+.values-content p {
+    margin-bottom: 1.5rem;
+    color: #666;
+}
+
+.signature {
+    font-family: cursive;
+    font-size: 1.5rem;
+    color: #2D8B6B;
+    margin: 2rem 0;
+}
+
+/* Pied de page */
+footer {
+    background-color: #fff;
+    padding: 2rem;
+    text-align: center;
+    border-top: 1px solid #ddd;
+}
+
+footer a {
+    color: #2D8B6B;
+    text-decoration: none;
+    margin: 0 1rem;
+}
