@@ -1,11 +1,17 @@
 <?php
+// Fonction wrapper pour récupérer les résultats sous forme de tableau associatif
+function fetch_classes($result)
+{
+    return mysqli_fetch_assoc($result);
+}
+
 // Récupération des livres disponibles
 function get_livres_disponibles()
 {
     $query = "SELECT * FROM livres WHERE statut = 'disponible'";
     $result = db_query($query);
     $livres = [];
-    while ($row = mysqli_fetch_assoc($result)) {
+    while ($row = fetch_classes($result)) {
         $livres[] = $row;
     }
     return $livres;
@@ -18,7 +24,7 @@ function get_livres_utilisateur($user_id)
     $query = "SELECT * FROM livres WHERE utilisateur_id = $user_id";
     $result = db_query($query);
     $livres = [];
-    while ($row = mysqli_fetch_assoc($result)) {
+    while ($row = fetch_classes($result)) {
         $livres[] = $row;
     }
     return $livres;
@@ -31,7 +37,7 @@ function rechercher_livres($terme)
     $query = "SELECT * FROM livres WHERE titre LIKE '%$terme%' AND statut = 'disponible'";
     $result = db_query($query);
     $livres = [];
-    while ($row = mysqli_fetch_assoc($result)) {
+    while ($row = fetch_classes($result)) {
         $livres[] = $row;
     }
     return $livres;
@@ -43,7 +49,7 @@ function get_livre($livre_id)
     $livre_id = (int)$livre_id;
     $query = "SELECT livres.*, utilisateurs.nom FROM livres JOIN utilisateurs ON livres.utilisateur_id = utilisateurs.id WHERE livres.id = $livre_id";
     $result = db_query($query);
-    return $result ? mysqli_fetch_assoc($result) : null;
+    return $result ? fetch_classes($result) : null;
 }
 
 // Récupération des messages d'un utilisateur
@@ -53,7 +59,7 @@ function get_messages_utilisateur($user_id)
     $query = "SELECT * FROM messages WHERE destinataire_id = $user_id ORDER BY date_envoi DESC";
     $result = db_query($query);
     $messages = [];
-    while ($row = mysqli_fetch_assoc($result)) {
+    while ($row = fetch_classes($result)) {
         $messages[] = $row;
     }
     return $messages;
@@ -67,7 +73,7 @@ function get_fil_discussion($user_id, $correspondant_id)
     $query = "SELECT * FROM messages WHERE (expediteur_id = $user_id AND destinataire_id = $correspondant_id) OR (expediteur_id = $correspondant_id AND destinataire_id = $user_id) ORDER BY date_envoi ASC";
     $result = db_query($query);
     $messages = [];
-    while ($row = mysqli_fetch_assoc($result)) {
+    while ($row = fetch_classes($result)) {
         $messages[] = $row;
     }
     return $messages;
@@ -93,7 +99,7 @@ function get_derniers_livres($limit = 6)
     $query = "SELECT * FROM livres WHERE statut = 'disponible' ORDER BY id DESC LIMIT $limit";
     $result = db_query($query);
     $livres = [];
-    while ($row = mysqli_fetch_assoc($result)) {
+    while ($row = fetch_classes($result)) {
         $livres[] = $row;
     }
     return $livres;
