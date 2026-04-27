@@ -1,6 +1,3 @@
-php
-Copier
-
 <?php
 // Connexion à la base de données
 function db_connect()
