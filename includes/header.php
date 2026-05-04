@@ -16,11 +16,16 @@
         </div>
         <nav>
             <ul>
-                <li><a href="<?= BASE_URL ?>">Accueil</a></li>
-                <li><a href="<?= BASE_URL ?>livres.php">Nos livres à échanger</a></li>
-                <li><a href="#">Messagerie</a></li>
-                <li><a href="#">Mon compte</a></li>
-                <li><a href="#">Connexion</a></li>
+                <li><a href="?controller=home">Accueil</a></li>
+                <li><a href="?controller=livre&action=index">Nos livres à échanger</a></li>
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <li><a href="?controller=message&action=index">Messagerie</a></li>
+                    <li><a href="?controller=user&action=profile&id=<?= $_SESSION['user_id'] ?>">Mon compte</a></li>
+                    <li><a href="?controller=user&action=logout">Déconnexion</a></li>
+                <?php else: ?>
+                    <li><a href="?controller=user&action=login">Connexion</a></li>
+                    <li><a href="?controller=user&action=register">Inscription</a></li>
+                <?php endif; ?>
             </ul>
         </nav>
     </header>

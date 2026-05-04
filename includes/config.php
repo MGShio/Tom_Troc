@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 // Configuration de base
 define('SITE_NAME', 'Tom Troc');
 define('BASE_URL', 'http://localhost/tom_troc/');

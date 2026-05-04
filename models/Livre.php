@@ -22,23 +22,28 @@ class Livre
 
     public static function getAllDisponibles($db)
     {
-        $query = "SELECT * FROM livres WHERE statut = 'disponible'";
-        $result = $db->query($query);
+        $stmt = mysqli_prepare($db, "SELECT * FROM livres WHERE statut = 'disponible'");
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
         $livres = [];
-        while ($row = $result->fetch_assoc()) {
+        while ($row = mysqli_fetch_assoc($result)) {
             $livres[] = new self($row);
         }
+        mysqli_stmt_close($stmt);
         return $livres;
     }
 
     public static function getById($db, $id)
     {
-        $id = (int)$id;
-        $query = "SELECT * FROM livres WHERE id = $id";
-        $result = $db->query($query);
-        if ($row = $result->fetch_assoc()) {
+        $stmt = mysqli_prepare($db, "SELECT * FROM livres WHERE id = ?");
+        mysqli_stmt_bind_param($stmt, "i", $id);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        if ($row = mysqli_fetch_assoc($result)) {
+            mysqli_stmt_close($stmt);
             return new self($row);
         }
+        mysqli_stmt_close($stmt);
         return null;
     }
 

@@ -8,34 +8,44 @@ function is_logged_in()
 // Connexion de l'utilisateur
 function login($email, $password)
 {
-    $email = db_escape($email);
-    $password = db_escape($password);
-    $query = "SELECT * FROM utilisateurs WHERE email = '$email' AND mot_de_passe = '$password'";
-    $result = db_query($query);
-    if ($result && mysqli_num_rows($result) == 1) {
-        $user = fetch_classes($result);
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['user_email'] = $user['email'];
-        return true;
+    $connection = db_connect();
+    $stmt = mysqli_prepare($connection, "SELECT id, email, mot_de_passe FROM utilisateurs WHERE email = ?");
+    mysqli_stmt_bind_param($stmt, "s", $email);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $id, $db_email, $hashed_password);
+    if (mysqli_stmt_fetch($stmt) && $hashed_password) {
+        if (password_verify($password, $hashed_password)) {
+            $_SESSION['user_id'] = $id;
+            $_SESSION['user_email'] = $db_email;
+            mysqli_stmt_close($stmt);
+            return true;
+        }
     }
+    mysqli_stmt_close($stmt);
     return false;
 }
 
 // Inscription de l'utilisateur
 function register($nom, $email, $password)
 {
-    $nom = db_escape($nom);
-    $email = db_escape($email);
-    $password = db_escape($password);
-    $query = "INSERT INTO utilisateurs (nom, email, mot_de_passe) VALUES ('$nom', '$email', '$password')";
-    return db_query($query);
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    $connection = db_connect();
+    $stmt = mysqli_prepare($connection, "INSERT INTO utilisateurs (nom, email, mot_de_passe) VALUES (?, ?, ?)");
+    mysqli_stmt_bind_param($stmt, "sss", $nom, $email, $hashed_password);
+    $result = mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    return $result;
 }
 
 // Récupération des informations de l'utilisateur
 function get_user($user_id)
 {
-    $user_id = (int)$user_id;
-    $query = "SELECT * FROM utilisateurs WHERE id = $user_id";
-    $result = db_query($query);
-    return $result ? fetch_classes($result) : null;
+    $connection = db_connect();
+    $stmt = mysqli_prepare($connection, "SELECT * FROM utilisateurs WHERE id = ?");
+    mysqli_stmt_bind_param($stmt, "i", $user_id);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    $user = mysqli_fetch_assoc($result);
+    mysqli_stmt_close($stmt);
+    return $user;
 }

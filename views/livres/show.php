@@ -1,4 +1,4 @@
-<?php require_once __DIR__ . '/../../includes/header.php'; ?>
+<?php // require_once __DIR__ . '/../../includes/header.php'; ?>
 <section class="section">
     <div style="display: flex; gap: 2rem; align-items: flex-start;">
         <div style="flex: 1;">
@@ -20,3 +20,4 @@
         </div>
     </div>
 </section>
+<?php // require_once __DIR__ . '/../../includes/footer.php'; ?>
