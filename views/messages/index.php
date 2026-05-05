@@ -1,3 +1,4 @@
+<?php require_once __DIR__ . '/../../includes/header.php'; ?>
 <div class="messaging-container">
     <aside class="conversations-list">
         <h2>Messagerie</h2>
@@ -22,3 +23,4 @@
         <p style="text-align: center; padding: var(--spacing-2xl); color: var(--text-gray);">Sélectionnez une conversation pour commencer</p>
     </main>
 </div>
+<?php require_once __DIR__ . '/../../includes/footer.php'; ?>

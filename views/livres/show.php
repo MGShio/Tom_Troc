@@ -1,4 +1,12 @@
-<?php // require_once __DIR__ . '/../../includes/header.php'; ?>
+<?php 
+require_once __DIR__ . '/../../includes/header.php';
+if (!isset($livre)) {
+    header("HTTP/1.0 404 Not Found");
+    echo '<p>Livre non trouvé.</p>';
+    require_once __DIR__ . '/../../includes/footer.php';
+    exit;
+}
+?>
 <section class="section">
     <div style="display: flex; gap: 2rem; align-items: flex-start;">
         <div style="flex: 1;">
@@ -16,8 +24,7 @@
             <p><strong>Statut :</strong> <?= htmlspecialchars($livre->getStatut()) ?></p>
             <p><strong>Description :</strong></p>
             <p><?= nl2br(htmlspecialchars($livre->getDescription())) ?></p>
-            <!-- Ajoutez ici d'autres informations si besoin -->
         </div>
     </div>
 </section>
-<?php // require_once __DIR__ . '/../../includes/footer.php'; ?>
+<?php require_once __DIR__ . '/../../includes/footer.php'; ?>

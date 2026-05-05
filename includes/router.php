@@ -5,10 +5,40 @@ require_once 'includes/autoload.php';
 
 $db = db_connect();
 
+if ($db === false) {
+    header("HTTP/1.1 500 Internal Server Error");
+    die('Erreur de connexion à la base de données. Veuillez réessayer plus tard.');
+}
+
 // Simple router based on GET parameters
-$controller = $_GET['controller'] ?? 'home';
-$action = $_GET['action'] ?? 'index';
-$id = $_GET['id'] ?? null;
+// Sanitize and validate input
+$controller = preg_replace('/[^a-zA-Z0-9_]/', '', $_GET['controller'] ?? 'home');
+$action = preg_replace('/[^a-zA-Z0-9_]/', '', $_GET['action'] ?? 'index');
+$id = isset($_GET['id']) ? (int)$_GET['id'] : null;
+
+// Validate controller and action
+$valid_controllers = ['home', 'user', 'livre', 'message'];
+$valid_actions = [
+    'home' => ['index'],
+    'user' => ['register', 'login', 'profile', 'edit', 'logout'],
+    'livre' => ['index', 'show', 'create'],
+    'message' => ['index', 'conversation', 'send']
+];
+
+// Redirect to home if controller is invalid
+if (!in_array($controller, $valid_controllers)) {
+    error_log("Invalid controller: $controller");
+    header("HTTP/1.1 404 Not Found");
+    header('Location: ' . BASE_URL . '?controller=home');
+    exit;
+}
+
+// Redirect to default action if action is invalid
+if (!isset($valid_actions[$controller]) || !in_array($action, $valid_actions[$controller])) {
+    error_log("Invalid action: $action for controller: $controller");
+    header('Location: ' . BASE_URL . '?controller=' . $controller);
+    exit;
+}
 
 switch ($controller) {
     case 'home':

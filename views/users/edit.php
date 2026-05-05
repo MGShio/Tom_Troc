@@ -1,10 +1,11 @@
-<?php /** @var Utilisateur $user */
+<?php require_once __DIR__ . '/../../includes/header.php'; /** @var Utilisateur $user */
 /** @var string $error */ ?>
 <section class="section">
     <?php if (isset($error)): ?>
         <p style="color: red;"><?= $error ?></p>
     <?php endif; ?>
     <form method="post" action="<?= BASE_URL ?>?controller=user&action=edit&id=<?= $user->getId() ?>">
+        <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?? '' ?>">
         <label for="nom">Nom :</label>
         <input type="text" id="nom" name="nom" value="<?= htmlspecialchars($user->getNom()) ?>" required>
 
@@ -17,3 +18,4 @@
         <button type="submit">Mettre à jour</button>
     </form>
 </section>
+<?php require_once __DIR__ . '/../../includes/footer.php'; ?>

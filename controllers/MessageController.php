@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../includes/config.php';
+require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../models/Message.php';
 require_once __DIR__ . '/../models/Utilisateur.php';
 require_once __DIR__ . '/../includes/database.php';
@@ -15,34 +16,53 @@ class MessageController
 
     public function index()
     {
-        if (!isset($_SESSION['user_id'])) {
+        if (!is_logged_in()) {
             header('Location: ' . BASE_URL . '?controller=user&action=login');
             exit;
         }
         $correspondants = Message::getConversationPartners($this->db, $_SESSION['user_id']);
-        require __DIR__ . '/../includes/header.php';
         require __DIR__ . '/../views/messages/index.php';
-        require __DIR__ . '/../includes/footer.php';
     }
 
     public function conversation($correspondant_id)
     {
-        if (!isset($_SESSION['user_id'])) {
+        if (!is_logged_in()) {
             header('Location: ' . BASE_URL . '?controller=user&action=login');
             exit;
         }
+        
+        $correspondant_id = (int)$correspondant_id;
+        if ($correspondant_id <= 0) {
+            header('Location: ' . BASE_URL . '?controller=message&action=index');
+            exit;
+        }
+        
         $messages = Message::getConversation($this->db, $_SESSION['user_id'], $correspondant_id);
         $correspondant = Utilisateur::getById($this->db, $correspondant_id);
+        
+        if (!$correspondant) {
+            header("HTTP/1.0 404 Not Found");
+            require __DIR__ . '/../includes/header.php';
+            echo '<p>Utilisateur non trouvé.</p>';
+            require __DIR__ . '/../includes/footer.php';
+            exit;
+        }
+        
         $correspondants = Message::getConversationPartners($this->db, $_SESSION['user_id']);
-        require __DIR__ . '/../includes/header.php';
         require __DIR__ . '/../views/messages/conversation.php';
-        require __DIR__ . '/../includes/footer.php';
     }
 
     public function send()
     {
-        if (!isset($_SESSION['user_id']) || $_SERVER['REQUEST_METHOD'] !== 'POST') {
+        if (!is_logged_in() || $_SERVER['REQUEST_METHOD'] !== 'POST') {
             header('Location: ' . BASE_URL . '?controller=user&action=login');
+            exit;
+        }
+        
+        // CSRF validation
+        if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'] ?? '', $_POST['csrf_token'])) {
+            $_SESSION['message_error'] = "Token CSRF invalide.";
+            header('Location: ' . BASE_URL . '?controller=message&action=index');
             exit;
         }
         
@@ -77,11 +97,12 @@ class MessageController
                 header('Location: ' . BASE_URL . '?controller=message&action=conversation&id=' . $destinataire_id);
                 exit;
             } else {
+                error_log("Failed to send message from user {$_SESSION['user_id']} to $destinataire_id");
                 $errors[] = "Erreur lors de l'envoi du message.";
             }
         }
         
-        // If errors, redirect back with error (or show in view)
+        // If errors, redirect back with error
         $_SESSION['message_error'] = implode('<br>', $errors);
         header('Location: ' . BASE_URL . '?controller=message&action=conversation&id=' . $destinataire_id);
         exit;

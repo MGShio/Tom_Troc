@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../includes/config.php';
+require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../models/Utilisateur.php';
 require_once __DIR__ . '/../models/Livre.php';
 require_once __DIR__ . '/../includes/database.php';
@@ -15,10 +16,15 @@ class UserController
 
     public function profile($id)
     {
+        if (!is_logged_in()) {
+            header('Location: ' . BASE_URL . '?controller=user&action=login');
+            exit;
+        }
+        
         $user = Utilisateur::getById($this->db, $id);
         if (!$user) {
             // Handle not found
-            header('Location: /');
+            header('Location: ' . BASE_URL . '?controller=home');
             exit;
         }
         // Get user's books
@@ -31,14 +37,17 @@ class UserController
             $livres[] = new Livre($row);
         }
         mysqli_stmt_close($stmt);
-        require __DIR__ . '/../includes/header.php';
         require __DIR__ . '/../views/users/profile.php';
-        require __DIR__ . '/../includes/footer.php';
     }
 
     public function register()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // CSRF validation
+            if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'] ?? '', $_POST['csrf_token'])) {
+                $errors[] = "Token CSRF invalide.";
+            }
+            
             $nom = trim($_POST['nom'] ?? '');
             $email = trim($_POST['email'] ?? '');
             $password = $_POST['password'] ?? '';
@@ -77,20 +86,24 @@ class UserController
                     header('Location: ' . BASE_URL . '?controller=user&action=login');
                     exit;
                 } else {
+                    error_log("Registration failed for email: $email");
                     $errors[] = "Erreur lors de l'inscription. Veuillez réessayer.";
                 }
             }
             
             $error = implode('<br>', $errors);
         }
-        require __DIR__ . '/../includes/header.php';
         require __DIR__ . '/../views/users/register.php';
-        require __DIR__ . '/../includes/footer.php';
     }
 
     public function login()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // CSRF validation
+            if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'] ?? '', $_POST['csrf_token'])) {
+                $errors[] = "Token CSRF invalide.";
+            }
+            
             $email = trim($_POST['email'] ?? '');
             $password = $_POST['password'] ?? '';
             
@@ -112,23 +125,24 @@ class UserController
                 if ($user && $user->verifyPassword($password)) {
                     $_SESSION['user_id'] = $user->getId();
                     $_SESSION['user_email'] = $user->getEmail();
+                    // Regenerate session ID to prevent session fixation
+                    session_regenerate_id(true);
                     header('Location: ' . BASE_URL . '?controller=home');
                     exit;
                 } else {
+                    error_log("Failed login attempt for email: $email");
                     $errors[] = "Email ou mot de passe incorrect.";
                 }
             }
             
             $error = implode('<br>', $errors);
         }
-        require __DIR__ . '/../includes/header.php';
         require __DIR__ . '/../views/users/login.php';
-        require __DIR__ . '/../includes/footer.php';
     }
 
     public function edit($id)
     {
-        if (!isset($_SESSION['user_id']) || $_SESSION['user_id'] != $id) {
+        if (!is_logged_in() || $_SESSION['user_id'] != $id) {
             header('Location: ' . BASE_URL . '?controller=home');
             exit;
         }
@@ -140,6 +154,11 @@ class UserController
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // CSRF validation
+            if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'] ?? '', $_POST['csrf_token'])) {
+                $errors[] = "Token CSRF invalide.";
+            }
+            
             $nom = trim($_POST['nom'] ?? '');
             $email = trim($_POST['email'] ?? '');
             $password = $_POST['password'] ?? '';
@@ -178,15 +197,14 @@ class UserController
                     header('Location: ' . BASE_URL . '?controller=user&action=profile&id=' . $id);
                     exit;
                 }
+                error_log("Failed to update profile for user: $id");
                 $errors[] = "Erreur lors de la mise à jour du profil.";
             }
 
             $error = implode('<br>', $errors);
         }
 
-        require __DIR__ . '/../includes/header.php';
         require __DIR__ . '/../views/users/edit.php';
-        require __DIR__ . '/../includes/footer.php';
     }
 
     public function logout()

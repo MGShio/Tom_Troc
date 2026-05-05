@@ -1,6 +1,6 @@
 <?php 
 /** @var Livre[] $livres */
-// require_once __DIR__ . '/../../includes/header.php'; 
+require_once __DIR__ . '/../../includes/header.php'; 
 ?>
 <section class="section">
     <h2>Nos livres à l'échange</h2>
@@ -21,5 +21,5 @@
         <?php endforeach; ?>
     </div>
 </section>
-<?php // require_once __DIR__ . '/../../includes/footer.php'; 
+<?php require_once __DIR__ . '/../../includes/footer.php'; 
 ?>

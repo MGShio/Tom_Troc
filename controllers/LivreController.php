@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../includes/config.php';
+require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../models/Livre.php';
 require_once __DIR__ . '/../includes/database.php';
 
@@ -15,27 +16,41 @@ class LivreController
     public function index()
     {
         $livres = Livre::getAllDisponibles($this->db);
-        require __DIR__ . '/../includes/header.php';
         require __DIR__ . '/../views/livres/index.php';
-        require __DIR__ . '/../includes/footer.php';
     }
 
     public function show($id)
     {
+        $id = (int)$id;
+        if ($id <= 0) {
+            header('Location: ' . BASE_URL . '?controller=livre&action=index');
+            exit;
+        }
+        
         $livre = Livre::getById($this->db, $id);
-        require __DIR__ . '/../includes/header.php';
+        if (!$livre) {
+            header("HTTP/1.0 404 Not Found");
+            require __DIR__ . '/../includes/header.php';
+            echo '<p>Livre non trouvé.</p>';
+            require __DIR__ . '/../includes/footer.php';
+            exit;
+        }
         require __DIR__ . '/../views/livres/show.php';
-        require __DIR__ . '/../includes/footer.php';
     }
 
     public function create()
     {
-        if (!isset($_SESSION['user_id'])) {
+        if (!is_logged_in()) {
             header('Location: ' . BASE_URL . '?controller=user&action=login');
             exit;
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // CSRF validation
+            if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'] ?? '', $_POST['csrf_token'])) {
+                $errors[] = "Token CSRF invalide.";
+            }
+            
             $titre = trim($_POST['titre'] ?? '');
             $auteur = trim($_POST['auteur'] ?? '');
             $description = trim($_POST['description'] ?? '');
@@ -68,19 +83,41 @@ class LivreController
             $imageName = '';
             if (!empty($_FILES['image']['name'])) {
                 $allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+                $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
                 $imageInfo = $_FILES['image'];
+                
                 if ($imageInfo['error'] !== UPLOAD_ERR_OK) {
+                    error_log("File upload error: " . $imageInfo['error']);
                     $errors[] = "Erreur lors du téléchargement de l'image.";
                 } elseif (!in_array($imageInfo['type'], $allowedTypes)) {
                     $errors[] = "Format d'image non pris en charge. Utilisez PNG, JPG ou GIF.";
-                } elseif ($imageInfo['size'] > 2 * 1024 * 1024) {
-                    $errors[] = "L'image ne peut pas dépasser 2 Mo.";
                 } else {
-                    $extension = pathinfo($imageInfo['name'], PATHINFO_EXTENSION);
-                    $imageName = time() . '_' . bin2hex(random_bytes(8)) . '.' . strtolower($extension);
-                    $uploadDir = __DIR__ . '/../assets/images/';
-                    if (!move_uploaded_file($imageInfo['tmp_name'], $uploadDir . $imageName)) {
-                        $errors[] = "Impossible d'enregistrer l'image.";
+                    $extension = strtolower(pathinfo($imageInfo['name'], PATHINFO_EXTENSION));
+                    if (!in_array($extension, $allowedExtensions)) {
+                        $errors[] = "Extension de fichier non autorisée.";
+                    } elseif ($imageInfo['size'] > 2 * 1024 * 1024) {
+                        $errors[] = "L'image ne peut pas dépasser 2 Mo.";
+                    } else {
+                        // Verify actual file content
+                        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                        $mime = finfo_file($finfo, $imageInfo['tmp_name']);
+                        finfo_close($finfo);
+                        if (!in_array($mime, $allowedTypes)) {
+                            $errors[] = "Type de fichier non autorisé détecté.";
+                        } else {
+                            $imageName = time() . '_' . bin2hex(random_bytes(8)) . '.' . $extension;
+                            $uploadDir = __DIR__ . '/../assets/images/';
+                            
+                            // Create directory if it doesn't exist
+                            if (!file_exists($uploadDir)) {
+                                mkdir($uploadDir, 0755, true);
+                            }
+                            
+                            if (!move_uploaded_file($imageInfo['tmp_name'], $uploadDir . $imageName)) {
+                                error_log("Failed to move uploaded file: " . $imageInfo['tmp_name']);
+                                $errors[] = "Impossible d'enregistrer l'image.";
+                            }
+                        }
                     }
                 }
             }
@@ -102,6 +139,7 @@ class LivreController
                     header('Location: ' . BASE_URL . '?controller=user&action=profile&id=' . $_SESSION['user_id']);
                     exit;
                 } else {
+                    error_log("Database error adding book: " . mysqli_error($this->db));
                     $errors[] = "Erreur lors de l'ajout du livre.";
                     mysqli_stmt_close($stmt);
                 }
@@ -110,8 +148,6 @@ class LivreController
             $error = implode('<br>', $errors);
         }
         
-        require __DIR__ . '/../includes/header.php';
         require __DIR__ . '/../views/livres/create.php';
-        require __DIR__ . '/../includes/footer.php';
     }
 }

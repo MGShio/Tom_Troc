@@ -1,6 +1,9 @@
-<?php /** @var Utilisateur $correspondant */
+<?php 
+require_once __DIR__ . '/../../includes/header.php';
+/** @var Utilisateur $correspondant */
 /** @var Message[] $messages */
-/** @var Utilisateur[] $correspondants */ ?>
+/** @var Utilisateur[] $correspondants */ 
+?>
 <div class="messaging-container">
     <aside class="conversations-list">
         <h2>Messagerie</h2>
@@ -39,9 +42,11 @@
         </div>
         
         <form method="post" action="<?= BASE_URL ?>?controller=message&action=send" class="message-form">
+            <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?? '' ?>">
             <input type="hidden" name="destinataire_id" value="<?= $correspondant->getId() ?>">
             <textarea name="contenu" placeholder="Tapez votre message ici" required></textarea>
             <button type="submit" class="btn">Envoyer</button>
         </form>
     </main>
 </div>
+<?php require_once __DIR__ . '/../../includes/footer.php'; ?>
