@@ -27,10 +27,10 @@ switch ($controller) {
                     Donnez une nouvelle vie à vos livres en les échangeant avec d'autres amoureux de la lecture.
                     Découvrez notre vaste sélection et partagez des connaissances et d'histoires à travers nos livres.
                 </p>
-                <a href="?controller=livre&action=index" class="btn">Découvrir</a>
+                <a href="<?= BASE_URL ?>?controller=livre&action=index" class="btn">Découvrir</a>
             </div>
             <div class="hero-image">
-                <img src="<?= BASE_URL ?>assets/images/hero-image.jpg" alt="Pile de livres anciens">
+                <img src="<?= BASE_URL ?>assets/images/hamza-nouasria-KXrvPthkmYQ-unsplash 1@2x.png" alt="Pile de livres anciens">
             </div>
         </section>
 
@@ -40,20 +40,20 @@ switch ($controller) {
             <div class="books-grid">
                 <?php foreach ($livres as $livre): ?>
                     <div class="book-card">
-                        <?php if (!empty($livre['image'])): ?>
-                            <img src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($livre['image']) ?>" alt="<?= htmlspecialchars($livre['titre']) ?>">
+                        <?php if (!empty($livre->getImage())): ?>
+                            <img src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($livre->getImage()) ?>" alt="<?= htmlspecialchars($livre->getTitre()) ?>">
                         <?php else: ?>
                             <div style="width: 150px; height: 200px; background-color: #eee; display: flex; align-items: center; justify-content: center;">
                                 Pas d'image
                             </div>
                         <?php endif; ?>
-                        <h3><?= htmlspecialchars($livre['titre']) ?></h3>
-                        <p>par <?= htmlspecialchars($livre['auteur']) ?></p>
+                        <h3><?= htmlspecialchars($livre->getTitre()) ?></h3>
+                        <p>par <?= htmlspecialchars($livre->getAuteur()) ?></p>
                     </div>
                 <?php endforeach; ?>
             </div>
             <div style="text-align: center; margin-top: 2rem;">
-                <a href="?controller=livre&action=index" class="btn">Voir tous les livres</a>
+                <a href="<?= BASE_URL ?>?controller=livre&action=index" class="btn">Voir tous les livres</a>
             </div>
         </section>
 
@@ -65,33 +65,33 @@ switch ($controller) {
                 Suivez ces étapes pour commencer :
             </p>
             <div class="steps">
-                <div class="step">
+                <a href="<?= BASE_URL ?>?controller=user&action=register" class="step">
                     <div class="step-icon">
                         <img src="<?= BASE_URL ?>assets/images/icon1.png" alt="Inscription">
                     </div>
                     <h3>Inscrivez-vous gratuitement sur notre plateforme.</h3>
-                </div>
-                <div class="step">
+                </a>
+                <a href="<?= BASE_URL ?>?controller=livre&action=create" class="step">
                     <div class="step-icon">
                         <img src="<?= BASE_URL ?>assets/images/icon2.png" alt="Ajouter des livres">
                     </div>
                     <h3>Ajoutez les livres que vous souhaitez échanger à votre profil.</h3>
-                </div>
-                <div class="step">
+                </a>
+                <a href="<?= BASE_URL ?>?controller=livre&action=index" class="step">
                     <div class="step-icon">
                         <img src="<?= BASE_URL ?>assets/images/icon3.png" alt="Parcourir les livres">
                     </div>
                     <h3>Parcourez les livres disponibles et choisissez ceux qui vous intéressent.</h3>
-                </div>
-                <div class="step">
+                </a>
+                <a href="<?= BASE_URL ?>?controller=livre&action=index" class="step">
                     <div class="step-icon">
                         <img src="<?= BASE_URL ?>assets/images/icon4.png" alt="Proposer un échange">
                     </div>
                     <h3>Proposez un échange et organisez la livraison des livres.</h3>
-                </div>
+                </a>
             </div>
             <div style="text-align: center; margin-top: 2rem;">
-                <a href="?controller=livre&action=index" class="btn">Voir tous les livres</a>
+                <a href="<?= BASE_URL ?>?controller=livre&action=index" class="btn">Voir tous les livres</a>
             </div>
         </section>
 
@@ -142,7 +142,7 @@ switch ($controller) {
                 $userController->logout();
                 break;
             default:
-                header('Location: ?controller=home');
+                header('Location: ' . BASE_URL . '?controller=home');
                 break;
         }
         break;
@@ -160,7 +160,7 @@ switch ($controller) {
                 $livreController->create();
                 break;
             default:
-                header('Location: ?controller=home');
+                header('Location: ' . BASE_URL . '?controller=home');
                 break;
         }
         break;
@@ -178,13 +178,13 @@ switch ($controller) {
                 $messageController->send();
                 break;
             default:
-                header('Location: ?controller=home');
+                header('Location: ' . BASE_URL . '?controller=home');
                 break;
         }
         break;
 
     default:
-        header('Location: ?controller=home');
+        header('Location: ' . BASE_URL . '?controller=home');
         break;
 }
 ?>

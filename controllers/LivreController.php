@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../models/Livre.php';
 require_once __DIR__ . '/../includes/database.php';
 
@@ -30,7 +31,7 @@ class LivreController
     public function create()
     {
         if (!isset($_SESSION['user_id'])) {
-            header('Location: ?controller=user&action=login');
+            header('Location: ' . BASE_URL . '?controller=user&action=login');
             exit;
         }
 
@@ -98,7 +99,7 @@ class LivreController
                 mysqli_stmt_bind_param($stmt, "ssssis", $livreData['titre'], $livreData['auteur'], $livreData['description'], $livreData['statut'], $livreData['utilisateur_id'], $livreData['image']);
                 if (mysqli_stmt_execute($stmt)) {
                     mysqli_stmt_close($stmt);
-                    header('Location: ?controller=user&action=profile&id=' . $_SESSION['user_id']);
+                    header('Location: ' . BASE_URL . '?controller=user&action=profile&id=' . $_SESSION['user_id']);
                     exit;
                 } else {
                     $errors[] = "Erreur lors de l'ajout du livre.";

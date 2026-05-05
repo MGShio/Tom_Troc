@@ -1,8 +1,9 @@
+<?php /** @var Utilisateur $user */
+/** @var Livre[] $livres */ ?>
 <section class="section">
-    <h2>Profil de <?= htmlspecialchars($user->getNom()) ?></h2>
     <?php if ($user->getId() == $_SESSION['user_id']): ?>
-        <a href="?controller=user&action=edit&id=<?= $user->getId() ?>" class="btn">Modifier mon profil</a>
-        <a href="?controller=livre&action=create" class="btn">Ajouter un livre</a>
+        <a href="<?= BASE_URL ?>?controller=user&action=edit&id=<?= $user->getId() ?>" class="btn">Modifier mon profil</a>
+        <a href="<?= BASE_URL ?>?controller=livre&action=create" class="btn">Ajouter un livre</a>
     <?php endif; ?>
     <p>Email : <?= htmlspecialchars($user->getEmail()) ?></p>
 </section>

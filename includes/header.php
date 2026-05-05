@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=1366, initial-scale=1.0">
     <title><?= SITE_NAME ?></title>
-    <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/styles.css">
 </head>
 
 <body>
@@ -16,15 +16,15 @@
         </div>
         <nav>
             <ul>
-                <li><a href="?controller=home">Accueil</a></li>
-                <li><a href="?controller=livre&action=index">Nos livres à échanger</a></li>
+                <li><a href="<?= BASE_URL ?>?controller=home">Accueil</a></li>
+                <li><a href="<?= BASE_URL ?>?controller=livre&action=index">Nos livres à échanger</a></li>
                 <?php if (isset($_SESSION['user_id'])): ?>
-                    <li><a href="?controller=message&action=index">Messagerie</a></li>
-                    <li><a href="?controller=user&action=profile&id=<?= $_SESSION['user_id'] ?>">Mon compte</a></li>
-                    <li><a href="?controller=user&action=logout">Déconnexion</a></li>
+                    <li><a href="<?= BASE_URL ?>?controller=message&action=index">Messagerie</a></li>
+                    <li><a href="<?= BASE_URL ?>?controller=user&action=profile&id=<?= $_SESSION['user_id'] ?>">Mon compte</a></li>
+                    <li><a href="<?= BASE_URL ?>?controller=user&action=logout">Déconnexion</a></li>
                 <?php else: ?>
-                    <li><a href="?controller=user&action=login">Connexion</a></li>
-                    <li><a href="?controller=user&action=register">Inscription</a></li>
+                    <li><a href="<?= BASE_URL ?>?controller=user&action=login">Connexion</a></li>
+                    <li><a href="<?= BASE_URL ?>?controller=user&action=register">Inscription</a></li>
                 <?php endif; ?>
             </ul>
         </nav>

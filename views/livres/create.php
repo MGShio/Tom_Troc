@@ -3,7 +3,7 @@
     <?php if (isset($error)): ?>
         <p style="color: red;"><?= $error ?></p>
     <?php endif; ?>
-    <form method="post" action="?controller=livre&action=create" enctype="multipart/form-data">
+    <form method="post" action="<?= BASE_URL ?>?controller=livre&action=create" enctype="multipart/form-data">
         <label for="titre">Titre :</label>
         <input type="text" id="titre" name="titre" value="<?= isset(
             $titre) ? htmlspecialchars($titre) : '' ?>" required maxlength="255">

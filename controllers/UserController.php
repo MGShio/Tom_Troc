@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../models/Utilisateur.php';
 require_once __DIR__ . '/../models/Livre.php';
 require_once __DIR__ . '/../includes/database.php';
@@ -73,7 +74,7 @@ class UserController
                 $user = new Utilisateur(['nom' => htmlspecialchars($nom), 'email' => $email]);
                 $user->setMotDePasse($password);
                 if ($user->save($this->db)) {
-                    header('Location: ?controller=user&action=login');
+                    header('Location: ' . BASE_URL . '?controller=user&action=login');
                     exit;
                 } else {
                     $errors[] = "Erreur lors de l'inscription. Veuillez réessayer.";
@@ -111,7 +112,7 @@ class UserController
                 if ($user && $user->verifyPassword($password)) {
                     $_SESSION['user_id'] = $user->getId();
                     $_SESSION['user_email'] = $user->getEmail();
-                    header('Location: ?controller=home');
+                    header('Location: ' . BASE_URL . '?controller=home');
                     exit;
                 } else {
                     $errors[] = "Email ou mot de passe incorrect.";
@@ -128,13 +129,13 @@ class UserController
     public function edit($id)
     {
         if (!isset($_SESSION['user_id']) || $_SESSION['user_id'] != $id) {
-            header('Location: ?controller=home');
+            header('Location: ' . BASE_URL . '?controller=home');
             exit;
         }
 
         $user = Utilisateur::getById($this->db, $id);
         if (!$user) {
-            header('Location: ?controller=home');
+            header('Location: ' . BASE_URL . '?controller=home');
             exit;
         }
 
@@ -174,7 +175,7 @@ class UserController
                 }
                 if ($user->save($this->db)) {
                     $_SESSION['user_email'] = $email;
-                    header('Location: ?controller=user&action=profile&id=' . $id);
+                    header('Location: ' . BASE_URL . '?controller=user&action=profile&id=' . $id);
                     exit;
                 }
                 $errors[] = "Erreur lors de la mise à jour du profil.";
@@ -191,7 +192,7 @@ class UserController
     public function logout()
     {
         session_destroy();
-        header('Location: ?controller=home');
+        header('Location: ' . BASE_URL . '?controller=home');
         exit;
     }
 }

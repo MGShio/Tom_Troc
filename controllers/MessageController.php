@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../models/Message.php';
 require_once __DIR__ . '/../models/Utilisateur.php';
 require_once __DIR__ . '/../includes/database.php';
@@ -15,7 +16,7 @@ class MessageController
     public function index()
     {
         if (!isset($_SESSION['user_id'])) {
-            header('Location: ?controller=user&action=login');
+            header('Location: ' . BASE_URL . '?controller=user&action=login');
             exit;
         }
         $correspondants = Message::getConversationPartners($this->db, $_SESSION['user_id']);
@@ -27,11 +28,12 @@ class MessageController
     public function conversation($correspondant_id)
     {
         if (!isset($_SESSION['user_id'])) {
-            header('Location: ?controller=user&action=login');
+            header('Location: ' . BASE_URL . '?controller=user&action=login');
             exit;
         }
         $messages = Message::getConversation($this->db, $_SESSION['user_id'], $correspondant_id);
         $correspondant = Utilisateur::getById($this->db, $correspondant_id);
+        $correspondants = Message::getConversationPartners($this->db, $_SESSION['user_id']);
         require __DIR__ . '/../includes/header.php';
         require __DIR__ . '/../views/messages/conversation.php';
         require __DIR__ . '/../includes/footer.php';
@@ -40,7 +42,7 @@ class MessageController
     public function send()
     {
         if (!isset($_SESSION['user_id']) || $_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: ?controller=user&action=login');
+            header('Location: ' . BASE_URL . '?controller=user&action=login');
             exit;
         }
         
@@ -72,7 +74,7 @@ class MessageController
             $message->setDestinataireId($destinataire_id);
             $message->setContenu(htmlspecialchars($contenu));
             if ($message->save($this->db)) {
-                header('Location: ?controller=message&action=conversation&id=' . $destinataire_id);
+                header('Location: ' . BASE_URL . '?controller=message&action=conversation&id=' . $destinataire_id);
                 exit;
             } else {
                 $errors[] = "Erreur lors de l'envoi du message.";
@@ -81,7 +83,7 @@ class MessageController
         
         // If errors, redirect back with error (or show in view)
         $_SESSION['message_error'] = implode('<br>', $errors);
-        header('Location: ?controller=message&action=conversation&id=' . $destinataire_id);
+        header('Location: ' . BASE_URL . '?controller=message&action=conversation&id=' . $destinataire_id);
         exit;
     }
 }
