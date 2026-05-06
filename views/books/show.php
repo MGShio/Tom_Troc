@@ -1,8 +1,8 @@
 <?php 
 require_once __DIR__ . '/../../includes/header.php';
-if (!isset($livre)) {
+if (!isset($book)) {
     header("HTTP/1.0 404 Not Found");
-    echo '<p>Livre non trouvé.</p>';
+    echo '<p>Book non trouvé.</p>';
     require_once __DIR__ . '/../../includes/footer.php';
     exit;
 }
@@ -10,8 +10,8 @@ if (!isset($livre)) {
 <section class="section">
     <div style="display: flex; gap: 2rem; align-items: flex-start;">
         <div style="flex: 1;">
-            <?php if ($livre->getImage()): ?>
-                <img src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($livre->getImage()) ?>" alt="<?= htmlspecialchars($livre->getTitre()) ?>" style="max-width: 300px;">
+            <?php if ($book->getImage()): ?>
+                <img src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($book->getImage()) ?>" alt="<?= htmlspecialchars($book->getTitle()) ?>" style="max-width: 300px;">
             <?php else: ?>
                 <div style="width: 300px; height: 400px; background-color: #eee; display: flex; align-items: center; justify-content: center;">
                     Pas d'image
@@ -19,11 +19,11 @@ if (!isset($livre)) {
             <?php endif; ?>
         </div>
         <div style="flex: 2;">
-            <h2><?= htmlspecialchars($livre->getTitre()) ?></h2>
-            <p><strong>Auteur :</strong> <?= htmlspecialchars($livre->getAuteur()) ?></p>
-            <p><strong>Statut :</strong> <?= htmlspecialchars($livre->getStatut()) ?></p>
+            <h2><?= htmlspecialchars($book->getTitle()) ?></h2>
+            <p><strong>Auteur :</strong> <?= htmlspecialchars($book->getAuthor()) ?></p>
+            <p><strong>Statut :</strong> <?= htmlspecialchars($book->getStatut()) ?></p>
             <p><strong>Description :</strong></p>
-            <p><?= nl2br(htmlspecialchars($livre->getDescription())) ?></p>
+            <p><?= nl2br(htmlspecialchars($book->getDescription())) ?></p>
         </div>
     </div>
 </section>

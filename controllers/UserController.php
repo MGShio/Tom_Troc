@@ -1,8 +1,8 @@
 <?php
 require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/auth.php';
-require_once __DIR__ . '/../models/Utilisateur.php';
-require_once __DIR__ . '/../models/Livre.php';
+require_once __DIR__ . '/../models/User.php';
+require_once __DIR__ . '/../models/Book.php';
 require_once __DIR__ . '/../includes/database.php';
 
 class UserController
@@ -21,22 +21,19 @@ class UserController
             exit;
         }
         
-        $user = Utilisateur::getById($this->db, $id);
+        $user = User::getById($this->db, $id);
         if (!$user) {
             // Handle not found
             header('Location: ' . BASE_URL . '?controller=home');
             exit;
         }
         // Get user's books
-        $stmt = mysqli_prepare($this->db, "SELECT * FROM livres WHERE utilisateur_id = ?");
-        mysqli_stmt_bind_param($stmt, "i", $id);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
-        $livres = [];
-        while ($row = mysqli_fetch_assoc($result)) {
-            $livres[] = new Livre($row);
+        $stmt = $this->db->prepare('SELECT * FROM books WHERE user_id = ?');
+        $stmt->execute([$id]);
+        $books = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $books[] = new Book($row);
         }
-        mysqli_stmt_close($stmt);
         require __DIR__ . '/../views/users/profile.php';
     }
 
@@ -48,16 +45,16 @@ class UserController
                 $errors[] = "Token CSRF invalide.";
             }
             
-            $nom = trim($_POST['nom'] ?? '');
+            $name = trim($_POST['name'] ?? '');
             $email = trim($_POST['email'] ?? '');
             $password = $_POST['password'] ?? '';
             
             // Server-side validation
             $errors = [];
             
-            if (empty($nom)) {
+            if (empty($name)) {
                 $errors[] = "Le nom est requis.";
-            } elseif (strlen($nom) < 2) {
+            } elseif (strlen($name) < 2) {
                 $errors[] = "Le nom doit contenir au moins 2 caractères.";
             }
             
@@ -67,7 +64,7 @@ class UserController
                 $errors[] = "L'email n'est pas valide.";
             } else {
                 // Check if email already exists
-                $existingUser = Utilisateur::getByEmail($this->db, $email);
+                $existingUser = User::getByEmail($this->db, $email);
                 if ($existingUser) {
                     $errors[] = "Cet email est déjà utilisé.";
                 }
@@ -80,8 +77,8 @@ class UserController
             }
             
             if (empty($errors)) {
-                $user = new Utilisateur(['nom' => htmlspecialchars($nom), 'email' => $email]);
-                $user->setMotDePasse($password);
+                $user = new User(['name' => htmlspecialchars($name), 'email' => $email]);
+                $user->setPassword($password);
                 if ($user->save($this->db)) {
                     header('Location: ' . BASE_URL . '?controller=user&action=login');
                     exit;
@@ -121,7 +118,7 @@ class UserController
             }
             
             if (empty($errors)) {
-                $user = Utilisateur::getByEmail($this->db, $email);
+                $user = User::getByEmail($this->db, $email);
                 if ($user && $user->verifyPassword($password)) {
                     $_SESSION['user_id'] = $user->getId();
                     $_SESSION['user_email'] = $user->getEmail();
@@ -147,7 +144,7 @@ class UserController
             exit;
         }
 
-        $user = Utilisateur::getById($this->db, $id);
+        $user = User::getById($this->db, $id);
         if (!$user) {
             header('Location: ' . BASE_URL . '?controller=home');
             exit;
@@ -159,15 +156,15 @@ class UserController
                 $errors[] = "Token CSRF invalide.";
             }
             
-            $nom = trim($_POST['nom'] ?? '');
+            $name = trim($_POST['name'] ?? '');
             $email = trim($_POST['email'] ?? '');
             $password = $_POST['password'] ?? '';
             
             $errors = [];
             
-            if (empty($nom)) {
+            if (empty($name)) {
                 $errors[] = "Le nom est requis.";
-            } elseif (strlen($nom) < 2) {
+            } elseif (strlen($name) < 2) {
                 $errors[] = "Le nom doit contenir au moins 2 caractères.";
             }
 
@@ -176,7 +173,7 @@ class UserController
             } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $errors[] = "L'email n'est pas valide.";
             } elseif ($email !== $user->getEmail()) {
-                $existingUser = Utilisateur::getByEmail($this->db, $email);
+                $existingUser = User::getByEmail($this->db, $email);
                 if ($existingUser && $existingUser->getId() !== $id) {
                     $errors[] = "Cet email est déjà utilisé.";
                 }
@@ -187,10 +184,10 @@ class UserController
             }
 
             if (empty($errors)) {
-                $user->setNom(htmlspecialchars($nom));
+                $user->setName(htmlspecialchars($name));
                 $user->setEmail($email);
                 if (!empty($password)) {
-                    $user->setMotDePasse($password);
+                    $user->setPassword($password);
                 }
                 if ($user->save($this->db)) {
                     $_SESSION['user_email'] = $email;

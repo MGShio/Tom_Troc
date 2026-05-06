@@ -2,16 +2,16 @@
 <div class="messaging-container">
     <aside class="conversations-list">
         <h2>Messagerie</h2>
-        <?php if (empty($correspondants)): ?>
+        <?php if (empty($participants)): ?>
             <p style="padding: var(--spacing-md); text-align: center;">Vous n'avez pas de messages.</p>
         <?php else: ?>
-            <?php foreach ($correspondants as $correspondant): ?>
-                <a href="<?= BASE_URL ?>?controller=message&action=conversation&id=<?= $correspondant->getId() ?>" class="conversation-item">
+            <?php foreach ($participants as $participant): ?>
+                <a href="<?= BASE_URL ?>?controller=message&action=conversation&id=<?= $participant->getId() ?>" class="conversation-item">
                     <div class="conversation-avatar">
-                        <img src="<?= BASE_URL ?>assets/images/avatar-default.png" alt="Avatar de <?= htmlspecialchars($correspondant->getNom()) ?>">
+                        <img src="<?= BASE_URL ?>assets/images/avatar-default.png" alt="Avatar de <?= htmlspecialchars($participant->getName()) ?>">
                     </div>
                     <div class="conversation-info">
-                        <h4><?= htmlspecialchars($correspondant->getNom()) ?></h4>
+                        <h4><?= htmlspecialchars($participant->getName()) ?></h4>
                         <p class="conversation-preview">Dernier message...</p>
                     </div>
                     <div class="conversation-time">15:43</div>

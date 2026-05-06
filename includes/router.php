@@ -17,11 +17,11 @@ $action = preg_replace('/[^a-zA-Z0-9_]/', '', $_GET['action'] ?? 'index');
 $id = isset($_GET['id']) ? (int)$_GET['id'] : null;
 
 // Validate controller and action
-$valid_controllers = ['home', 'user', 'livre', 'message'];
+$valid_controllers = ['home', 'user', 'book', 'message'];
 $valid_actions = [
     'home' => ['index'],
     'user' => ['register', 'login', 'profile', 'edit', 'logout'],
-    'livre' => ['index', 'show', 'create'],
+    'book' => ['index', 'show', 'create'],
     'message' => ['index', 'conversation', 'send']
 ];
 
@@ -43,10 +43,10 @@ if (!isset($valid_actions[$controller]) || !in_array($action, $valid_actions[$co
 switch ($controller) {
     case 'home':
         // Home page
-        require_once 'models/Livre.php';
-        $livres = Livre::getAllDisponibles($db);
+        require_once 'models/Book.php';
+        $books = Book::getAllAvailable($db);
         // Take only the first 6 for the home page
-        $livres = array_slice($livres, 0, 6);
+        $books = array_slice($books, 0, 6);
         require_once 'includes/header.php';
         ?>
         <!-- Section Hero -->
@@ -57,7 +57,7 @@ switch ($controller) {
                     Donnez une nouvelle vie à vos livres en les échangeant avec d'autres amoureux de la lecture.
                     Découvrez notre vaste sélection et partagez des connaissances et d'histoires à travers nos livres.
                 </p>
-                <a href="<?= BASE_URL ?>?controller=livre&action=index" class="btn">Découvrir</a>
+                <a href="<?= BASE_URL ?>?controller=book&action=index" class="btn">Découvrir</a>
             </div>
             <div class="hero-image">
                 <img src="<?= BASE_URL ?>assets/images/hamza-nouasria-KXrvPthkmYQ-unsplash 1@2x.png" alt="Pile de livres anciens">
@@ -68,22 +68,22 @@ switch ($controller) {
         <section class="section">
             <h2>Les derniers livres ajoutés</h2>
             <div class="books-grid">
-                <?php foreach ($livres as $livre): ?>
+                <?php foreach ($books as $book): ?>
                     <div class="book-card">
-                        <?php if (!empty($livre->getImage())): ?>
-                            <img src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($livre->getImage()) ?>" alt="<?= htmlspecialchars($livre->getTitre()) ?>">
+                        <?php if (!empty($book->getImage())): ?>
+                            <img src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($book->getImage()) ?>" alt="<?= htmlspecialchars($book->getTitle()) ?>">
                         <?php else: ?>
                             <div style="width: 150px; height: 200px; background-color: #eee; display: flex; align-items: center; justify-content: center;">
                                 Pas d'image
                             </div>
                         <?php endif; ?>
-                        <h3><?= htmlspecialchars($livre->getTitre()) ?></h3>
-                        <p>par <?= htmlspecialchars($livre->getAuteur()) ?></p>
+                        <h3><?= htmlspecialchars($book->getTitle()) ?></h3>
+                        <p>par <?= htmlspecialchars($book->getAuthor()) ?></p>
                     </div>
                 <?php endforeach; ?>
             </div>
             <div style="text-align: center; margin-top: 2rem;">
-                <a href="<?= BASE_URL ?>?controller=livre&action=index" class="btn">Voir tous les livres</a>
+                <a href="<?= BASE_URL ?>?controller=book&action=index" class="btn">Voir tous les livres</a>
             </div>
         </section>
 
@@ -101,19 +101,19 @@ switch ($controller) {
                     </div>
                     <h3>Inscrivez-vous gratuitement sur notre plateforme.</h3>
                 </a>
-                <a href="<?= BASE_URL ?>?controller=livre&action=create" class="step">
+                <a href="<?= BASE_URL ?>?controller=book&action=create" class="step">
                     <div class="step-icon">
                         <img src="<?= BASE_URL ?>assets/images/icon2.png" alt="Ajouter des livres">
                     </div>
                     <h3>Ajoutez les livres que vous souhaitez échanger à votre profil.</h3>
                 </a>
-                <a href="<?= BASE_URL ?>?controller=livre&action=index" class="step">
+                <a href="<?= BASE_URL ?>?controller=book&action=index" class="step">
                     <div class="step-icon">
                         <img src="<?= BASE_URL ?>assets/images/icon3.png" alt="Parcourir les livres">
                     </div>
                     <h3>Parcourez les livres disponibles et choisissez ceux qui vous intéressent.</h3>
                 </a>
-                <a href="<?= BASE_URL ?>?controller=livre&action=index" class="step">
+                <a href="<?= BASE_URL ?>?controller=book&action=index" class="step">
                     <div class="step-icon">
                         <img src="<?= BASE_URL ?>assets/images/icon4.png" alt="Proposer un échange">
                     </div>
@@ -121,7 +121,7 @@ switch ($controller) {
                 </a>
             </div>
             <div style="text-align: center; margin-top: 2rem;">
-                <a href="<?= BASE_URL ?>?controller=livre&action=index" class="btn">Voir tous les livres</a>
+                <a href="<?= BASE_URL ?>?controller=book&action=index" class="btn">Voir tous les livres</a>
             </div>
         </section>
 
@@ -177,17 +177,17 @@ switch ($controller) {
         }
         break;
 
-    case 'livre':
-        $livreController = new LivreController($db);
+    case 'book':
+        $bookController = new BookController($db);
         switch ($action) {
             case 'index':
-                $livreController->index();
+                $bookController->index();
                 break;
             case 'show':
-                $livreController->show($id);
+                $bookController->show($id);
                 break;
             case 'create':
-                $livreController->create();
+                $bookController->create();
                 break;
             default:
                 header('Location: ' . BASE_URL . '?controller=home');

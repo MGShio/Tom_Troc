@@ -1,10 +1,10 @@
 <?php
 require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/auth.php';
-require_once __DIR__ . '/../models/Livre.php';
+require_once __DIR__ . '/../models/Book.php';
 require_once __DIR__ . '/../includes/database.php';
 
-class LivreController
+class BookController
 {
     private $db;
 
@@ -15,27 +15,27 @@ class LivreController
 
     public function index()
     {
-        $livres = Livre::getAllDisponibles($this->db);
-        require __DIR__ . '/../views/livres/index.php';
+        $books = Book::getAllAvailable($this->db);
+        require __DIR__ . '/../views/books/index.php';
     }
 
     public function show($id)
     {
         $id = (int)$id;
         if ($id <= 0) {
-            header('Location: ' . BASE_URL . '?controller=livre&action=index');
+            header('Location: ' . BASE_URL . '?controller=book&action=index');
             exit;
         }
         
-        $livre = Livre::getById($this->db, $id);
-        if (!$livre) {
+        $book = Book::getById($this->db, $id);
+        if (!$book) {
             header("HTTP/1.0 404 Not Found");
             require __DIR__ . '/../includes/header.php';
-            echo '<p>Livre non trouvé.</p>';
+            echo '<p>Book non trouvé.</p>';
             require __DIR__ . '/../includes/footer.php';
             exit;
         }
-        require __DIR__ . '/../views/livres/show.php';
+        require __DIR__ . '/../views/books/show.php';
     }
 
     public function create()
@@ -51,24 +51,24 @@ class LivreController
                 $errors[] = "Token CSRF invalide.";
             }
             
-            $titre = trim($_POST['titre'] ?? '');
-            $auteur = trim($_POST['auteur'] ?? '');
+            $title = trim($_POST['title'] ?? '');
+            $author = trim($_POST['author'] ?? '');
             $description = trim($_POST['description'] ?? '');
             $statut = $_POST['statut'] ?? '';
             
             // Server-side validation
             $errors = [];
             
-            if (empty($titre)) {
+            if (empty($title)) {
                 $errors[] = "Le titre est requis.";
-            } elseif (strlen($titre) > 255) {
+            } elseif (strlen($title) > 255) {
                 $errors[] = "Le titre ne peut pas dépasser 255 caractères.";
             }
             
-            if (empty($auteur)) {
+            if (empty($author)) {
                 $errors[] = "L'auteur est requis.";
-            } elseif (strlen($auteur) > 255) {
-                $errors[] = "Le nom de l'auteur ne peut pas dépasser 255 caractères.";
+            } elseif (strlen($author) > 255) {
+                $errors[] = "Le name de l'auteur ne peut pas dépasser 255 caractères.";
             }
             
             if (strlen($description) > 1000) {
@@ -123,31 +123,36 @@ class LivreController
             }
             
             if (empty($errors)) {
-                $livreData = [
-                    'titre' => htmlspecialchars($titre),
-                    'auteur' => htmlspecialchars($auteur),
+                $bookData = [
+                    'title' => htmlspecialchars($title),
+                    'author' => htmlspecialchars($author),
                     'description' => htmlspecialchars($description),
                     'statut' => $statut,
-                    'utilisateur_id' => $_SESSION['user_id'],
+                    'user_id' => $_SESSION['user_id'],
                     'image' => $imageName
                 ];
                 
-                $stmt = mysqli_prepare($this->db, "INSERT INTO livres (titre, auteur, description, statut, utilisateur_id, image) VALUES (?, ?, ?, ?, ?, ?)");
-                mysqli_stmt_bind_param($stmt, "ssssis", $livreData['titre'], $livreData['auteur'], $livreData['description'], $livreData['statut'], $livreData['utilisateur_id'], $livreData['image']);
-                if (mysqli_stmt_execute($stmt)) {
-                    mysqli_stmt_close($stmt);
+                $stmt = $this->db->prepare('INSERT INTO books (title, author, description, statut, user_id, image) VALUES (?, ?, ?, ?, ?, ?)');
+                $result = $stmt->execute([
+                    $bookData['title'],
+                    $bookData['author'],
+                    $bookData['description'],
+                    $bookData['statut'],
+                    $bookData['user_id'],
+                    $bookData['image']
+                ]);
+                if ($result) {
                     header('Location: ' . BASE_URL . '?controller=user&action=profile&id=' . $_SESSION['user_id']);
                     exit;
                 } else {
-                    error_log("Database error adding book: " . mysqli_error($this->db));
+                    error_log('Database error adding book.');
                     $errors[] = "Erreur lors de l'ajout du livre.";
-                    mysqli_stmt_close($stmt);
                 }
             }
             
             $error = implode('<br>', $errors);
         }
         
-        require __DIR__ . '/../views/livres/create.php';
+        require __DIR__ . '/../views/books/create.php';
     }
 }

@@ -6,8 +6,8 @@
     <?php endif; ?>
     <form method="post" action="<?= BASE_URL ?>?controller=user&action=register">
         <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?? '' ?>">
-        <label for="nom">Nom :</label>
-        <input type="text" id="nom" name="nom" value="<?= isset($nom) ? htmlspecialchars($nom) : '' ?>" required>
+        <label for="name">Nom :</label>
+        <input type="text" id="name" name="name" value="<?= isset($name) ? htmlspecialchars($name) : '' ?>" required>
         <label for="email">Email :</label>
         <input type="email" id="email" name="email" value="<?= isset($email) ? htmlspecialchars($email) : '' ?>" required>
         <label for="password">Mot de passe :</label>
