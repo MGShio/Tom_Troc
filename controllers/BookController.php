@@ -1,8 +1,4 @@
 <?php
-require_once __DIR__ . '/../includes/config.php';
-require_once __DIR__ . '/../includes/auth.php';
-require_once __DIR__ . '/../models/Book.php';
-require_once __DIR__ . '/../includes/database.php';
 
 class BookController
 {
@@ -15,7 +11,12 @@ class BookController
 
     public function index()
     {
-        $books = Book::getAllAvailable($this->db);
+        $query = trim($_GET['q'] ?? '');
+        if ($query !== '') {
+            $books = BookManager::searchAvailable($this->db, $query);
+        } else {
+            $books = BookManager::getAllAvailable($this->db);
+        }
         require __DIR__ . '/../views/books/index.php';
     }
 
@@ -27,7 +28,7 @@ class BookController
             exit;
         }
         
-        $book = Book::getById($this->db, $id);
+        $book = BookManager::getById($this->db, $id);
         if (!$book) {
             header("HTTP/1.0 404 Not Found");
             require __DIR__ . '/../includes/header.php';
@@ -131,17 +132,9 @@ class BookController
                     'user_id' => $_SESSION['user_id'],
                     'image' => $imageName
                 ];
-                
-                $stmt = $this->db->prepare('INSERT INTO books (title, author, description, statut, user_id, image) VALUES (?, ?, ?, ?, ?, ?)');
-                $result = $stmt->execute([
-                    $bookData['title'],
-                    $bookData['author'],
-                    $bookData['description'],
-                    $bookData['statut'],
-                    $bookData['user_id'],
-                    $bookData['image']
-                ]);
-                if ($result) {
+
+                $book = BookManager::create($this->db, $bookData);
+                if ($book) {
                     header('Location: ' . BASE_URL . '?controller=user&action=profile&id=' . $_SESSION['user_id']);
                     exit;
                 } else {

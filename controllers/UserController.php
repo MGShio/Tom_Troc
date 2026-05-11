@@ -1,9 +1,4 @@
 <?php
-require_once __DIR__ . '/../includes/config.php';
-require_once __DIR__ . '/../includes/auth.php';
-require_once __DIR__ . '/../models/User.php';
-require_once __DIR__ . '/../models/Book.php';
-require_once __DIR__ . '/../includes/database.php';
 
 class UserController
 {
@@ -28,12 +23,7 @@ class UserController
             exit;
         }
         // Get user's books
-        $stmt = $this->db->prepare('SELECT * FROM books WHERE user_id = ?');
-        $stmt->execute([$id]);
-        $books = [];
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $books[] = new Book($row);
-        }
+        $books = BookManager::getByUserId($this->db, $id);
         require __DIR__ . '/../views/users/profile.php';
     }
 

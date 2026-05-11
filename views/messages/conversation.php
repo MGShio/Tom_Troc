@@ -17,7 +17,7 @@ require_once __DIR__ . '/../../includes/header.php';
                         <h4><?= htmlspecialchars($conv->getName()) ?></h4>
                         <p class="conversation-preview">Dernier message...</p>
                     </div>
-                    <div class="conversation-time">15:43</div>
+                    <div class="conversation-time">--:--</div>
                 </a>
             <?php endforeach; ?>
         <?php endif; ?>
@@ -28,7 +28,7 @@ require_once __DIR__ . '/../../includes/header.php';
         </div>
         
         <?php if (isset($_SESSION['message_error'])): ?>
-            <p style="color: red; padding: var(--spacing-md);"><?= $_SESSION['message_error'] ?></p>
+            <div class="form-error"><?= $_SESSION['message_error'] ?></div>
             <?php unset($_SESSION['message_error']); ?>
         <?php endif; ?>
         
@@ -45,7 +45,7 @@ require_once __DIR__ . '/../../includes/header.php';
             <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?? '' ?>">
             <input type="hidden" name="receiver_id" value="<?= $participant->getId() ?>">
             <textarea name="content" placeholder="Tapez votre message ici" required></textarea>
-            <button type="submit" class="btn">Envoyer</button>
+            <button type="submit" class="btn btn-primary">Envoyer</button>
         </form>
     </main>
 </div>

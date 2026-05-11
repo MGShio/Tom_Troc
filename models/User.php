@@ -6,28 +6,30 @@ class User
     private $email;
     private $password;
 
-    public function __construct($data)
+    public function __construct($data = null)
     {
-        $this->id = $data['id'] ?? null;
-        $this->name = $data['name'] ?? '';
-        $this->email = $data['email'] ?? '';
-        $this->password = $data['password'] ?? '';
+        if ($data !== null) {
+            $this->id = $data['id'] ?? null;
+            $this->name = $data['name'] ?? '';
+            $this->email = $data['email'] ?? '';
+            $this->password = $data['password'] ?? '';
+        }
     }
 
     public static function getById($db, $id)
     {
         $stmt = $db->prepare('SELECT id, name, email, password FROM users WHERE id = ?');
         $stmt->execute([$id]);
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $row ? new self($row) : null;
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'User');
+        return $stmt->fetch();
     }
 
     public static function getByEmail($db, $email)
     {
         $stmt = $db->prepare('SELECT id, name, email, password FROM users WHERE email = ?');
         $stmt->execute([$email]);
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $row ? new self($row) : null;
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'User');
+        return $stmt->fetch();
     }
 
     public function save($db)
@@ -50,13 +52,60 @@ class User
         return password_verify($password, $this->password);
     }
 
-    // Getters
-    public function getId() { return $this->id; }
-    public function getName() { return $this->name; }
-    public function getEmail() { return $this->email; }
+    /**
+     * Get user ID
+     * @return int|null
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
-    // Setters
-    public function setName($name) { $this->name = $name; }
-    public function setEmail($email) { $this->email = $email; }
-    public function setPassword($password) { $this->password = password_hash($password, PASSWORD_DEFAULT); }
+    /**
+     * Get user name
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Get user email
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set user name
+     * @param string $name
+     * @return void
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * Set user email
+     * @param string $email
+     * @return void
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
+    /**
+     * Set user password (hashed)
+     * @param string $password
+     * @return void
+     */
+    public function setPassword($password)
+    {
+        $this->password = password_hash($password, PASSWORD_DEFAULT);
+    }
 }

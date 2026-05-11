@@ -12,7 +12,7 @@ define('DB_PASS', $_ENV['DB_PASS'] ?? '');
 define('DB_NAME', $_ENV['DB_NAME'] ?? 'tom_troc');
 
 // Chemins
-define('ROOT_PATH', __DIR__ . '/');
+define('ROOT_PATH', dirname(__DIR__) . DIRECTORY_SEPARATOR);
 
 // Content-Type header
 header('Content-Type: text/html; charset=UTF-8');

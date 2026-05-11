@@ -11,11 +11,12 @@ function login($email, $password)
     $connection = db_connect();
     $stmt = $connection->prepare('SELECT id, email, password FROM users WHERE email = ?');
     $stmt->execute([$email]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    $stmt->setFetchMode(PDO::FETCH_CLASS, 'User');
+    $user = $stmt->fetch();
 
-    if ($user && !empty($user['password']) && password_verify($password, $user['password'])) {
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['user_email'] = $user['email'];
+    if ($user && !empty($user->password) && password_verify($password, $user->password)) {
+        $_SESSION['user_id'] = $user->id;
+        $_SESSION['user_email'] = $user->email;
         return true;
     }
 
@@ -37,5 +38,6 @@ function get_user($user_id)
     $connection = db_connect();
     $stmt = $connection->prepare('SELECT * FROM users WHERE id = ?');
     $stmt->execute([$user_id]);
-    return $stmt->fetch(PDO::FETCH_ASSOC);
+    $stmt->setFetchMode(PDO::FETCH_CLASS, 'User');
+    return $stmt->fetch();
 }

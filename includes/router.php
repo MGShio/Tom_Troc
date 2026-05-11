@@ -2,6 +2,7 @@
 require_once 'includes/config.php';
 require_once 'includes/database.php';
 require_once 'includes/autoload.php';
+require_once 'includes/auth.php';
 
 $db = db_connect();
 
@@ -42,7 +43,6 @@ if (!isset($valid_actions[$controller]) || !in_array($action, $valid_actions[$co
 
 switch ($controller) {
     case 'home':
-        require_once 'controllers/HomeController.php';
         $homeController = new HomeController($db);
         $homeController->index();
         break;

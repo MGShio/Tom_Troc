@@ -1,9 +1,4 @@
 <?php
-require_once __DIR__ . '/../includes/config.php';
-require_once __DIR__ . '/../includes/auth.php';
-require_once __DIR__ . '/../models/Message.php';
-require_once __DIR__ . '/../models/User.php';
-require_once __DIR__ . '/../includes/database.php';
 
 class MessageController
 {

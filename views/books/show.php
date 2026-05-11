@@ -8,22 +8,25 @@ if (!isset($book)) {
 }
 ?>
 <section class="section">
-    <div style="display: flex; gap: 2rem; align-items: flex-start;">
-        <div style="flex: 1;">
+    <div class="detail-card book-detail-grid">
+        <div class="book-detail-image">
             <?php if ($book->getImage()): ?>
-                <img src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($book->getImage()) ?>" alt="<?= htmlspecialchars($book->getTitle()) ?>" style="max-width: 300px;">
+                <img src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($book->getImage()) ?>" alt="<?= htmlspecialchars($book->getTitle()) ?>">
             <?php else: ?>
-                <div style="width: 300px; height: 400px; background-color: #eee; display: flex; align-items: center; justify-content: center;">
-                    Pas d'image
-                </div>
+                <div class="book-card-image"></div>
             <?php endif; ?>
         </div>
-        <div style="flex: 2;">
+        <div class="book-detail-meta">
             <h2><?= htmlspecialchars($book->getTitle()) ?></h2>
+            <div class="book-status">Statut : <?= htmlspecialchars($book->getStatut()) ?></div>
             <p><strong>Auteur :</strong> <?= htmlspecialchars($book->getAuthor()) ?></p>
-            <p><strong>Statut :</strong> <?= htmlspecialchars($book->getStatut()) ?></p>
-            <p><strong>Description :</strong></p>
-            <p><?= nl2br(htmlspecialchars($book->getDescription())) ?></p>
+            <div style="margin-top: var(--spacing-lg);">
+                <h3>Description</h3>
+                <p><?= nl2br(htmlspecialchars($book->getDescription())) ?></p>
+            </div>
+            <div class="profile-actions" style="margin-top: var(--spacing-xl);">
+                <a href="<?= BASE_URL ?>?controller=book&action=index" class="btn btn-secondary">Retour à la liste</a>
+            </div>
         </div>
     </div>
 </section>

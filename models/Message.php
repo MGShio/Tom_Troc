@@ -9,24 +9,22 @@ class Message
     private $content;
     private $send_at;
 
-    public function __construct($data)
+    public function __construct($data = null)
     {
-        $this->id = $data['id'] ?? null;
-        $this->sender_id = $data['sender_id'] ?? null;
-        $this->receiver_id = $data['receiver_id'] ?? null;
-        $this->content = $data['content'] ?? '';
-        $this->send_at = $data['send_at'] ?? null;
+        if ($data !== null) {
+            $this->id = $data['id'] ?? null;
+            $this->sender_id = $data['sender_id'] ?? null;
+            $this->receiver_id = $data['receiver_id'] ?? null;
+            $this->content = $data['content'] ?? '';
+            $this->send_at = $data['send_at'] ?? null;
+        }
     }
 
     public static function getByUser($db, $user_id)
     {
         $stmt = $db->prepare('SELECT * FROM messages WHERE receiver_id = ? ORDER BY send_at DESC');
         $stmt->execute([$user_id]);
-        $messages = [];
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $messages[] = new self($row);
-        }
-        return $messages;
+        return $stmt->fetchAll(PDO::FETCH_CLASS, 'Message');
     }
 
     public static function getConversationParticipants($db, $user_id)
@@ -44,10 +42,7 @@ class Message
 
         $stmt = $db->prepare($query);
         $stmt->execute([$user_id, $user_id, $user_id]);
-        $participants = [];
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $participants[] = new User($row);
-        }
+        return $stmt->fetchAll(PDO::FETCH_CLASS, 'User');
         return $participants;
     }
 
@@ -55,11 +50,7 @@ class Message
     {
         $stmt = $db->prepare('SELECT * FROM messages WHERE (sender_id = ? AND receiver_id = ?) OR (sender_id = ? AND receiver_id = ?) ORDER BY send_at ASC');
         $stmt->execute([$user_id, $participant_id, $participant_id, $user_id]);
-        $messages = [];
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $messages[] = new self($row);
-        }
-        return $messages;
+        return $stmt->fetchAll(PDO::FETCH_CLASS, 'Message');
     }
 
     public function save($db)
