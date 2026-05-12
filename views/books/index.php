@@ -3,7 +3,7 @@
 require_once __DIR__ . '/../../includes/header.php'; 
 ?>
 <section class="section">
-    <div class="section-head">
+    <div class="section-head section-head--space">
         <h2>Nos livres à l'échange</h2>
         <form class="search-form" method="get" action="<?= BASE_URL ?>?controller=book&action=index">
             <input type="text" name="q" placeholder="Rechercher un livre" value="<?= htmlspecialchars($_GET['q'] ?? '') ?>">

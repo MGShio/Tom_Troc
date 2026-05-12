@@ -5,16 +5,20 @@ require_once __DIR__ . '/../../includes/header.php';
 <!-- Section Hero -->
 <section class="hero">
     <div class="hero-content">
-        <p class="eyebrow">Tom Troc</p>
-        <h1>Rejoignez nos lecteurs passionnés</h1>
-        <p>
-            Donnez une nouvelle vie à vos livres en les échangeant avec d'autres amoureux de la lecture.
-            Nous croyons en la magie du partage de connaissances et d'histoires à travers les livres.
-        </p>
-        <a href="<?= BASE_URL ?>?controller=book&action=index" class="btn btn-primary">Découvrir</a>
-    </div>
-    <div class="hero-image">
-        <img src="<?= BASE_URL ?>assets/images/hamza-nouasria-KXrvPthkmYQ-unsplash%201@2x.png" alt="Livres anciens empilés">
+        <div class="hero-text">
+            <h1>Rejoignez nos lecteurs passionnés</h1>
+            <p>
+                Donnez une nouvelle vie à vos livres en les échangeant avec d'autres amoureux de la lecture.
+                Nous croyons en la magie du partage de connaissances et d'histoires à travers les livres.
+            </p>
+            <a href="<?= BASE_URL ?>?controller=book&action=index" class="btn btn-primary">
+                Découvrir
+            </a>
+        </div>
+        <div class="hero-image">
+            <img src="<?= BASE_URL ?>assets/images/hamza-nouasria-KXrvPthkmYQ-unsplash%201@2x.png"
+                alt="Livres anciens empilés">
+        </div>
     </div>
 </section>
 
@@ -24,7 +28,8 @@ require_once __DIR__ . '/../../includes/header.php';
         <h2>Les derniers livres ajoutés</h2>
     </div>
     <div class="books-grid">
-        <?php $books = $books ?? []; foreach ($books as $book): ?>
+        <?php $books = $books ?? [];
+        foreach ($books as $book): ?>
             <article class="book-card">
                 <?php if (!empty($book->getImage())): ?>
                     <img src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($book->getImage()) ?>" alt="<?= htmlspecialchars($book->getTitle()) ?>">
@@ -34,7 +39,6 @@ require_once __DIR__ . '/../../includes/header.php';
                 <div class="book-card-content">
                     <h3 class="book-card-title"><?= htmlspecialchars($book->getTitle()) ?></h3>
                     <p class="book-card-author">par <?= htmlspecialchars($book->getAuthor()) ?></p>
-                    <a href="<?= BASE_URL ?>?controller=book&action=show&id=<?= $book->getId() ?>" class="btn btn-outline">Voir le détail</a>
                 </div>
             </article>
         <?php endforeach; ?>
@@ -78,7 +82,7 @@ require_once __DIR__ . '/../../includes/header.php';
 <!-- Section image de bibliothèque -->
 <section class="feature-image-section">
     <div class="feature-image">
-        <img src="<?= BASE_URL ?>assets/images/Mask%20group.png" alt="Bibliothèque de livres">
+        <img src="<?= BASE_URL ?>assets/images/Mask group.png" alt="Bibliothèque de livres">
     </div>
 </section>
 
