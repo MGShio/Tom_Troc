@@ -11,7 +11,8 @@ class HomeController
 
     public function index()
     {
-        $books = BookManager::getAllAvailable($this->db) ?: [];
+        $bookManager = new BookManager($this->db);
+        $books = $bookManager->getAllAvailable() ?: [];
         $books = array_slice($books, 0, 6);
         require __DIR__ . '/../views/home/index.php';
     }

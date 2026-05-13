@@ -1,4 +1,8 @@
 <?php
+/**
+ * Modèle Book pour TomTroc
+ * Représente un livre de la plateforme
+ */
 class Book
 {
     private $id;
@@ -9,7 +13,13 @@ class Book
     private $user_id;
     private $image;
     private $date_ajout;
+    private $disponibilite;
+    private $seller;
 
+    /**
+     * Constructeur
+     * @param array|null $data Données pour initialiser le livre
+     */
     public function __construct($data = null)
     {
         if ($data !== null) {
@@ -17,12 +27,16 @@ class Book
             $this->title = $data['title'] ?? '';
             $this->author = $data['author'] ?? '';
             $this->description = $data['description'] ?? '';
-            $this->statut = $data['statut'] ?? '';
+            $this->statut = $data['statut'] ?? $data['disponibilite'] ?? 'disponible';
             $this->user_id = $data['user_id'] ?? null;
             $this->image = $data['image'] ?? '';
-            $this->date_ajout = $data['date_ajout'] ?? null;
+            $this->date_ajout = $data['date_ajout'] ?? $data['created_at'] ?? null;
+            $this->disponibilite = $data['disponibilite'] ?? $data['statut'] ?? 'disponible';
+            $this->seller = $data['seller'] ?? $data['pseudo'] ?? null;
         }
     }
+
+    // Getters
 
     /**
      * Get book ID
@@ -61,7 +75,7 @@ class Book
     }
 
     /**
-     * Get book status
+     * Get book status (statut)
      * @return string
      */
     public function getStatut()
@@ -95,6 +109,26 @@ class Book
     {
         return $this->date_ajout;
     }
+
+    /**
+     * Get book disponibilite
+     * @return string
+     */
+    public function getDisponibilite()
+    {
+        return $this->disponibilite;
+    }
+
+    /**
+     * Get seller name
+     * @return string|null
+     */
+    public function getSeller()
+    {
+        return $this->seller;
+    }
+
+    // Setters
 
     /**
      * Set book title
@@ -137,6 +171,16 @@ class Book
     }
 
     /**
+     * Set book user ID
+     * @param int $user_id
+     * @return void
+     */
+    public function setUserId($user_id)
+    {
+        $this->user_id = $user_id;
+    }
+
+    /**
      * Set book image
      * @param string $image
      * @return void
@@ -144,5 +188,35 @@ class Book
     public function setImage($image)
     {
         $this->image = $image;
+    }
+
+    /**
+     * Set book disponibilite
+     * @param string $disponibilite
+     * @return void
+     */
+    public function setDisponibilite($disponibilite)
+    {
+        $this->disponibilite = $disponibilite;
+    }
+
+    /**
+     * Set seller name
+     * @param string $seller
+     * @return void
+     */
+    public function setSeller($seller)
+    {
+        $this->seller = $seller;
+    }
+
+    /**
+     * Set book creation date
+     * @param string $date_ajout
+     * @return void
+     */
+    public function setDateAjout($date_ajout)
+    {
+        $this->date_ajout = $date_ajout;
     }
 }

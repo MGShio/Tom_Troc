@@ -1,151 +1,254 @@
 <?php
-
+/**
+ * BookController - Gestion des livres
+ */
 class BookController
 {
     private $db;
 
+    /**
+     * Constructeur
+     * @param PDO $db Connexion à la base de données
+     */
     public function __construct($db)
     {
         $this->db = $db;
     }
 
+    /**
+     * Affiche la liste de tous les livres disponibles
+     */
     public function index()
     {
-        $query = trim($_GET['q'] ?? '');
-        if ($query !== '') {
-            $books = BookManager::searchAvailable($this->db, $query);
+        $bookManager = new BookManager($this->db);
+        
+        // Recherche
+        $search = $_GET['search'] ?? '';
+        if (!empty($search)) {
+            $books = $bookManager->searchAvailable($search);
         } else {
-            $books = BookManager::getAllAvailable($this->db);
+            $books = $bookManager->getAllAvailable();
         }
+        
         require __DIR__ . '/../views/books/index.php';
     }
 
+    /**
+     * Affiche les détails d'un livre
+     * @param int $id ID du livre
+     */
     public function show($id)
     {
-        $id = (int)$id;
-        if ($id <= 0) {
-            header('Location: ' . BASE_URL . '?controller=book&action=index');
-            exit;
+        $bookManager = new BookManager($this->db);
+        $book = $bookManager->getById($id);
+        
+        if (!$book) {
+            Utils::redirect(BASE_URL . '?controller=book&action=index');
         }
         
-        $book = BookManager::getById($this->db, $id);
-        if (!$book) {
-            header("HTTP/1.0 404 Not Found");
-            require __DIR__ . '/../includes/header.php';
-            echo '<p>Book non trouvé.</p>';
-            require __DIR__ . '/../includes/footer.php';
-            exit;
-        }
+        // Récupérer le vendeur
+        $userManager = new UserManager($this->db);
+        $seller = $userManager->getUserById($book->getUserId());
+        
         require __DIR__ . '/../views/books/show.php';
     }
 
+    /**
+     * Affiche le formulaire d'ajout d'un livre
+     */
     public function create()
     {
-        if (!is_logged_in()) {
-            header('Location: ' . BASE_URL . '?controller=user&action=login');
-            exit;
+        if (!Utils::isUserConnected()) {
+            Utils::redirect(BASE_URL . '?controller=user&action=login');
+        }
+        
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Validation CSRF
+            if (!isset($_POST['csrf_token']) || !Utils::verifyCsrfToken($_POST['csrf_token'])) {
+                $error = "Token CSRF invalide.";
+            } else {
+                $title = trim($_POST['title'] ?? '');
+                $author = trim($_POST['author'] ?? '');
+                $description = trim($_POST['description'] ?? '');
+                $disponibilite = $_POST['disponibilite'] ?? 'disponible';
+                $errors = [];
+
+                if (empty($title)) {
+                    $errors[] = "Le titre est requis.";
+                }
+
+                if (empty($author)) {
+                    $errors[] = "L'auteur est requis.";
+                }
+
+                if (empty($description)) {
+                    $errors[] = "La description est requise.";
+                }
+
+                // Gestion de l'image
+                $fileName = 'Book_default.png';
+                if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
+                    $uploadDir = ROOT_PATH . '/assets/images/';
+                    if (!is_dir($uploadDir)) {
+                        mkdir($uploadDir, 0777, true);
+                    }
+
+                    $extension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+                    $fileName = uniqid('img_') . '.' . $extension;
+                    $destinationPath = $uploadDir . $fileName;
+
+                    if (!move_uploaded_file($_FILES['image']['tmp_name'], $destinationPath)) {
+                        $errors[] = "Erreur lors du téléchargement de l'image.";
+                    }
+                }
+
+                if (empty($errors)) {
+                    $bookData = [
+                        'title' => htmlspecialchars($title),
+                        'author' => htmlspecialchars($author),
+                        'description' => htmlspecialchars($description),
+                        'statut' => $disponibilite,
+                        'disponibilite' => $disponibilite,
+                        'user_id' => $_SESSION['user_id'],
+                        'image' => $fileName
+                    ];
+                    
+                    $bookManager = new BookManager($this->db);
+                    $book = $bookManager->create($bookData);
+                    if ($book) {
+                        Utils::redirect(BASE_URL . '?controller=user&action=profile&id=' . $_SESSION['user_id']);
+                    } else {
+                        $errors[] = "Erreur lors de l'ajout du livre.";
+                    }
+                }
+
+                $error = implode('<br>', $errors);
+            }
+        }
+        
+        $_SESSION['csrf_token'] = Utils::generateCsrfToken();
+        require __DIR__ . '/../views/books/create.php';
+    }
+
+    /**
+     * Affiche le formulaire d'édition d'un livre
+     * @param int $id ID du livre
+     */
+    public function edit($id)
+    {
+        if (!Utils::isUserConnected()) {
+            Utils::redirect(BASE_URL . '?controller=user&action=login');
+        }
+
+        $bookManager = new BookManager($this->db);
+        $book = $bookManager->getById($id);
+        
+        if (!$book || $book->getUserId() != $_SESSION['user_id']) {
+            Utils::redirect(BASE_URL . '?controller=home');
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // CSRF validation
-            if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'] ?? '', $_POST['csrf_token'])) {
-                $errors[] = "Token CSRF invalide.";
-            }
-            
-            $title = trim($_POST['title'] ?? '');
-            $author = trim($_POST['author'] ?? '');
-            $description = trim($_POST['description'] ?? '');
-            $statut = $_POST['statut'] ?? '';
-            
-            // Server-side validation
-            $errors = [];
-            
-            if (empty($title)) {
-                $errors[] = "Le titre est requis.";
-            } elseif (strlen($title) > 255) {
-                $errors[] = "Le titre ne peut pas dépasser 255 caractères.";
-            }
-            
-            if (empty($author)) {
-                $errors[] = "L'auteur est requis.";
-            } elseif (strlen($author) > 255) {
-                $errors[] = "Le name de l'auteur ne peut pas dépasser 255 caractères.";
-            }
-            
-            if (strlen($description) > 1000) {
-                $errors[] = "La description ne peut pas dépasser 1000 caractères.";
-            }
-            
-            $valid_statuts = ['disponible', 'indisponible', 'echange'];
-            if (!in_array($statut, $valid_statuts)) {
-                $errors[] = "Statut invalide.";
-            }
-            
-            $imageName = '';
-            if (!empty($_FILES['image']['name'])) {
-                $allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
-                $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
-                $imageInfo = $_FILES['image'];
-                
-                if ($imageInfo['error'] !== UPLOAD_ERR_OK) {
-                    error_log("File upload error: " . $imageInfo['error']);
-                    $errors[] = "Erreur lors du téléchargement de l'image.";
-                } elseif (!in_array($imageInfo['type'], $allowedTypes)) {
-                    $errors[] = "Format d'image non pris en charge. Utilisez PNG, JPG ou GIF.";
-                } else {
-                    $extension = strtolower(pathinfo($imageInfo['name'], PATHINFO_EXTENSION));
-                    if (!in_array($extension, $allowedExtensions)) {
-                        $errors[] = "Extension de fichier non autorisée.";
-                    } elseif ($imageInfo['size'] > 2 * 1024 * 1024) {
-                        $errors[] = "L'image ne peut pas dépasser 2 Mo.";
-                    } else {
-                        // Verify actual file content
-                        $finfo = finfo_open(FILEINFO_MIME_TYPE);
-                        $mime = finfo_file($finfo, $imageInfo['tmp_name']);
-                        finfo_close($finfo);
-                        if (!in_array($mime, $allowedTypes)) {
-                            $errors[] = "Type de fichier non autorisé détecté.";
-                        } else {
-                            $imageName = time() . '_' . bin2hex(random_bytes(8)) . '.' . $extension;
-                            $uploadDir = __DIR__ . '/../assets/images/';
-                            
-                            // Create directory if it doesn't exist
-                            if (!file_exists($uploadDir)) {
-                                mkdir($uploadDir, 0755, true);
-                            }
-                            
-                            if (!move_uploaded_file($imageInfo['tmp_name'], $uploadDir . $imageName)) {
-                                error_log("Failed to move uploaded file: " . $imageInfo['tmp_name']);
-                                $errors[] = "Impossible d'enregistrer l'image.";
+            // Validation CSRF
+            if (!isset($_POST['csrf_token']) || !Utils::verifyCsrfToken($_POST['csrf_token'])) {
+                $error = "Token CSRF invalide.";
+            } else {
+                $title = trim($_POST['title'] ?? '');
+                $author = trim($_POST['author'] ?? '');
+                $description = trim($_POST['description'] ?? '');
+                $disponibilite = $_POST['disponibilite'] ?? 'disponible';
+                $errors = [];
+
+                if (empty($title)) {
+                    $errors[] = "Le titre est requis.";
+                }
+
+                if (empty($author)) {
+                    $errors[] = "L'auteur est requis.";
+                }
+
+                if (empty($description)) {
+                    $errors[] = "La description est requise.";
+                }
+
+                // Gestion de l'image
+                $fileName = $book->getImage();
+                if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
+                    $uploadDir = ROOT_PATH . '/assets/images/';
+                    if (!is_dir($uploadDir)) {
+                        mkdir($uploadDir, 0777, true);
+                    }
+
+                    $extension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+                    $newFileName = uniqid('img_') . '.' . $extension;
+                    $destinationPath = $uploadDir . $newFileName;
+
+                    if (move_uploaded_file($_FILES['image']['tmp_name'], $destinationPath)) {
+                        // Supprimer l'ancienne image si ce n'est pas le default
+                        if ($fileName !== 'Book_default.png') {
+                            $oldPath = $uploadDir . $fileName;
+                            if (file_exists($oldPath)) {
+                                unlink($oldPath);
                             }
                         }
+                        $fileName = $newFileName;
+                    } else {
+                        $errors[] = "Erreur lors du téléchargement de l'image.";
                     }
                 }
-            }
-            
-            if (empty($errors)) {
-                $bookData = [
-                    'title' => htmlspecialchars($title),
-                    'author' => htmlspecialchars($author),
-                    'description' => htmlspecialchars($description),
-                    'statut' => $statut,
-                    'user_id' => $_SESSION['user_id'],
-                    'image' => $imageName
-                ];
 
-                $book = BookManager::create($this->db, $bookData);
-                if ($book) {
-                    header('Location: ' . BASE_URL . '?controller=user&action=profile&id=' . $_SESSION['user_id']);
-                    exit;
-                } else {
-                    error_log('Database error adding book.');
-                    $errors[] = "Erreur lors de l'ajout du livre.";
+                if (empty($errors)) {
+                    $bookData = [
+                        'title' => htmlspecialchars($title),
+                        'author' => htmlspecialchars($author),
+                        'description' => htmlspecialchars($description),
+                        'statut' => $disponibilite,
+                        'disponibilite' => $disponibilite,
+                        'image' => $fileName
+                    ];
+                    
+                    if ($bookManager->update($id, $bookData)) {
+                        Utils::redirect(BASE_URL . '?controller=user&action=profile&id=' . $_SESSION['user_id']);
+                    } else {
+                        $errors[] = "Erreur lors de la mise à jour du livre.";
+                    }
+                }
+
+                $error = implode('<br>', $errors);
+            }
+        }
+
+        $_SESSION['csrf_token'] = Utils::generateCsrfToken();
+        require __DIR__ . '/../views/books/edit.php';
+    }
+
+    /**
+     * Supprime un livre
+     * @param int $id ID du livre
+     */
+    public function delete($id)
+    {
+        if (!Utils::isUserConnected()) {
+            Utils::redirect(BASE_URL . '?controller=home');
+        }
+
+        $bookManager = new BookManager($this->db);
+        $book = $bookManager->getById($id);
+        
+        if ($book && $book->getUserId() == $_SESSION['user_id']) {
+            // Supprimer l'image si ce n'est pas le default
+            $imageName = $book->getImage();
+            if ($imageName !== 'Book_default.png') {
+                $imagePath = ROOT_PATH . '/assets/images/' . $imageName;
+                if (file_exists($imagePath)) {
+                    unlink($imagePath);
                 }
             }
             
-            $error = implode('<br>', $errors);
+            if ($bookManager->delete($id)) {
+                Utils::redirect(BASE_URL . '?controller=user&action=profile&id=' . $_SESSION['user_id']);
+            }
         }
         
-        require __DIR__ . '/../views/books/create.php';
+        Utils::redirect(BASE_URL . '?controller=home');
     }
 }

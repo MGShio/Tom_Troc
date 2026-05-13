@@ -1,47 +1,106 @@
 <?php require_once __DIR__ . '/../../includes/header.php'; /** @var User $user */
 /** @var Book[] $books */ ?>
-<section class="section">
-    <div class="profile-card">
-        <div class="profile-summary">
-            <div class="profile-details">
-                <h2>Profil de <?= htmlspecialchars($user->getName()) ?></h2>
-                <p><strong>Nom :</strong> <?= htmlspecialchars($user->getName()) ?></p>
-                <p><strong>Email :</strong> <?= htmlspecialchars($user->getEmail()) ?></p>
-            </div>
-            <?php if ($user->getId() == $_SESSION['user_id']): ?>
-                <div class="profile-actions">
-                    <a href="<?= BASE_URL ?>?controller=user&action=edit&id=<?= $user->getId() ?>" class="btn btn-secondary">Modifier mon profil</a>
-                    <a href="<?= BASE_URL ?>?controller=book&action=create" class="btn btn-primary">Ajouter un livre</a>
-                </div>
-            <?php endif; ?>
-        </div>
-    </div>
-</section>
 
-<section class="section">
-    <h2>Bibliothèque de <?= htmlspecialchars($user->getName()) ?></h2>
-    <?php if (empty($books)): ?>
-        <div class="card-panel">
-            <p>Cet utilisateur n'a pas encore de livres.</p>
+<main class="my-account-wrapper">
+    <div class="profile-container">
+
+        <div class="profile-header-flex">
+            <h1 class="profile-main-title">Mon compte</h1>
+            <a href="<?= BASE_URL ?>?controller=book&action=create" class="btn-add-book">Ajouter un livre</a>
         </div>
-    <?php else: ?>
-    <div class="books-grid">
-        <?php foreach ($books as $book): ?>
-            <div class="book-card">
-                <?php if (!empty($book->getImage())): ?>
-                    <img src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($book->getImage()) ?>" alt="<?= htmlspecialchars($book->getTitle()) ?>">
-                <?php else: ?>
-                    <div class="book-card-image"></div>
-                <?php endif; ?>
-                <div class="book-card-content">
-                    <h3 class="book-card-title"><?= htmlspecialchars($book->getTitle()) ?></h3>
-                    <p class="book-card-author">par <?= htmlspecialchars($book->getAuthor()) ?></p>
-                    <div class="book-status"><?= htmlspecialchars($book->getStatut()) ?></div>
-                    <a href="<?= BASE_URL ?>?controller=book&action=show&id=<?= $book->getId() ?>" class="btn btn-primary">Voir</a>
+
+        <div class="profile-top-section">
+            <div class="profile-columns-flex">
+
+                <div class="profile-col-left">
+                    <div class="profile-avatar-frame">
+                        <img src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($user->getAvatar() ?? 'Avatar_default.png') ?>" alt="Avatar de profil" id="avatar-preview">
+                    </div>
+
+                    <h2 class="profile-pseudo"><?= htmlspecialchars($user->getPseudo()) ?></h2>
+                    <p class="profile-member-date">Membre depuis <?= Utils::format($user->getCreatedAt()) ?></p>
+
+                    <div class="profile-library-stats">
+                        <span class="library-label">BIBLIOTHÈQUE</span>
+                        <div class="library-count-flex">
+                            <img src="<?= BASE_URL ?>assets/images/livres.svg" alt="Icon livre" class="icon-book">
+                            <span class="library-count-text"><?= count($books) ?> livre<?= count($books) > 1 ? 's' : '' ?></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-col-right">
+                    <div class="profile-actions">
+                        <a href="<?= BASE_URL ?>?controller=user&action=edit&id=<?= $user->getId() ?>" class="btn btn-secondary">
+                            <i class="fas fa-edit"></i> Modifier mon profil
+                        </a>
+                        <a href="<?= BASE_URL ?>?controller=user&action=deleteAccount&id=<?= $user->getId() ?>" 
+                           class="btn btn-danger" 
+                           onclick="return confirm('⚠️ Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible !')">
+                            <i class="fas fa-trash"></i> Supprimer mon compte
+                        </a>
+                    </div>
                 </div>
             </div>
-        <?php endforeach; ?>
+        </div>
+
+        <div class="profile-table-wrapper">
+            <table class="my-books-table">
+                <thead>
+                    <tr>
+                        <th>PHOTO</th>
+                        <th>TITRE</th>
+                        <th>AUTEUR</th>
+                        <th>DESCRIPTION</th>
+                        <th>DISPONIBILITE</th>
+                        <th>ACTION</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if (empty($books)): ?>
+                        <tr>
+                            <td colspan="6" class="empty-state">Votre bibliothèque est vide.</td>
+                        </tr>
+                    <?php else: ?>
+                        <?php foreach ($books as $book): ?>
+                            <tr>
+                                <td>
+                                    <div class="table-img-frame">
+                                        <img src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($book->getImage() ?: 'Book_default.png') ?>" alt="Cover">
+                                    </div>
+                                </td>
+                                <td class="table-text-bold"><?= htmlspecialchars($book->getTitle()) ?></td>
+                                <td class="table-text-light"><?= htmlspecialchars($book->getAuthor()) ?></td>
+                                <td class="table-text-desc">
+                                    <div class="text-truncate-wrapper">
+                                        <?= htmlspecialchars($book->getDescription() ?? '') ?>
+                                    </div>
+                                </td>
+                                <td>
+                                    <?php if ($book->getDisponibilite() === 'non disponible' || $book->getStatut() === 'non disponible'): ?>
+                                        <span class="badge-not-avalaible">non dispo.</span>
+                                    <?php else: ?>
+                                        <span class="badge-disponible">disponible</span>
+                                    <?php endif; ?>
+                                </td>
+                                <td class="table-actions">
+                                    <a href="<?= BASE_URL ?>?controller=book&action=edit&id=<?= $book->getId() ?>" class="action-edit">
+                                        <i class="fas fa-edit"></i> Éditer
+                                    </a>
+                                    <a href="<?= BASE_URL ?>?controller=book&action=delete&id=<?= $book->getId() ?>" 
+                                       class="action-delete" 
+                                       onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce livre ?');">
+                                        <i class="fas fa-trash"></i> Supprimer
+                                    </a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
+
     </div>
-    <?php endif; ?>
-</section>
+</main>
+
 <?php require_once __DIR__ . '/../../includes/footer.php'; ?>

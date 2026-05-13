@@ -1,105 +1,186 @@
 <?php
-
+/**
+ * MessageController - Gestion de la messagerie
+ */
 class MessageController
 {
     private $db;
 
+    /**
+     * Constructeur
+     * @param PDO $db Connexion à la base de données
+     */
     public function __construct($db)
     {
         $this->db = $db;
     }
 
+    /**
+     * Affiche la page de messagerie avec les conversations
+     */
     public function index()
     {
-        if (!is_logged_in()) {
-            header('Location: ' . BASE_URL . '?controller=user&action=login');
-            exit;
+        if (!Utils::isUserConnected()) {
+            Utils::redirect(BASE_URL . '?controller=user&action=login');
         }
-        $participants = Message::getConversationParticipants($this->db, $_SESSION['user_id']);
+
+        $userId = $_SESSION['user_id'];
+        $messageManager = new MessageManager($this->db);
+        $userManager = new UserManager($this->db);
+        $bookManager = new BookManager($this->db);
+
+        // Gestion de la création automatique de conversation
+        if (isset($_GET['create_chat_with'])) {
+            $targetId = (int)$_GET['create_chat_with'];
+            if ($targetId !== $userId) {
+                $conversationId = $messageManager->createConversation($userId, $targetId);
+                Utils::redirect(BASE_URL . '?controller=message&action=conversation&id=' . $conversationId);
+            }
+        }
+
+        // Récupérer les conversations
+        $conversations = $messageManager->getMyConversations($userId);
+        
+        // Enrichir les conversations avec pseudo et avatar
+        foreach ($conversations as $key => $conv) {
+            // Qui est l'autre personne ?
+            $otherId = ($conv['user1_id'] == $userId) ? $conv['user2_id'] : $conv['user1_id'];
+            
+            // Récupérer ses infos
+            $otherUser = $userManager->getUserById($otherId);
+            
+            if ($otherUser) {
+                $conversations[$key]['other_pseudo'] = $otherUser->getPseudo();
+                $conversations[$key]['other_avatar'] = $otherUser->getAvatar();
+                $conversations[$key]['other_user_id'] = $otherId;
+            } else {
+                $conversations[$key]['other_pseudo'] = "Utilisateur supprimé";
+                $conversations[$key]['other_avatar'] = "Avatar_default.png";
+                $conversations[$key]['other_user_id'] = 0;
+            }
+        }
+
+        // Gestion de la conversation sélectionnée
+        $selectedConversationId = null;
+        $messages = [];
+        $otherUserPseudo = "";
+        $otherUserAvatar = "";
+        $otherUserId = null;
+
+        if (isset($_GET['id'])) {
+            $selectedConversationId = (int)$_GET['id'];
+        } elseif (!empty($conversations)) {
+            $selectedConversationId = (int)$conversations[0]['id'];
+        }
+
+        if ($selectedConversationId) {
+            $messages = $messageManager->getMessagesByConversationId($selectedConversationId);
+            
+            // Récupérer les infos de l'interlocuteur
+            foreach ($conversations as $conv) {
+                if ($conv['id'] == $selectedConversationId) {
+                    $otherUserPseudo = $conv['other_pseudo'];
+                    $otherUserAvatar = $conv['other_avatar'];
+                    $otherUserId = $conv['other_user_id'];
+                    break;
+                }
+            }
+            
+            // Marquer les messages comme lus
+            $messageManager->markAsRead($selectedConversationId, $userId);
+        }
+
+        // Compter les messages non lus
+        $_SESSION['unread_count'] = $messageManager->countUnreadMessages($userId);
+
         require __DIR__ . '/../views/messages/index.php';
     }
 
-    public function conversation($participant_id)
+    /**
+     * Affiche une conversation spécifique
+     * @param int $id ID de la conversation
+     */
+    public function conversation($id)
     {
-        if (!is_logged_in()) {
-            header('Location: ' . BASE_URL . '?controller=user&action=login');
-            exit;
+        if (!Utils::isUserConnected()) {
+            Utils::redirect(BASE_URL . '?controller=user&action=login');
         }
-        
-        $participant_id = (int)$participant_id;
-        if ($participant_id <= 0) {
-            header('Location: ' . BASE_URL . '?controller=message&action=index');
-            exit;
+
+        $userId = $_SESSION['user_id'];
+        $messageManager = new MessageManager($this->db);
+        $userManager = new UserManager($this->db);
+
+        // Vérifier que l'utilisateur fait partie de cette conversation
+        $conversation = $messageManager->getConversationById($id);
+        if (!$conversation) {
+            Utils::redirect(BASE_URL . '?controller=message&action=index');
         }
-        
-        $messages = Message::getConversation($this->db, $_SESSION['user_id'], $participant_id);
-        $participant = User::getById($this->db, $participant_id);
-        
-        if (!$participant) {
-            header("HTTP/1.0 404 Not Found");
-            require __DIR__ . '/../includes/header.php';
-            echo '<p>User non trouvé.</p>';
-            require __DIR__ . '/../includes/footer.php';
-            exit;
+
+        $otherId = $conversation->getOtherUserId($userId);
+        if ($otherId === null) {
+            Utils::redirect(BASE_URL . '?controller=message&action=index');
         }
+
+        $otherUser = $userManager->getUserById($otherId);
+        if (!$otherUser) {
+            Utils::redirect(BASE_URL . '?controller=message&action=index');
+        }
+
+        // Récupérer les conversations pour la sidebar
+        $conversations = $messageManager->getMyConversations($userId);
+        foreach ($conversations as $key => $conv) {
+            $otherConvId = ($conv['user1_id'] == $userId) ? $conv['user2_id'] : $conv['user1_id'];
+            $otherConvUser = $userManager->getUserById($otherConvId);
+            if ($otherConvUser) {
+                $conversations[$key]['other_pseudo'] = $otherConvUser->getPseudo();
+                $conversations[$key]['other_avatar'] = $otherConvUser->getAvatar();
+            }
+        }
+
+        // Récupérer les messages
+        $messages = $messageManager->getMessagesByConversationId($id);
         
-        $participants = Message::getConversationParticipants($this->db, $_SESSION['user_id']);
-        require __DIR__ . '/../views/messages/conversation.php';
+        // Marquer comme lu
+        $messageManager->markAsRead($id, $userId);
+
+        // Compter les messages non lus
+        $_SESSION['unread_count'] = $messageManager->countUnreadMessages($userId);
+
+        // Récupérer le pseudo et avatar de l'autre utilisateur
+        $otherUserPseudo = $otherUser->getPseudo();
+        $otherUserAvatar = $otherUser->getAvatar();
+
+        require __DIR__ . '/../views/messages/index.php';
     }
 
+    /**
+     * Envoie un message
+     */
     public function send()
     {
-        if (!is_logged_in() || $_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: ' . BASE_URL . '?controller=user&action=login');
-            exit;
+        if (!Utils::isUserConnected()) {
+            Utils::redirect(BASE_URL . '?controller=user&action=login');
         }
-        
-        // CSRF validation
-        if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'] ?? '', $_POST['csrf_token'])) {
-            $_SESSION['message_error'] = "Token CSRF invalide.";
-            header('Location: ' . BASE_URL . '?controller=message&action=index');
-            exit;
-        }
-        
-        $receiver_id = (int)($_POST['receiver_id'] ?? 0);
+
+        $userId = $_SESSION['user_id'];
         $content = trim($_POST['content'] ?? '');
-        
-        // Server-side validation
-        $errors = [];
-        
-        if ($receiver_id <= 0) {
-            $errors[] = "Receiver invalide.";
-        } else {
-            // Check if recipient exists
-            $recipient = User::getById($this->db, $receiver_id);
-            if (!$recipient) {
-                $errors[] = "Receiver introuvable.";
-            }
+        $receiverId = (int)($_POST['receiver_id'] ?? 0);
+
+        if (empty($content) || $receiverId <= 0) {
+            Utils::redirect(BASE_URL . '?controller=message&action=index');
         }
+
+        $messageManager = new MessageManager($this->db);
         
-        if (empty($content)) {
-            $errors[] = "Le message ne peut pas être vide.";
-        } elseif (strlen($content) > 1000) {
-            $errors[] = "Le message ne peut pas dépasser 1000 caractères.";
-        }
+        // Créer ou récupérer la conversation
+        $conversationId = $messageManager->createConversation($userId, $receiverId);
         
-        if (empty($errors)) {
-            $message = new Message([]);
-            $message->setSenderId($_SESSION['user_id']);
-            $message->setReceiverId($receiver_id);
-            $message->setContent(htmlspecialchars($content));
-            if ($message->save($this->db)) {
-                header('Location: ' . BASE_URL . '?controller=message&action=conversation&id=' . $receiver_id);
-                exit;
-            } else {
-                error_log("Failed to send message from user {$_SESSION['user_id']} to $receiver_id");
-                $errors[] = "Erreur lors de l'envoi du message.";
-            }
-        }
+        // Envoyer le message
+        $messageManager->postMessage($conversationId, $userId, $content);
         
-        // If errors, redirect back with error
-        $_SESSION['message_error'] = implode('<br>', $errors);
-        header('Location: ' . BASE_URL . '?controller=message&action=conversation&id=' . $receiver_id);
-        exit;
+        // Marquer comme lu pour l'expéditeur
+        $messageManager->markAsRead($conversationId, $userId);
+        
+        Utils::redirect(BASE_URL . '?controller=message&action=conversation&id=' . $conversationId);
     }
 }

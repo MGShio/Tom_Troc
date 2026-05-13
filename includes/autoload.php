@@ -1,7 +1,7 @@
 <?php
 /**
- * Autoloader amélioré pour le projet Tom Troc
- * Gère automatiquement le chargement des classes et fichiers
+ * Autoloader pour le projet Tom Troc
+ * Gère automatiquement le chargement des classes
  */
 
 // Charger la configuration si elle n'est pas déjà chargée
@@ -9,7 +9,7 @@ if (!defined('ROOT_PATH')) {
     require_once __DIR__ . '/config.php';
 }
 
-// Autoloader pour les classes (modèles et contrôleurs)
+// Autoloader pour les classes (modèles, contrôleurs, managers, services)
 spl_autoload_register(function ($className) {
     // Conversion du namespace en chemin de fichier si nécessaire
     $className = str_replace('\\', DIRECTORY_SEPARATOR, $className);
@@ -19,7 +19,8 @@ spl_autoload_register(function ($className) {
         ROOT_PATH . '/models/' . $className . '.php',
         ROOT_PATH . '/controllers/' . $className . '.php',
         ROOT_PATH . '/includes/' . $className . '.php',
-        ROOT_PATH . '/models/' . $className . 'Manager.php',
+        ROOT_PATH . '/managers/' . $className . '.php',
+        ROOT_PATH . '/services/' . $className . '.php',
     ];
 
     foreach ($paths as $file) {
@@ -63,4 +64,18 @@ function load_view($viewPath, $data = []) {
     } else {
         throw new Exception("Vue non trouvée: " . $viewPath);
     }
+}
+
+/**
+ * Fonction utilitaire pour charger automatiquement les managers
+ * @param string $managerName Nom du manager sans extension
+ * @param PDO $db Connexion à la base de données
+ * @return object Instance du manager
+ */
+function get_manager($managerName, $db) {
+    $className = ucfirst($managerName) . 'Manager';
+    if (class_exists($className)) {
+        return new $className($db);
+    }
+    throw new Exception("Manager non trouvé: " . $className);
 }

@@ -4,6 +4,11 @@ require_once 'includes/database.php';
 require_once 'includes/autoload.php';
 require_once 'includes/auth.php';
 
+// Démarrer la session si ce n'est pas déjà fait
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 $db = db_connect();
 
 if ($db === false) {
@@ -21,8 +26,8 @@ $id = isset($_GET['id']) ? (int)$_GET['id'] : null;
 $valid_controllers = ['home', 'user', 'book', 'message'];
 $valid_actions = [
     'home' => ['index'],
-    'user' => ['register', 'login', 'profile', 'edit', 'logout'],
-    'book' => ['index', 'show', 'create'],
+    'user' => ['register', 'login', 'profile', 'edit', 'logout', 'public_profile', 'deleteAccount'],
+    'book' => ['index', 'show', 'create', 'edit', 'delete'],
     'message' => ['index', 'conversation', 'send']
 ];
 
@@ -65,6 +70,12 @@ switch ($controller) {
             case 'logout':
                 $userController->logout();
                 break;
+            case 'public_profile':
+                $userController->publicProfile($id);
+                break;
+            case 'deleteAccount':
+                $userController->deleteAccount($id);
+                break;
             default:
                 header('Location: ' . BASE_URL . '?controller=home');
                 break;
@@ -82,6 +93,12 @@ switch ($controller) {
                 break;
             case 'create':
                 $bookController->create();
+                break;
+            case 'edit':
+                $bookController->edit($id);
+                break;
+            case 'delete':
+                $bookController->delete($id);
                 break;
             default:
                 header('Location: ' . BASE_URL . '?controller=home');

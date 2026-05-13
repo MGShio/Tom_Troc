@@ -1,0 +1,137 @@
+/**
+ * Header CSS - Corrigé et adapté pour TomTroc
+ * Source : Inspiration/Tomtroc-main avec adaptations
+ */
+
+.site-header {
+    width: 100%;
+    height: 80px;
+    background-color: #F5F3EF;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-inner {
+    max-width: 1440px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+/* Navigation principale */
+.nav {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    white-space: nowrap;
+}
+
+/* Bloc gauche */
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+}
+
+.nav-left .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-right: 0;
+}
+
+.nav-left .logo img {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+}
+
+.nav-left a:not(.logo) {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #292929;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.nav-left a:not(.logo):hover {
+    color: #00AC66;
+}
+
+.nav-left a.accueil {
+    font-weight: 600;
+}
+
+/* Séparateur */
+.separator {
+    margin-left: auto;
+    height: 19px;
+}
+
+/* Bloc droite */
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 58px;
+    margin-left: 58px;
+}
+
+.push-right {
+    margin-left: auto;
+}
+
+/* Élément de navigation avec icône */
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    position: relative;
+}
+
+.nav-item img {
+    width: 18px;
+    height: 18px;
+}
+
+.nav-item a {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #292929;
+    text-decoration: none;
+}
+
+/* Lien de connexion/déconnexion */
+.nav a.connexion {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #292929;
+    text-decoration: none;
+}
+
+/* Badge de notifications */
+.badge-wrapper {
+    position: absolute;
+    top: -5px;
+    right: -15px;
+    background-color: #292929;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.badge-number {
+    color: #FFFFFF;
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1;
+}

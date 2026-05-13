@@ -1,1043 +1,2054 @@
-/* ==================== VARIABLES ET RESET ==================== */
+/* ==========================================================================
+   CSS INSPIRATION - Adapté pour TomTroc
+   Source : Inspiration/Tomtroc-main/public/css/style.css
+   
+   Notes d'adaptation :
+   - Les polices Google Fonts sont déjà chargées dans ton projet
+   - Les couleurs sont compatibles (#F5F3EF, #292929, etc.)
+   - Les chemins des images doivent être adaptés dans le HTML, pas dans le CSS
+========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;600;700&display=swap');
+/* ==========================================================================
+   0. LES BASES (Polices, Couleurs, Reset)
+========================================================================== */
 
+/* On va chercher la police "Inter" et "Playfair" chez Google */
+/* Déjà chargé dans ton header, donc on commente pour éviter le doublon
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+*/
+
+/* LES VARIABLES (La palette de peinture) */
 :root {
-    /* Couleurs */
-    --primary-green: #00A95C;
-    --primary-green-dark: #008F4D;
-    --light-gray: #F5F3EF;
-    --dark-gray: #292929;
-    --text-gray: #000000;
-    --white: #FFFFFF;
-    --light-background: #FAF9F7;
-    --border-light: #ECEAE4;
-    
-    /* Typographie */
-    --font-serif: 'Playfair Display', serif;
-    --font-sans: 'Inter', sans-serif;
-    
-    /* Espacements */
-    --section-padding-y: 5rem;
-    --card-gap: 1.5rem;
-    --card-radius: 14px;
-    --btn-radius: 10px;
-    --radius-md: 12px;
-    --radius-sm: 8px;
-    
-    /* Taille container */
-    --container: 1180px;
+    --lightGray: #F5F3EF;
+    --darkGray: #292929;
+    --textGray: #A6A6A6;
+    --green: #00AC66;
+    --backgroundLight: #FAF9F7;
+    --lightGray2: #EDF2F6;
+    --white: #F0F0F0;
 }
 
+/* ==========================================================================
+   0.5 RÉGLAGE UNIVERSEL (Le moteur du site)
+========================================================================== */
+
 * {
-    margin: 0;
-    padding: 0;
+    /* Évite que les marges s'ajoutent à la largeur des boîtes */
     box-sizing: border-box;
 }
 
-img {
-    width: 100%;
-    display: block;
-}
-
-a {
-    text-decoration: none;
-    color: inherit;
-}
-
-button {
-    border: none;
-    cursor: pointer;
-    font-family: inherit;
+html,
+body {
+    height: 100%;
+    /* Force le navigateur à calculer sur toute la hauteur */
+    margin: 0;
+    padding: 0;
 }
 
 body {
-    font-family: var(--font-sans);
-    background: var(--light-gray);
-    color: var(--dark-gray);
-    line-height: 1.5;
-}
-
-/* ==================== HEADER ==================== */
-
-header {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    width: 100%;
-    background: #F5F3EF;
-    padding: 24px 0;
-    border-bottom: 1px solid rgba(0,0,0,0.04);
-}
-
-.header-inner {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    max-width: 1440px;
-    margin: 0 auto;
-    padding: 0 40px;
-    gap: 30px; /* Réduit l'espace entre le logo et le menu principal */
-}
-
-/* LOGO */
-
-.logo a {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-
-    text-decoration: none;
-
-    color: #1D1D1D;
-
-    font-family: 'Playfair Display', serif;
-    font-size: 20px;
-    font-weight: 600;
-}
-
-.logo img {
-    object-fit: contain;
-}
-
-/* NAVIGATION */
-.nav-main ul,
-.nav-actions ul {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.nav-main ul {
-    gap: 40px; /* Espacement plus large pour la navigation principale */
-}
-
-nav a img {
-    width: 18px;
-    height: 18px;
-}
-
-.nav-main a,
-.nav-actions a {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-
-    text-decoration: none;
-
+    flex-direction: column;
+    min-height: 100vh;
     font-family: 'Inter', sans-serif;
-    font-size: 15px;
-    font-weight: 400;
-
-    color: #1D1D1D;
-
-    transition: 0.2s ease;
+    background-color: #FFFFFF;
+    /*pour éviter de lisser les polices différemment*/
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-.nav-main a:hover,
-.nav-actions a:hover {
-    color: #00A95C;
-}
-
-.nav-main a.accueil {
-    font-weight: 600; /* Gras */
-}
-
-.nav-main ul {
-    display: flex;
-    align-items: center;
-    gap: 24px; /* Espace réduit entre les liens du menu principal */
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-/* ICÔNES */
-
-.nav-actions i {
-    font-size: 14px;
-}
-
-/* ================= HERO ================= */
-
-.hero {
-    background: #F5F3EF;
-    padding: 80px 0 120px;
-}
-
-.hero-content {
-    max-width: 1180px;
-    margin: 0 auto;
-
-    padding: 0 40px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    gap: 120px;
-}
-
-/* TEXTE */
-
-.hero-text {
-    max-width: 420px;
-}
-
-.hero-text h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 72px;
-    line-height: 0.95;
-    font-weight: 400;
-
-    color: #1D1D1D;
-
-    margin-bottom: 40px;
-
-    letter-spacing: -2px;
-}
-
-.hero-text p {
-    font-family: 'Inter', sans-serif;
-    font-size: 18px;
-    line-height: 1.7;
-
-    color: #292929;
-
-    margin-bottom: 40px;
-}
-
-/* IMAGE */
-
-.hero-image {
-    width: 420px;
-    height: 620px;
-
-    flex-shrink: 0;
-}
-
-.hero-image img {
+/* C'est LUI qui doit boucher tous les trous */
+main {
+    flex: 1;
     width: 100%;
-    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--backgroundLight);
+}
 
-    object-fit: cover;
+/* On neutralise les marges automatiques qui créent tes blocs blancs */
+h1,
+h2,
+p,
+ul {
+    margin-top: 0;
+}
 
+
+/* LES LIENS */
+a {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+/* LES IMAGES */
+img {
+    max-width: 100%;
+    height: auto;
     display: block;
 }
 
-/* BOUTON */
+/* ==========================================================================
+   1. GLOBAUX ET BOUTONS
+========================================================================== */
 
-.hero-text .btn-primary {
-    min-width: 170px;
-}
-
-/* ==================== BOUTONS ==================== */
-.btn {
-    display: inline-block;
-    padding: 0.8rem 1.8rem;
-    border-radius: var(--btn-radius);
-    font-family: var(--font-sans);
-    font-weight: 600;
-    font-size: 0.9rem;
+.center-btn {
     text-align: center;
-    transition: 0.3s;
+    width: 100%;
 }
 
-.btn-primary {
-    background: var(--primary-green-dark);
-    color: white;
-}
-
-.btn-primary:hover {
-    opacity: 0.9;
-    transform: translateY(-2px);
-}
-
+/* STYLE GÉNÉRAL DES BOUTONS */
 .btn-outline {
-    background: var(--light-gray);
-    border: 1px solid var(--primary-green);
-    color: var(--primary-green);
+    display: inline-block;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    text-decoration: none;
+    padding: 12px 30px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-align: center;
+}
+
+/* BOUTON PLEIN (Vert) ou cta */
+.btn {
+    width: 152px;
+    height: 63px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    /* Rayon de 10px */
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    /* Semi Bold */
+    line-height: 1;
+    /* 100% */
+    text-align: center;
+    text-decoration: none;
+    /* Haut 39px, Bas 71px pour l'espace de 199px total */
+    margin: 39px 0 71px 0;
+    background-color: #0e7d5f;
+    color: #FFFFFF;
+    border: none;
+    cursor: pointer;
+    /* Lissage Safari */
+    transition: all 300ms ease-out;
+}
+
+.btn:hover {
+    background-color: #00AC66;
+    border-color: #008f53;
+}
+
+/* BOUTON CONTOUR (Blanc/Transparent avec bord vert) */
+.btn-outline {
+    background-color: transparent;
+    color: #0e7d5f;
+    border: 1px solid #0e7d5f;
+}
+
+.book:hover {
+    transform: translateY(-5px);
 }
 
 .btn-outline:hover {
-    background: var(--primary-green);
-    color: var(--white);
-    border-color: var(--primary-green);
+    background-color: var(--green);
+    color: white;
 }
 
-.section-center {
-    text-align: center;
-    margin-top: 3.75rem;
-}
+/* ==========================================================================
+   2. SECTION BANNIÈRE (Tout en haut avec Hamza)
+========================================================================== */
 
-/* ==================== SECTIONS GENERALES ==================== */
-.section {
-    padding: var(--section-padding-y) 0;
-    max-width: var(--container);
-    margin: 0 auto;
-    width: 92%;
-}
-
-.section-white {
-    background-color: var(--white);
-    max-width: 100%;
-    margin: 0;
-    width: 100%;
-}
-
-.section-background {
-    background-color: #f9f7f1;
-    max-width: 100%;
-    margin: 0;
-    width: 100%;
-}
-
-.section-head {
+.banner {
+    background-color: var(--lightGray);
     display: flex;
-    justify-content: center;
     align-items: center;
-    margin-bottom: 3rem;
-    padding: 0 5%;
-}
-
-.section-head.section-head--space {
-    justify-content: space-between;
-}
-
-.section-head h2 {
-    font-family: var(--font-serif);
-    font-size: 2.6rem;
-    font-weight: 400;
-    color: var(--dark-gray);
-    margin: 0;
-    text-align: center;
-    letter-spacing: -0.03em;
-}
-
-.section-subtitle {
-    font-family: var(--font-sans);
-    font-size: 1rem;
-    font-weight: 300;
-    line-height: 1.1875rem;
-    text-align: center;
-    color: var(--dark-gray);
-    max-width: 24.8125rem;
-    margin: 0 auto 4rem;
-}
-
-/* ==================== SECTION LIVRES ==================== */
-.books-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: var(--card-gap);
-    margin: 0 auto;
-    max-width: 1180px;
-}
-
-.book-card {
-    background: var(--white);
-    border-radius: var(--card-radius);
-    overflow: hidden;
-    transition: 0.3s;
-    border: 1px solid #ECEAE4;
-}
-
-.book-card:hover {
-    transform: translateY(-0.375rem);
-}
-
-.book-card img, .book-card-image {
-    height: 220px;
-    width: 100%;
-    object-fit: cover;
-}
-
-.book-card-content {
-    padding: 1rem;
-}
-
-.book-card-title {
-    font-family: var(--font-sans);
-    font-size: 1.15rem;
-    margin-bottom: 0.5rem;
-    color: var(--dark-gray);
-}
-
-.book-card-author {
-    font-family: var(--font-sans);
-    color: var(--text-gray);
-    font-size: 0.9rem;
-    margin-bottom: 0;
-}
-
-/* ==================== COMMENT CA MARCHE ==================== */
-.how-it-works {
-    background-color: transparent;
-}
-
-.how-it-works .section-head {
     justify-content: center;
-    margin-bottom: 1.5rem;
+    padding-top: 80px;
+    padding-bottom: 50px;
+    gap: 105px;
 }
 
-.how-it-works .section-head h2 {
-    font-size: 2.6rem;
-    font-family: var(--font-serif);
-    font-weight: 400;
-    text-align: center;
-    margin: 0 auto 1.5rem;
-    color: var(--dark-gray);
-    letter-spacing: -0.03em;
-}
-
-.how-it-works .section-subtitle {
-    max-width: 24.8125rem;
-    margin: 0 auto 3rem;
-    font-size: 1rem;
-    line-height: 1.5;
-    color: var(--dark-gray);
-    text-align: center;
-    font-weight: 300;
-}
-
-.info-cards {
-    display: flex;
-    gap: 1.5rem;
-    justify-content: center;
-    max-width: var(--container);
-    margin: 0 auto;
-    width: 100%;
-}
-
-.info-card {
-    flex: 0 0 calc(25% - 1.5rem);
-    background: var(--white);
-    border-radius: var(--card-radius);
-    padding: 1.5rem 1rem;
-    text-align: center;
-    min-height: 9rem;
+.banner-content {
+    width: 335px;
+    max-width: 335px;
+    /*largeur bloc texte*/
+    margin-left: 10px;
+    margin-top: 30px;
     display: flex;
     flex-direction: column;
+}
+
+.banner-image {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.banner-image .image {
+    width: 100%;
+    max-width: 404px;
+}
+
+.name {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 12px;
+    color: #0f0c0c;
+    display: block;
+    /*pour etre sure que la marge s'applique bien */
+    margin-top: 12px;
+    margin-bottom: 50px;
+}
+
+.title {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 400;
+    line-height: 1.2;
+    color: #000000;
+    margin-bottom: 16px;
+}
+
+.text {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    max-width: 328px;
+    margin-bottom: 40px;
+}
+
+
+/* ==========================================================================
+   3. SECTION LIVRES (Les derniers livres ajoutés)
+========================================================================== */
+
+.books {
+    background-color: #FAF9F7;
+    padding: 80px 0;
+}
+
+.books .section-title {
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 400;
+    margin-bottom: 80px;
+}
+
+.books-list {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 38px;
+    margin-bottom: 48px;
+}
+
+.book {
+    width: 200px;
+    height: 324px;
+    display: flex;
+    flex-direction: column;
+}
+
+.book-cover {
+    width: 200px;
+    height: 200px;
+}
+
+.book-cover .image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.book-details {
+    width: 200px;
+    height: 124px;
+    display: flex;
+    flex-direction: column;
+    background-color: #FFFFFF;
+    padding-left: 14px;
+    padding-top: 20px;
+}
+
+.book-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #000000;
+    margin: 0 0 8px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 8px;
+}
+
+.book-author {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #0f0c0c;
+    margin: 0 0 22px 0;
+    margin-bottom: 22px;
+}
+
+.book-seller {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-style: italic;
+    color: var(--textGray);
+    margin: 0;
+    margin-bottom: 0px;
+}
+
+
+/* ==========================================================================
+   4. SECTION ÉTAPES (Comment ça marche ?)
+========================================================================== */
+
+.steps {
+    background-color: var(--lightGray);
+    padding: 80px 0;
+    text-align: center;
+}
+
+.steps .section-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 1;
+    color: var(--darkGray);
+    margin-bottom: 24px;
+}
+
+.steps .subtitle {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1;
+    color: var(--darkGray);
+    margin-bottom: 40px;
+}
+
+.steps-list {
+    display: flex;
+    justify-content: center;
+    gap: 36px;
+    margin-bottom: 48px;
+}
+
+.step {
+    background-color: #FFFFFF;
+    width: 215px;
+    height: 139px;
+    box-sizing: border-box;
+    padding: 44px 18px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1;
+    color: var(--darkGray);
+    display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--dark-gray);
-    font-size: 0.9rem;
-    font-family: var(--font-sans);
-    font-weight: 400;
-    border: 1px solid #ECEAE4;
+    text-align: center;
+    border-radius: 4px;
 }
 
-.info-card h3 {
-    font-family: var(--font-serif);
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: var(--dark-gray);
-    text-align: center;
-    margin: 0 0 1rem;
+
+/* ==========================================================================
+   5. SECTION VALEURS (La grande image et la signature)
+========================================================================== */
+
+.values {
+    background-color: var(--lightGray);
+    padding-bottom: 20px;
+}
+
+.values-banner {
     width: 100%;
 }
 
-.info-card p {
-    font-family: var(--font-sans);
-    font-size: 0.9rem;
-    color: var(--dark-gray);
-    line-height: 1.4;
-    text-align: center;
-    margin: 0.5rem 0 0;
-    font-weight: 400;
-}
-
-.how-it-works .section-center .btn-outline {
+.values-banner img {
+    width: 100%;
+    height: auto;
     display: block;
-    width: fit-content;
-    margin: 2.5rem auto 0;
-    padding: 0.8rem 1.8rem;
-    border: 1px solid var(--primary-green);
-    color: var(--primary-green);
-    background: transparent;
-    border-radius: var(--btn-radius);
-    font-weight: 600;
-    transition: all 0.3s ease;
-    font-size: 0.9rem;
-}
-
-.how-it-works .section-center .btn-outline:hover {
-    background: var(--primary-green);
-    color: var(--white);
-}
-
-/* ==================== SECTION IMAGE BANNIERE ==================== */
-.feature-image-section {
-    padding: 0;
-    margin: 3rem 0;
-    width: 100%;
-}
-
-.feature-image {
-    height: 14rem;
-    overflow: hidden;
-    width: 100%;
-    border-radius: var(--radius-md);
-}
-
-.feature-image img {
-    height: 100%;
-    width: 100%;
     object-fit: cover;
-    border-radius: var(--radius-md);
-}
-
-/* ==================== SECTION VALEURS ==================== */
-.values .section-head h2 {
-    font-size: 2.8rem;
-    font-family: var(--font-serif);
-    font-weight: 400;
-    margin-bottom: 2.5rem;
-    text-align: center;
-    color: var(--dark-gray);
-    letter-spacing: -0.03em;
 }
 
 .values-content {
-    max-width: 43.75rem;
-    margin: 0 auto;
-    text-align: left;
-    padding: 0 1rem;
+    width: 100%;
+    max-width: 392px;
+    margin: 80px auto 60px auto;
+    position: relative;
+    min-height: 412px;
+}
+
+.values-content .title-left {
+    font-family: 'Playfair Display', serif;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 1;
+    color: var(--darkGray);
+    margin-bottom: 29px;
 }
 
 .values-content p {
-    margin-bottom: 1.5rem;
-    color: var(--text-gray);
-    font-size: 1rem;
-    font-family: var(--font-sans);
+    font-family: 'Inter', sans-serif;
     font-weight: 300;
-    line-height: 1.8;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--darkGray);
 }
 
-.signature {
-    margin-top: 2.5rem;
-    color: var(--text-gray);
-    font-style: italic;
-    font-size: 0.875rem;
-    text-align: center;
-}
-
-/* ==================== FOOTER ==================== */
-footer {
-    padding: 2.5rem 0;
-    border-top: 1px solid var(--border-light);
-    background: var(--white);
-    font-size: 0.8rem;
-}
-
-.footer-content {
+.signature-box {
+    margin-top: 39px;
+    position: relative;
     display: flex;
-    justify-content: center;
-    gap: 2rem;
-    color: var(--text-gray);
-    max-width: var(--container);
-    margin: 0 auto;
-    padding: 0 5%;
-    width: 92%;
-    flex-wrap: wrap;
+    align-items: flex-end;
 }
 
-.footer-content a {
-    color: var(--text-gray);
-    opacity: 0.85;
-    transition: opacity 0.2s ease;
+.team-name {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 12px;
+    color: #0f0c0c;
 }
 
-.footer-content a:hover {
-    opacity: 1;
+.heart {
+    position: absolute;
+    width: 120px;
+    height: 102px;
+    top: -14px;
+    left: 320px;
 }
 
-/* ==================== FORMULAIRES ==================== */
-input, textarea, select {
-    width: 100%;
-    padding: 0.75rem;
-    margin-bottom: 1rem;
-    border: 1px solid #ddd;
-    border-radius: var(--radius-sm);
-    font-family: var(--font-sans);
-    font-size: 1rem;
+/* ==========================================================================
+   6. PAGE INSCRIPTION +  7. PAGE CONNEXION
+========================================================================== */
+
+.auth {
+    display: flex;
+    width: auto;
+    min-height: calc(100vh - 141px);
+    object-fit: cover;
 }
 
-input:focus, textarea:focus, select:focus {
-    outline: none;
-    border-color: var(--primary-green);
-    box-shadow: none;
-}
-
-label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-    color: var(--dark-gray);
-    font-family: var(--font-sans);
-}
-
-form {
-    max-width: 500px;
-    margin: 3rem auto;
-}
-
-/* ==================== MESSAGES D'ERREUR ==================== */
-.error, .success {
-    padding: 0.75rem;
-    border-radius: var(--radius-sm);
-    margin-bottom: 1rem;
-    border: 1px solid;
-    font-size: 0.875rem;
-}
-
-.error {
-    color: #dc3545;
-    background-color: #f8d7da;
-    border-color: #f5c6cb;
-}
-
-.success {
-    color: #155724;
-    background-color: #d4edda;
-    border-color: #c3e6cb;
-}
-
-/* ==================== CARTES PROFIL/DETALLS ==================== */
-.form-card, .card-panel, .profile-card, .detail-card {
-    background-color: var(--white);
-    border-radius: var(--card-radius);
-    border: 1px solid #ECEAE4;
-    padding: 2rem;
-    margin-top: 1.5rem;
-}
-
-.form-card h2, .card-panel h2, .profile-card h2, .detail-card h2 {
-    margin-bottom: 1.5rem;
-    font-family: var(--font-serif);
-    font-size: 2rem;
-    font-weight: 500;
-    color: var(--dark-gray);
-}
-
-.form-group {
-    margin-bottom: 1.5rem;
-}
-
-.form-group label {
-    font-size: 0.95rem;
-    margin-bottom: 0.5rem;
-}
-
-.form-group input,
-.form-group textarea,
-.form-group select {
-    width: 100%;
-    padding: 1rem 1.1rem;
-    margin-bottom: 0;
-    border: 1px solid #e5e5e5;
-    border-radius: var(--radius-md);
-    font-size: 0.95rem;
-}
-
-.profile-summary {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 2rem;
-    align-items: start;
-}
-
-.profile-details {
-    display: grid;
-    gap: 1.5rem;
-}
-
-.profile-actions {
+.auth-left {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    /* On garde marges Figma : Haut 130, Gauche 150 */
+    padding: 80px 50px 0px 180px;
+    background-color: #FAF9F7;
+    overflow-y: auto;
 }
 
-.book-detail-grid {
-    display: grid;
-    grid-template-columns: 1fr 1.4fr;
-    gap: 3rem;
-    align-items: start;
-    max-width: var(--container);
-    margin: 0 auto;
-    width: 92%;
+.auth-img {
+    width: 50%;
+    height: 100%;
 }
 
-.book-detail-image img,
-.book-detail-image .book-card-image {
+/* --- CHAMPS ET BOUTON --- */
+.sign-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 400;
+    line-height: 48px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    margin-top: 32px;
+}
+
+.field label {
+    color: #554f4f;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.field input {
+    background-color: #FFFFFF;
+    border-radius: 6px;
+    border: 1px solid var(--white);
+    height: 50px;
+    padding: 16px 14px;
+    width: 322px;
+    outline: none;
+}
+
+.sign-submit-btn {
+    width: 322px;
+    height: 63px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 30px;
+    background-color: #036e43;
+    color: #FFFFFF;
+    border: none;
+}
+
+/* Texte "Déjà inscrit" avec l'écart de 40px */
+.sign-ask {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    color: var(--darkGray);
+    margin-top: 40px;
+}
+
+.sign-submit-btn:hover {
+    background-color: #008f53;
+    /* Un vert un peu plus foncé, comme tes autres boutons */
+    transition: all 0.3s ease;
+    /* Rend l'animation douce */
+}
+
+.sign-ask a {
+    color: var(--darkGray);
+    text-decoration: underline;
+}
+
+.sign-ask a:hover {
+    color: var(--textGray);
+    text-decoration: none;
+}
+
+/* ==========================================================================
+   8. PAGE NOS LIVRES A L'ECHANGE
+========================================================================== */
+
+/* Fond de la page */
+.books-page {
+    background-color: #FAF9F7;
+    padding-top: 130px;
+    /* Distance avec le Header  */
+    padding-bottom: 80px;
+    /*distance derniere ligne avec le footer*/
     width: 100%;
-    border-radius: var(--card-radius);
-    min-height: 26.25rem;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+.container {
+    max-width: 1440px;
+    margin: 0 auto;
+    /* Centre le bloc au milieu de l'écran */
+    padding: 0 150px;
+}
+
+/* Titre et Recherche sur la même ligne */
+.books-header {
+    display: flex;
+    align-items: center;
+    /*alignement horizental*/
+    margin-bottom: 80px;
+    gap: 249px;
+}
+
+.page-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 400;
+    white-space: nowrap;
+    /*pour que ça ne fasse qu'une ligne*/
+    margin: 0;
+    /*enlève la marge qui pousse le texte */
+}
+
+.search-bar {
+    position: relative;
+    width: 322px;
+    height: 50px;
+    background: #FFFFFF;
+    border: 1px solid #F0F0F0;
+    border-radius: 6px;
+}
+
+/* On force le container interne à prendre toute la place sans décaler */
+.search-section {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.search-section img {
+    position: absolute;
+    left: 12px;
+    top: 16px;
+    width: 15.85px;
+    height: 15.15px;
+}
+
+/* L'input : prend tout le cadre, texte poussé après la loupe */
+.search-section input {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 6px;
+    padding-top: 16px;
+    padding-left: 40px;
+    /* 12px (marge) + 16px (loupe) + 12px (espace) = 40px */
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: #000000;
+    outline: none;
+    background: transparent;
+}
+
+/* : AUCUNE place visuelle */
+.visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+.search-bar input::placeholder {
+    color: var(--textGray);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+
+/* Grille de livres (Gap 38px) */
+.books-grid {
+    display: grid;
+    /*crée un tableau invisible qui range les livres dans une case */
+    grid-template-columns: repeat(4, 200px);
+    /*formule pour focer passage de 3 à 4 colonnes de 200px  sur Chrome*/
+    column-gap: 38px;
+    /*espace horizntal entre les livres*/
+    row-gap: 48px;
+    /* espace vertical entre les livres */
+    justify-content: center;
+    /* Centre la grille dans la page */
+    margin-top: 72px;
+}
+
+/* Carte de livre (200x324px) */
+.book-card {
+    width: 200px;
+    height: 324px;
+    background: #FFFFFF;
+}
+
+.book-card:hover {
+    transform: translateY(-5px);
+    /*le livre monte de 5 pixels*/
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+    /*Ombre légère apparait */
+}
+
+.book-image {
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+    /*boite de l image est notre ref*/
+}
+
+.book-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.badge-non-disponible {
+    position: absolute;
+    top: 16px;
+    right: 11.87px;
+    background-color: #c90707;
+    color: #FFFFFF;
+    font-family: 'Inter', sans-serif;
+    font-size: 8.88px;
+    font-weight: 500;
+    padding: 3.7px 13.31px;
+    /*espace autour du texte*/
+    border-radius: 29.58px;
+}
+
+.book-info {
+    width: 200px;
+    height: 124px;
+    display: flex;
+    flex-direction: column;
+    background-color: #FFFFFF;
+    padding-left: 14px;
+    padding-top: 20px;
+}
+
+.book-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #000000;
+    margin: 0 0 8px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 8px;
+}
+
+.book-author {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #0f0c0c;
+    margin: 0 0 22px 0;
+    margin-bottom: 22px;
+}
+
+.book-seller {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-style: italic;
+    color: #0f0c0c;
+    margin: 0;
+    margin-bottom: 0px;
+}
+
+.no-results {
+    grid-column: 1 / -1;
+    /* Force le message à prendre toute la largeur de la grille */
+    text-align: center;
+    padding: 50px 0;
+    font-family: 'Inter', sans-serif;
+}
+
+.no-results p {
+    font-size: 18px;
+    color: var(--textGray);
+    margin-bottom: 20px;
+}
+
+.btn-back {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: var(--green);
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+}
+
+/* ==========================================================================
+   9. PAGE DETAILS D'UN LIVRE
+========================================================================== */
+
+/* --- Mise en page globale --- */
+.book-page-wrapper {
+    background-color: var(--backgroundLight) !important;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 80px;
+    padding: 0;
+}
+
+.book-page-wrapper .container {
+    padding-top: 16px;
+    background-color: transparent !important;
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* LA DIVISION 50/50 */
+.book-content-container {
+    display: flex;
+    /* Met les blocs côte à côte */
+    width: 100%;
+    align-items: flex-start;
+}
+
+/* --- BLOC GAUCHE  --- */
+.book-cover-section {
+    flex: 0 0 50%;
+    /* Ne bouge pas de 720px */
+    overflow: hidden;
+}
+
+.book-image-detail {
+    width: 100%;
+    height: auto;
+    max-height: 80vh;
     object-fit: cover;
     display: block;
-    background-color: #f5f3ef;
 }
 
-.book-detail-meta {
-    display: grid;
-    gap: 1.5rem;
+/* --- BLOC DROITE (Prend le reste de la place) --- */
+.book-info-section {
+    flex: 0 0 50%;
+    /* Remplit tout le côté droit */
+    padding-left: 85px;
+    background-color: transparent !important;
 }
 
-.book-detail-meta p {
-    margin: 0;
+.chemin-navigation {
+    padding-left: 150px;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    font-family: 'Inter', sans-serif;
     font-weight: 300;
+    margin-bottom: 16px;
+    font-size: 10px;
+    color: #1f1e1e;
 }
 
-.book-status {
-    display: inline-flex;
+.chemin-navigation a {
+    color: #1f1e1e;
+    text-decoration: none;
+}
+
+.chemin-navigation .separator {
+    color: #1f1e1e;
+    margin: 0 10px;
+}
+
+/* --- Typographie et Détails --- */
+.book-main-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 400;
+    margin-top: 59px;
+    margin-bottom: 16px;
+    color: #000000;
+}
+
+.book-main-author {
+    font-family: 'Inter', sans-serif;
+    color: #1f1e1e;
+    font-weight: 400;
+    font-size: 16px;
+    margin-bottom: 32.5px;
+}
+
+.detail-line-separator {
+    width: 27px;
+    height: 1px;
+    display: block;
+    margin-bottom: 32.5px;
+}
+
+.section-main-title,
+.section-owner {
+    font-family: 'Inter', sans-serif;
+    font-size: 8px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.book-main-description {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: var(--darkGray);
+    font-weight: 400;
+    max-width: 485px;
+    margin-bottom: 32px;
+}
+
+/* --- Bloc Propriétaire --- */
+.owner-card {
+    display: flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 0.85rem;
-    border-radius: 999px;
-    background-color: rgba(0, 172, 102, 0.08);
-    color: var(--primary-green-dark);
-    width: fit-content;
-    font-size: 0.95rem;
+    gap: 12px;
+    width: 157px;
+    margin-bottom: 80px;
+    border-radius: 114px;
+    background-color: #FFFFFF;
+}
+
+.avatar-wrapper {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.owner-avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.owner-name-container a {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    text-decoration: none;
+    color: var(--darkGray);
+}
+
+.owner-name-container a:hover {
+    text-decoration: underline;
+}
+
+/* --- Bouton Envoyer un message --- */
+.btn-send-message {
+    width: 485px;
+    height: 63px;
+    background-color: #036e43;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    margin-top: 80px;
+    border: none;
+    text-decoration: none;
+    border-radius: 10px;
     font-weight: 600;
 }
 
-.message-empty {
-    padding: 3rem;
-    text-align: center;
-    color: var(--text-gray);
-    background: var(--white);
-    border-radius: var(--card-radius);
+.btn-send-message:hover {
+    background-color: #008f53;
+    color: #FFFFFF;
 }
 
-/* ==================== MESSAGERIE ==================== */
-.messaging-container {
+/* ==========================================================================
+   10. PAGE PROFIL PUBLIC 
+========================================================================== */
+
+/* --- Mise en page globale --- */
+.profile-page-wrapper {
+    background-color: #F0F0F0;
+    padding-top: 103px;
+    padding-bottom: 214px;
+    min-height: 100vh;
+}
+
+.container-profile-main-flex {
     display: flex;
-    height: calc(100vh - 5rem);
-    background-color: var(--white);
-    max-width: 100%;
+    justify-content: flex-start;
+    /*aligne au debaut (gauche)*/
+    align-items: flex-start;
+    gap: 28px;
+    /* Espace entre les deux blocs */
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    /*centre la zone sur les grands écrans */
+    padding-left: 150px;
+    box-sizing: border-box;
 }
 
-.conversations-list {
-    width: 18.75rem;
-    background-color: var(--white);
-    border-right: 1px solid #e0e0e0;
-    overflow-y: auto;
-    padding: 2rem;
+/* --- BLOC GAUCHE (Carte Blanche) --- */
+.profile-sidebar {
+    flex: 0 0 341px;
+    /* Largeur fixe Figma */
+    width: 341px;
+    height: 579px;
+    background-color: #FFFFFF;
+    border-radius: 20px;
+    /* Arrondi de 20px */
+    box-sizing: border-box;
+    padding: 0;
 }
 
-.conversations-list h2 {
-    font-size: 1.5rem;
+.profile-card {
+    background-color: transparent;
+    /*pour eviter les doucles fonds blancs*/
+    padding: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-avatar {
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 70px;
+    width: 135px;
+    height: 135px;
+    margin: 48px auto 0 auto;
+}
+
+.profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-separator-img {
+    margin-top: 70px;
+    margin-bottom: 48px;
+    display: block;
+    /*pour que les marges fonctionnent bien*/
+    margin-left: auto;
+    /*pour la centrer horizentalement */
+    margin-right: auto;
+}
+
+.profile-name {
+    font-family: 'Playfair Display', serif;
+    font-weight: 400;
+    font-size: 24px;
+    color: #292929;
+    margin-bottom: 11px;
+}
+
+.profile-member-since {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    color: #2c2a2a;
+    margin-bottom: 21px;
+}
+
+.profile-library-info {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 8px;
+    color: #292929;
+    margin-bottom: 6px;
+}
+
+.livre-library {
+    width: 10.41px;
+    height: 13.71px;
+    display: block;
+    /*evite les espaces sous l'image*/
+
+}
+
+.library-count {
+    color: #292929;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: normal;
+    /*force le texte a ne pas prendre de place inutile en bas*/
+    display: flex;
+    align-items: center;
+}
+
+.library-count-box {
+    gap: 5.59px;
+    margin-top: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-write-message {
+    width: 215px;
+    height: 63px;
+    background-color: #F5F3EF;
+    color: #0e7d5f;
+    border: 1px solid #0e7d5f;
+    /* bordure verte*/
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 45px;
+}
+
+/* --- BLOC DROITE (Tableau) --- */
+.profile-content {
+    flex: 0 0 771px;
+    width: 771px;
+}
+
+.table-round-container {
+    border-radius: 20px;
+    background-color: #FFFFFF;
+    overflow: hidden;
+    width: 100%;
+}
+
+.books-table {
+    width: 100%;
+    border-collapse: collapse;
+    /* harmonise les briques de lignes*/
+}
+
+/* --- EN-TÊTE --- */
+.books-table th {
+    background-color: #FFFFFF;
+    font-family: 'Inter', sans-serif;
+    font-size: 8px;
+    font-weight: 600;
+    color: #292929;
+    padding: 33.24px 20px 33.24px 31px;
     text-align: left;
-    margin-bottom: 1.5rem;
-    margin-top: 0;
+    border-bottom: 1px solid #F5F3EF;
+}
+
+/* --- CELLULES --- */
+.books-table td {
+    padding: 20px 20px 20px 31px;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    color: #292929;
+    vertical-align: middle;
+}
+
+/* --- ALTERNANCE DES COULEURS --- */
+.books-table tbody tr:nth-child(even) {
+    background-color: #EDF2F6;
+}
+
+.books-table tbody tr:nth-child(odd) {
+    background-color: #FFFFFF;
+}
+
+/* --- L'IMAGE --- */
+.book-img-wrapper {
+    width: 78px;
+    height: 78px;
+    overflow: hidden;
+}
+
+.book-cover-img-wrapper {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* --- STYLES DE TEXTE SPÉCIFIQUES --- */
+.books-table td.col-desc {
+    font-style: italic;
+    line-height: 1.5;
+    max-width: 200px;
+    /* Évite que le texte ne prenne trop de place */
+}
+
+
+/* ==========================================================================
+   11. PAGE MODIFIER UN LIVRE  + PAGE ajOUTER UN LIVRE
+========================================================================== */
+
+.edit-book-page-wrapper {
+    background-color: #FAF9F7;
+    padding-bottom: 92px;
+    /*L'espace exact de 92px avant le footer */
+}
+
+/* Le conteneur qui aligne tout à 150px du bord gauche */
+.edit-book-container {
+    padding-left: 150px;
+}
+
+/* --- Navigation Retour --- */
+.edit-back-navigation {
+    margin-bottom: 23px;
+    margin-top: 40px;
+}
+
+.edit-btn-back {
+    align-items: center;
+    /* Aligne parfaitement au milieu */
+    display: flex;
+    gap: 4px;
+    color: #6f6b6b;
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.edit-back-icon {
+    width: 8px;
+    height: auto;
+    /* Ajustement de line4.png */
+    display: block;
+}
+
+/* --- Titre --- */
+.edit-main-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 400;
+    font-size: 26px;
+    color: #000000;
+    margin-bottom: 23px;
+}
+
+/* --- Carte Blanche Principale --- */
+.edit-card-white {
+    background-color: #FFFFFF;
+    max-width: 1141px;
+    width: 100%;
+    border-radius: 20px;
+    padding: 56px 50px;
+    box-sizing: border-box;
+    margin-top: 23px;
+    overflow: hidden;
+}
+
+.edit-columns-flex {
+    display: flex;
+    gap: 118px;
+    /* Espace entre la colonne photo et la colonne texte */
+}
+
+/* --- Colonne GAUCHE (Photo) --- */
+.edit-col-left-photo {
+    width: 488px;
+    display: flex;
+    flex-direction: column;
+    /*Empile proprement le label, l'image et le bouton */
+}
+
+.edit-label-light {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: #201f1f;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.edit-image-frame {
+    width: 488px;
+    height: 488px;
+    overflow: hidden;
+    margin-bottom: 10px;
+    /* Espace avec le bouton "modifier" */
+}
+
+.edit-image-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.edit-link-modify-photo {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: #292929;
+    text-decoration: underline;
+    cursor: pointer;
+    text-align: right;
+    display: block;
+}
+
+.hidden-input {
+    display: none;
+}
+
+/* --- Colonne DROITE (Champs) --- */
+.edit-col-right-inputs {
+    width: 435px;
+}
+
+.edit-form-group {
+    margin-bottom: 32px;
+}
+
+/* Style des entrées  */
+/* Style des champs (Inputs et Select) */
+.edit-form-group input,
+.edit-form-group select {
+    width: 100%;
+    height: 50px;
+    /* réduction de 77px  à 50px pour un input standard*/
+    background-color: #EDF2F6;
+    border: 1px solid #FFFFFF;
+    border-radius: 6px;
+    padding: 16px 14px 17px 14px;
+    /* L'ordre du padding : Haut(16px) Droite(auto) Bas(17px) Gauche(14px) */
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #292929;
+    box-sizing: border-box;
+}
+
+/* Le champ commentaire doit être plus grand */
+.edit-form-group textarea {
+    width: 100%;
+    height: 356px;
+    /* La hauteur demandée par ton Figma */
+    background-color: #EDF2F6;
+    border: 1px solid #F0F0F0;
+    border-radius: 6px;
+    padding: 16px 12px 34px 14px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #292929;
+    box-sizing: border-box;
+    resize: none;
+    /*indéformable, Empêche l'utilisateur de déformer la boîte*/
+}
+
+/* --- Bouton Valider --- */
+.edit-btn-validate {
+    width: 322px;
+    height: 63px;
+    background-color: #07643f;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 12px;
+    cursor: pointer;
+}
+
+.edit-btn-validate:hover {
+    background-color: #90dbbb;
+}
+
+
+/* ==========================================================================
+   12. PAGE MON COMPTE (PROFIL)
+========================================================================== */
+
+/* --- Conteneurs principaux --- */
+.my-account-wrapper {
+    min-height: 1200px;
+    background-color: #FAF9F7;
+    padding-top: 90px;
+}
+
+.profile-container {
+    max-width: 1440px;
+    padding-left: 150px;
+}
+
+/* --- En-tête --- */
+.profile-header-flex {
+    display: flex;
+    justify-content: space-between;
+    /* Pousse le titre à gauche et le bouton à droite */
+    align-items: center;
+    max-width: 1141px;
+    margin-bottom: 48px;
+}
+
+.profile-main-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 400;
+    font-size: 26px;
+    color: #000000;
+}
+
+
+.btn-add-book {
+    background-color: #FFFFFF;
+    color: #036e43;
+    border: 1px solid #036e43;
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 12px 24px;
+    border-radius: 10px;
+}
+
+
+/* --- Haut : Flexbox Avatar / Formulaire --- */
+.profile-columns-flex {
+    display: flex;
+    gap: 33px;
+    margin-bottom: 32px;
+}
+
+/* --- Colonne Gauche (Avatar et Stats) --- */
+.profile-col-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Centre tout horizontalement */
+    width: 547px;
+    height: 508px;
+    background-color: #FFFFFF;
+    border-radius: 20px;
+
+}
+
+.profile-avatar-frame {
+    width: 135px;
+    height: 135px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-top: 48px;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 20px;
+}
+
+.profile-avatar-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.edit-avatar-link {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: #201f1f;
+    text-decoration: underline;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.profile-separator-line {
+    margin-top: 48px;
+    margin-bottom: 48px;
+}
+
+
+.profile-pseudo {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 400;
+    color: #292929;
+    margin: 0 18px 11px 18px;
+}
+
+.profile-member-date {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #201f1f;
+    margin: 11px 0 21px 0;
+}
+
+.library-label {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 8px;
+    color: #292929;
+    display: block;
+    margin-bottom: 6px;
+    text-align: center;
+}
+
+.library-count-flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5.59px;
+}
+
+.icon-book {
+    width: 10.41px;
+    height: auto;
+}
+
+.library-count-text {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    color: #292929;
+}
+
+/* --- Colonne Droite */
+.profile-col-right {
+    width: 555px;
+    height: 508px;
+    background-color: #FFFFFF;
+    padding-left: 117px;
+    border-radius: 20px;
+}
+
+.form-section-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #292929;
+    margin-top: 36px;
+    margin-bottom: 26px;
+}
+
+.edit-forms {
+    width: 322px;
+    max-height: 77px;
+    margin-bottom: 32px;
+}
+
+.edit-label-blue {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: #201f1f !important;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.edit-forms input {
+    width: 100%;
+    height: 50px;
+    background-color: #EDF2F6;
+    border: 1px solid #F0F0F0;
+    border-radius: 6px;
+    padding: 16px 14px 17px 14px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: #292929;
+    font-weight: 400;
+    box-sizing: border-box;
+}
+
+.btn-save-outline {
+    width: 150px;
+    height: 63px;
+    background-color: #F5F3EF;
+    color: #036e43;
+    border: 1px solid #036e43;
+    border-radius: 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-save-outline:hover {
+    background-color: #FFFFFF;
+}
+
+/* --- Tableau des livres (Tes nouvelles classes) --- */
+.profile-table-wrapper {
+    width: 1141px;
+    border-radius: 20px;
+    overflow: hidden;
+    background-color: #FFFFFF;
+    margin-bottom: 104px;
+    padding: 0;
+}
+
+.my-books-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.my-books-table th {
+    background-color: #FFFFFF;
+    font-family: 'Inter', sans-serif;
+    font-size: 8px;
+    font-weight: 600;
+    color: #292929;
+    padding: 33.24px 20px;
+    text-align: left;
+    border-bottom: 1px solid #F5F3EF;
+}
+
+.my-books-table td {
+    padding: 20px;
+}
+
+.my-books-table th:first-child,
+.my-books-table td:first-child {
+    padding-left: 66px;
+}
+
+.my-books-table tbody tr:nth-child(even) {
+    background-color: #EDF2F6;
+    /* une ligne sur deux */
+}
+
+.table-img-frame {
+    width: 78px;
+    height: 78px;
+    overflow: hidden;
+}
+
+.table-img-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.table-text-bold {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: #292929;
+}
+
+.table-text-light {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: #292929;
+}
+
+.table-text-desc {
+    font-size: 12px;
+    max-width: 128px;
+    max-height: 62px;
+    vertical-align: middle;
+}
+
+.text-truncate-wrapper {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-style: italic;
+    color: #292929;
+    /*Couper le texte trop long*/
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    /*affiche max 4 lignes*/
+    line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /*aoute les ... automatiquement */
+}
+
+/* --- Badges Disponibilité --- */
+.badge-disponible {
+    background-color: #6DC5A1;
+    color: #FFFFFF;
+    padding: 3.7px 13.31px;
+    border-radius: 29.58px;
+    font-size: 8.88px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    width: 70.62px;
+    height: 18.4px;
+}
+
+.badge-not-avalaible {
+    background-color: #C56D6D;
+    color: #FFFFFF;
+    padding: 3.7px 13.31px;
+    border-radius: 29.58px;
+    font-size: 8.88px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    width: 71.63px;
+    height: 18.4px;
+}
+
+/* --- Liens Action --- */
+.table-actions a {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    text-decoration: underline;
+    margin-right: 15px;
+}
+
+.action-edit {
+    color: #292929;
+}
+
+.action-delete {
+    color: #C56D6D;
+}
+
+/* --- Zone Danger --- */
+.delete-account-zone {
+    max-width: 1141px;
+    display: flex;
+    justify-content: flex-end;
+    /* Aligne tout à droite */
+}
+
+
+.btn-delete-account {
+    background-color: transparent;
+    border: 1px solid #d30e0e;
+    border-radius: 10px;
+    color: #C56D6D;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    padding: 12px 24px;
+    padding-top: 20px;
+}
+
+
+/* ==========================================================================
+   13. PAGE MESSAGERIE 
+========================================================================== */
+
+/* --- Structure globale --- */
+.messagerie-page-wrapper {
+    background-color: #F5F3EF;
+    min-height: calc(100vh - 141px);
+    /* Ajustement selon la taille dU header/footer */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding-left: 160px;
+    /* Alignement logo */
+    padding-right: 120px;
+}
+
+.messagerie-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+/* --- Barre latérale (Gauche) --- */
+.messagerie-sidebar {
+    width: 308px;
+    background-color: #FAF9F7;
+}
+
+.messagerie-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 400;
+    color: #000000;
+    margin-bottom: 27px;
+    margin-top: 55px;
+    margin-left: 34px;
+}
+
+.conversation-list {
+    display: flex;
+    flex-direction: column;
+    width: 308px;
+    max-height: 84px;
 }
 
 .conversation-item {
     display: flex;
-    gap: 1.5rem;
-    padding: 1.5rem;
-    border-radius: var(--radius-md);
-    transition: background-color 0.3s ease;
-    margin-bottom: 1rem;
-    align-items: flex-start;
-    border: 1px solid #ECEAE4;
-}
-
-.conversation-item:hover {
-    background-color: var(--light-gray);
+    align-items: center;
+    padding: 27px 0 0 0;
+    margin-bottom: 5px;
 }
 
 .conversation-item.active {
-    background-color: var(--light-gray);
-    border-left: 4px solid var(--primary-green);
+    background-color: #FFFFFF;
 }
 
-.conversation-avatar {
-    width: 3.125rem;
-    height: 3.125rem;
+.conv-avatar {
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     overflow: hidden;
-    flex-shrink: 0;
+    margin: 18px 12px 18px 34px;
 }
 
-.conversation-avatar img {
+.conv-avatar img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.conversation-info {
-    flex: 1;
-    min-width: 0;
+.conv-header {
+    display: flex;
+    justify-content: space-between;
+    /*pousse l heure à droite */
+    align-items: center;
+    width: 100%;
+    margin-bottom: 7px;
 }
 
-.conversation-info h4 {
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: var(--dark-gray);
-    margin-bottom: 0.25rem;
+.conv-pseudo {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #292929;
 }
 
-.conversation-preview {
-    font-size: 0.85rem;
-    color: var(--text-gray);
-    overflow: hidden;
-    text-overflow: ellipsis;
+.unread-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #00AC66;
+    /* Le vert de ton bouton */
+    border-radius: 50%;
+    display: inline-block;
+    margin-left: 5px;
+    vertical-align: middle;
+}
+
+.conv-time {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    color: #343333;
+}
+
+.conv-preview {
+    width: 172px;
+    max-height: 18px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    color: #343333;
     white-space: nowrap;
-    margin: 0;
+    /*force une seule ligne */
+    overflow: hidden;
+    /*cache tout se qui dépasse*/
+    text-overflow: ellipsis;
+    /*ajoute les "..." */
 }
 
-.conversation-time {
-    font-size: 0.75rem;
-    color: var(--text-gray);
-    flex-shrink: 0;
-}
-
-.conversation-main {
+/* --- Zone de Chat (Droite) --- */
+.messagerie-main {
     flex: 1;
     display: flex;
     flex-direction: column;
+    padding: 35px 44px;
+    /* Padding top et44px; left selon Figma */
+
+}
+
+.chat-header {
+    display: flex;
+    /*boite invisible*/
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 40px;
+}
+
+.chat-header-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
     overflow: hidden;
 }
 
-.conversation-header {
-    padding: 2rem;
-    border-bottom: 1px solid #e0e0e0;
-    background-color: var(--white);
+.chat-header-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
-.conversation-header h2 {
-    margin: 0;
-    font-size: 1.5rem;
-    text-align: left;
+.chat-header-pseudo {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    font-weight: 600;
+    max-width: 78px;
+    max-height: 17px;
 }
 
-.messages {
+/* --- Messages --- */
+.chat-messages-area {
     flex: 1;
+    /*Prend tout l'espace disponible entre le header et l'input */
     overflow-y: auto;
-    padding: 2rem;
+    /* Active le scroll vertical si besoin */
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
-    background-color: var(--light-gray);
+    padding-bottom: 20px;
+    margin-bottom: 0;
 }
 
-.message {
+.empty-msg {
+    padding: 10px;
+    color: #554f4f;
+    font-size: 14px;
+    font-weight: 400;
+    font-family: 'Inter', sans-serif;
+}
+
+/*dites bonjour (facultatif) */
+.mess-int {
+    color: #554f4f;
+    font-size: 14px;
+    font-weight: 400;
+    font-family: 'Inter', sans-serif;
+}
+
+.message-row {
+    display: flex;
+    gap: 6px;
+    /*distance entre avatar et date */
+}
+
+.msg-avatar-small {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+}
+
+.msg-content-wrapper {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
-    max-width: 60%;
-    padding: 1.5rem;
-    border-radius: var(--radius-md);
-    word-wrap: break-word;
+    /*permet de mettre la bulle sous la date*/
+    margin-bottom: 5px;
 }
 
-.message.sent {
-    align-self: flex-end;
-    background-color: var(--primary-green);
-    color: var(--white);
+.msg-meta {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    max-height: 24px;
+    /*alignement avec l'avatar */
+    font-size: 12px;
+    color: #1f1e1e;
+    margin-bottom: 5px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
 }
 
-.message.received {
+.msg-date {
+    font-size: 12px;
+    color: #1f1e1e;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+}
+
+.msg-bubble {
+    padding: 10px 18px 9px 18px;
+    border-radius: 3px;
+    font-size: 14px;
+    min-height: 37px;
+    margin-bottom: 29px;
+}
+
+/* Reçu (L'autre) */
+.msg-received {
     align-self: flex-start;
-    background-color: var(--white);
-    color: var(--dark-gray);
-    border: 1px solid #ECEAE4;
 }
 
-.message p {
-    margin: 0;
-    font-size: 0.95rem;
+.msg-received .msg-bubble {
+    background-color: #FFFFFF;
+    border: 1px solid #F5F3EF;
+    color: #292929;
 }
 
-.message small {
-    font-size: 0.75rem;
-    opacity: 0.7;
-}
-
-.message-form {
-    padding: 2rem;
-    background-color: var(--white);
-    border-top: 1px solid #e0e0e0;
-    display: flex;
-    gap: 1.5rem;
-    max-width: 100%;
-    margin: 0;
-}
-
-.message-form textarea {
-    flex: 1;
-    margin-bottom: 0;
-    resize: none;
-    min-height: 3.75rem;
-    padding: 1rem;
-    border: 1px solid #e0e0e0;
-    border-radius: var(--radius-md);
-}
-
-.message-form button {
+/* Envoyé (Moi) */
+.msg-sent {
     align-self: flex-end;
-    margin-bottom: 0;
 }
 
-/* ==================== RESPONSIVE ==================== */
-@media (max-width: 1200px) {
-    .hero-content,
-    .books-grid {
-        grid-template-columns: 1fr 1fr;
-    }
-    
-    .hero-content h1 {
-        font-size: 3rem;
-    }
-    
-    .info-card {
-        flex: 0 0 calc(33.333% - 1.5rem);
-    }
+.msg-sent .msg-bubble {
+    background-color: #EDF2F6;
+    color: #292929;
+    border: 1px solid #F5F3EF;
+    justify-content: flex-end;
+    /*si c'est mon message h+d à droite*/
 }
 
-@media (max-width: 1100px) {
-    .info-card {
-        flex: 0 0 calc(50% - 1.5rem);
-    }
+.msg-sent .msg-meta {
+    justify-content: flex-end;
+    text-align: right;
 }
 
-@media (max-width: 768px) {
-    header > div {
-        flex-direction: column;
-        gap: 1.5rem;
-        width: 100%;
-    }
-    
-    .books-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .hero-content {
-        gap: 2rem;
-        text-align: center;
-        width: 100%;
-    }
-    
-    .hero {
-        padding-top: 3.75rem;
-    }
-    
-    .hero-content h1 {
-        font-size: 2.8rem;
-        line-height: 1.2;
-    }
-    
-    .hero-content p {
-        max-width: 100%;
-        margin-left: auto;
-        margin-right: auto;
-    }
-    
-    .section {
-        padding: 5rem 0;
-        width: 100%;
-    }
-    
-    .section-head h2 {
-        font-size: 2.4rem;
-    }
-    
-    .footer-content {
-        flex-direction: column;
-        align-items: center;
-        gap: 1.5rem;
-        text-align: center;
-        width: 100%;
-    }
-    
-    .info-card {
-        flex: 0 0 calc(50% - 1.5rem);
-    }
-    
-    .conversations-list {
-        width: 100%;
-        border-right: none;
-        border-bottom: 1px solid #e0e0e0;
-        max-height: 12.5rem;
-    }
-    
-    .conversation-main {
-        height: auto;
-    }
-    
-    .message {
-        max-width: 85%;
-    }
-    
-    .message-form {
-        flex-direction: column;
-    }
-    
-    .how-it-works .section-center .btn-outline {
-        width: auto;
-        padding: 0.8rem 1.5rem;
-        font-size: 0.9rem;
-    }
-    
-    .book-detail-grid {
-        width: 100%;
-        grid-template-columns: 1fr;
-    }
-    
-    .feature-image {
-        height: 18rem;
-    }
+/* --- Formulaire d'envoi --- */
+.chat-input-wrapper {
+    width: 100%;
+    gap: 50px;
+    padding-bottom: 98px;
 }
 
-@media (max-width: 480px) {
-    .hero-content {
-        gap: 1.5rem;
-    }
-    
-    .hero-content h1 {
-        font-size: 2.2rem;
-    }
-    
-    .section {
-        padding: 3rem 0;
-    }
-    
-    .section-head h2 {
-        font-size: 2rem;
-    }
-    
-    .book-card img, .book-card-image {
-        height: 16rem;
-    }
-    
-    .btn {
-        width: 100%;
-        padding: 1rem;
-    }
-    
-    .feature-image {
-        height: 12rem;
-    }
-    
-    .hero-image img {
-        height: 400px;
-        width: 300px;
-    }
-    
-    .info-card {
-        flex: 0 0 100%;
-    }
+.chat-form {
+    display: flex;
+    gap: 21px;
 }
 
-/* ==================== UTILITAIRES ==================== */
-.text-center { text-align: center; }
-.hidden { display: none; }
-.flex { display: flex; }
-.flex-center { display: flex; align-items: center; justify-content: center; }
+.chat-input-field {
+    flex: 1;
+    max-width: 628px;
+    max-height: 49px;
+    border: 1px solid #F0F0F0;
+    border-radius: 6px;
+    padding: 0 15px;
+    font-family: 'Inter', sans-serif;
+}
 
+.btn-send-chat {
+    width: 132px;
+    height: 49px;
+    background-color: #0b614a;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+}
 
+.btn-send-chat:hover {
+    background-color: #008f53;
+}
 
+/* ==========================================================================
+   14. PAGE ERROR404
+========================================================================== */
+
+.error-page-wrapper {
+    background-color: #F0F0F0;
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 50px 20px;
+}
+
+.error-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 120px;
+    color: #00AC66;
+    margin: 0;
+    line-height: 1;
+}
+
+.error-subtitle {
+    font-family: 'Inter', sans-serif;
+    font-size: 24px;
+    color: #292929;
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+
+.error-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    color: #A6A6A6;
+}
+
+/* Le bouton spécifique de la page 404 */
+.error-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 250px;
+    height: 63px;
+    background-color: #F5F3EF;
+    color: #00AC66;
+    border: 1px solid #00AC66;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+    margin: 40px auto 0 auto;
+    /* Centre le bouton proprement */
+    transition: all 0.3s ease;
+}
+
+.error-btn:hover {
+    background-color: #00AC66;
+    color: #FFFFFF;
+}
+
+/* === MODE SOUTENANCE === */
+.btn-delete-account {
+    display: none !important;
+}

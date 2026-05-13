@@ -1,0 +1,48 @@
+/**
+ * Footer CSS - Adapté pour TomTroc
+ * Source : Inspiration/Tomtroc-main/public/css/footer.css
+ */
+
+footer {
+    flex-shrink: 0;
+    height: 61px;
+    background-color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    padding: 0 50px;
+    width: 100%;
+    border-top: 1px solid #EAEAEA;
+}
+
+footer nav {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    /*pousse tout à droit */
+}
+
+.footer-menu {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 40px;
+    list-style: none;
+    margin: 0;
+    /*distance entre les boites */
+    padding: 0;
+}
+
+.footer-menu a,
+.footer-menu li {
+    text-decoration: none;
+    /* Pas de soulignement */
+    font-size: 12px;
+    font-weight: 300;
+    color: #292929;
+}
+
+.footer-menu a:hover {
+    color: #000000;
+    font-weight: 600;
+    cursor: pointer;
+}
