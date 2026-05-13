@@ -146,9 +146,13 @@ class MessageController
         // Compter les messages non lus
         $_SESSION['unread_count'] = $messageManager->countUnreadMessages($userId);
 
+        // Fix: Définir selectedConversationId pour la vue
+        $selectedConversationId = $id;
+
         // Récupérer le pseudo et avatar de l'autre utilisateur
         $otherUserPseudo = $otherUser->getPseudo();
         $otherUserAvatar = $otherUser->getAvatar();
+        $otherUserId = $otherId;
 
         require __DIR__ . '/../views/messages/index.php';
     }

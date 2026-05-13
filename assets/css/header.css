@@ -70,6 +70,7 @@
 .separator {
     margin-left: auto;
     height: 19px;
+    opacity: 0;
 }
 
 /* Bloc droite */

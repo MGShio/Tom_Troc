@@ -27,11 +27,11 @@ class MessageManager extends AbstractEntityManager
                            ROW_NUMBER() OVER (PARTITION BY m.conversation_id ORDER BY m.created_at DESC) as rn
                     FROM messages m
                 ) last_msg ON c.id = last_msg.conversation_id AND last_msg.rn = 1
-                WHERE c.user1_id = :userId OR c.user2_id = :userId2
+                WHERE c.user1_id = ? OR c.user2_id = ?
                 ORDER BY last_message_date DESC";
 
         $stmt = $this->db->prepare($sql);
-        $stmt->execute(['userId' => $userId, 'userId2' => $userId]);
+        $stmt->execute([$userId, $userId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -42,8 +42,8 @@ class MessageManager extends AbstractEntityManager
      */
     public function getMessagesByConversationId(int $conversationId): array
     {
-        $stmt = $this->db->prepare('SELECT * FROM messages WHERE conversation_id = :conversationId ORDER BY created_at ASC');
-        $stmt->execute(['conversationId' => $conversationId]);
+        $stmt = $this->db->prepare('SELECT * FROM messages WHERE conversation_id = ? ORDER BY created_at ASC');
+        $stmt->execute([$conversationId]);
 
         $messages = [];
         while ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -62,11 +62,11 @@ class MessageManager extends AbstractEntityManager
     {
         // Vérifier si une conversation existe déjà
         $sqlCheck = "SELECT id FROM conversations
-                     WHERE (user1_id = :u1 AND user2_id = :u2)
-                        OR (user1_id = :u2 AND user2_id = :u1)";
+                     WHERE (user1_id = ? AND user2_id = ?)
+                        OR (user1_id = ? AND user2_id = ?)";
 
         $stmt = $this->db->prepare($sqlCheck);
-        $stmt->execute(['u1' => $senderId, 'u2' => $receiverId]);
+        $stmt->execute([$senderId, $receiverId, $receiverId, $senderId]);
         $existing = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($existing) {
@@ -74,9 +74,9 @@ class MessageManager extends AbstractEntityManager
         }
 
         // Sinon, créer une nouvelle conversation
-        $sqlInsert = "INSERT INTO conversations (user1_id, user2_id, created_at) VALUES (:u1, :u2, NOW())";
+        $sqlInsert = "INSERT INTO conversations (user1_id, user2_id, created_at) VALUES (?, ?, NOW())";
         $stmt = $this->db->prepare($sqlInsert);
-        $stmt->execute(['u1' => $senderId, 'u2' => $receiverId]);
+        $stmt->execute([$senderId, $receiverId]);
 
         return (int)$this->db->lastInsertId();
     }
@@ -90,12 +90,11 @@ class MessageManager extends AbstractEntityManager
      */
     public function postMessage(int $conversationId, int $senderId, string $content): Message
     {
-        $stmt = $this->db->prepare('INSERT INTO messages (conversation_id, sender_id, content, created_at, is_read) VALUES (:conversationId, :senderId, :content, NOW(), 0)');
-        $stmt->execute([
-            'conversationId' => $conversationId,
-            'senderId' => $senderId,
-            'content' => $content
-        ]);
+        $stmt = $this->db->prepare(
+            'INSERT INTO messages (conversation_id, sender_id, content, created_at, is_read)
+            VALUES (?, ?, ?, NOW(), 0)'
+        );
+        $stmt->execute([$conversationId, $senderId, $content]);
 
         $messageId = $this->db->lastInsertId();
         return $this->getMessageById($messageId);
@@ -108,13 +107,10 @@ class MessageManager extends AbstractEntityManager
      */
     public function getMessageById(int $id): ?Message
     {
-        $stmt = $this->db->prepare('SELECT * FROM messages WHERE id = :id');
-        $stmt->execute(['id' => $id]);
+        $stmt = $this->db->prepare('SELECT * FROM messages WHERE id = ?');
+        $stmt->execute([$id]);
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($data) {
-            return new Message($data);
-        }
-        return null;
+        return $data ? new Message($data) : null;
     }
 
     /**
@@ -125,14 +121,13 @@ class MessageManager extends AbstractEntityManager
     public function countUnreadMessages(int $userId): int
     {
         $sql = "SELECT COUNT(*) as unread_count
-            FROM messages m
-            JOIN conversations c ON m.conversation_id = c.id
-            WHERE m.is_read = 0
-            AND m.sender_id != ?
-            AND (c.user1_id = ? OR c.user2_id = ?)";
+                FROM messages m
+                JOIN conversations c ON m.conversation_id = c.id
+                WHERE m.is_read = 0
+                AND m.sender_id != ?
+                AND (c.user1_id = ? OR c.user2_id = ?)";
 
         $stmt = $this->db->prepare($sql);
-        // On passe 3 fois $userId : pour sender_id, user1_id et user2_id
         $stmt->execute([$userId, $userId, $userId]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -148,15 +143,12 @@ class MessageManager extends AbstractEntityManager
     public function markAsRead(int $conversationId, int $userId): bool
     {
         $sql = "UPDATE messages
-            SET is_read = 1
-            WHERE conversation_id = :conversationId
-            AND sender_id != :userId";
+                SET is_read = 1
+                WHERE conversation_id = ?
+                AND sender_id != ?";
 
         $stmt = $this->db->prepare($sql);
-        return $stmt->execute([
-            'conversationId' => $conversationId,
-            'userId' => $userId
-        ]);
+        return $stmt->execute([$conversationId, $userId]);
     }
 
     /**
@@ -167,12 +159,12 @@ class MessageManager extends AbstractEntityManager
     public function deleteConversation(int $conversationId): bool
     {
         // D'abord supprimer les messages
-        $stmt = $this->db->prepare('DELETE FROM messages WHERE conversation_id = :conversationId');
-        $stmt->execute(['conversationId' => $conversationId]);
+        $stmt = $this->db->prepare('DELETE FROM messages WHERE conversation_id = ?');
+        $stmt->execute([$conversationId]);
 
         // Puis supprimer la conversation
-        $stmt = $this->db->prepare('DELETE FROM conversations WHERE id = :id');
-        return $stmt->execute(['id' => $conversationId]);
+        $stmt = $this->db->prepare('DELETE FROM conversations WHERE id = ?');
+        return $stmt->execute([$conversationId]);
     }
 
     /**
@@ -182,12 +174,9 @@ class MessageManager extends AbstractEntityManager
      */
     public function getConversationById(int $id): ?Conversation
     {
-        $stmt = $this->db->prepare('SELECT * FROM conversations WHERE id = :id');
-        $stmt->execute(['id' => $id]);
+        $stmt = $this->db->prepare('SELECT * FROM conversations WHERE id = ?');
+        $stmt->execute([$id]);
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($data) {
-            return new Conversation($data);
-        }
-        return null;
+        return $data ? new Conversation($data) : null;
     }
 }
