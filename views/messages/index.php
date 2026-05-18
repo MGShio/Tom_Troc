@@ -46,6 +46,11 @@
         </div>
 
         <section class="messagerie-main">
+            <!-- Bouton Retour Mobile -->
+            <button class="chat-back-btn" aria-label="Retour">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            
             <?php if (isset($selectedConversationId) && $selectedConversationId && !empty($conversations)): ?>
 
                 <div class="chat-header">

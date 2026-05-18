@@ -14,10 +14,41 @@
     <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/header.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/footer.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/styles.css">
+    <script src="<?= BASE_URL ?>assets/js/responsive.js" defer></script>
 </head>
 
 <body>
     <header class="site-header">
+        <!-- Menu Hamburger Mobile -->
+        <button class="mobile-menu-toggle" aria-label="Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <!-- Sidebar Mobile -->
+        <nav class="mobile-nav-sidebar">
+            <nav>
+                <a href="<?= BASE_URL ?>?controller=home">Accueil</a>
+                <a href="<?= BASE_URL ?>?controller=book&action=index">Nos livres à échanger</a>
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <a href="<?= BASE_URL ?>?controller=message&action=index">Messagerie
+                        <?php if (isset($_SESSION['unread_count']) && $_SESSION['unread_count'] > 0): ?>
+                            <span class="badge-number-mobile"><?= htmlspecialchars($_SESSION['unread_count']) ?></span>
+                        <?php endif; ?>
+                    </a>
+                    <a href="<?= BASE_URL ?>?controller=user&action=profile&id=<?= $_SESSION['user_id'] ?>">Mon compte</a>
+                    <a href="<?= BASE_URL ?>?controller=user&action=logout">Déconnexion</a>
+                <?php else: ?>
+                    <a href="<?= BASE_URL ?>?controller=user&action=login">Connexion</a>
+                    <a href="<?= BASE_URL ?>?controller=user&action=register">Inscription</a>
+                <?php endif; ?>
+            </nav>
+        </nav>
+
+        <!-- Overlay Mobile Menu -->
+        <div class="mobile-nav-overlay"></div>
+
         <div class="header-inner">
             <nav class="nav">
                 <div class="nav-left">

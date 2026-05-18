@@ -11,6 +11,8 @@ class User
     private $password;
     private $avatar;
     private $created_at;
+    private $name;
+    private $date_inscription;
 
     /**
      * Constructeur
@@ -24,7 +26,9 @@ class User
             $this->email = $data['email'] ?? '';
             $this->password = $data['password'] ?? '';
             $this->avatar = $data['avatar'] ?? 'Avatar_default.png';
-            $this->created_at = $data['created_at'] ?? null;
+            $this->created_at = $data['created_at'] ?? $data['date_inscription'] ?? null;
+            $this->name = $data['name'] ?? null;
+            $this->date_inscription = $data['date_inscription'] ?? null;
         }
     }
 
@@ -219,5 +223,15 @@ class User
     public function setCreatedAt($created_at)
     {
         $this->created_at = $created_at;
+    }
+
+    /**
+     * Set user ID
+     * @param int $id
+     * @return void
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
     }
 }

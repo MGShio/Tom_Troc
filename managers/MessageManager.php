@@ -44,12 +44,8 @@ class MessageManager extends AbstractEntityManager
     {
         $stmt = $this->db->prepare('SELECT * FROM messages WHERE conversation_id = ? ORDER BY created_at ASC');
         $stmt->execute([$conversationId]);
-
-        $messages = [];
-        while ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $messages[] = new Message($data);
-        }
-        return $messages;
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Message');
+        return $stmt->fetchAll();
     }
 
     /**
@@ -67,10 +63,11 @@ class MessageManager extends AbstractEntityManager
 
         $stmt = $this->db->prepare($sqlCheck);
         $stmt->execute([$senderId, $receiverId, $receiverId, $senderId]);
-        $existing = $stmt->fetch(PDO::FETCH_ASSOC);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Conversation');
+        $existing = $stmt->fetch();
 
         if ($existing) {
-            return (int)$existing['id'];
+            return (int)$existing->id;
         }
 
         // Sinon, créer une nouvelle conversation
@@ -109,8 +106,8 @@ class MessageManager extends AbstractEntityManager
     {
         $stmt = $this->db->prepare('SELECT * FROM messages WHERE id = ?');
         $stmt->execute([$id]);
-        $data = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $data ? new Message($data) : null;
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Message');
+        return $stmt->fetch();
     }
 
     /**
@@ -176,7 +173,7 @@ class MessageManager extends AbstractEntityManager
     {
         $stmt = $this->db->prepare('SELECT * FROM conversations WHERE id = ?');
         $stmt->execute([$id]);
-        $data = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $data ? new Conversation($data) : null;
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Conversation');
+        return $stmt->fetch();
     }
 }

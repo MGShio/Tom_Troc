@@ -12,13 +12,10 @@ class UserManager extends AbstractEntityManager
      */
     public function getUserById(int $id): ?User
     {
-        $stmt = $this->db->prepare('SELECT * FROM users WHERE id = :id');
+        $stmt = $this->db->prepare('SELECT id, pseudo, email, password, avatar, created_at FROM users WHERE id = :id');
         $stmt->execute(['id' => $id]);
-        $data = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($data) {
-            return new User($data);
-        }
-        return null;
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'User');
+        return $stmt->fetch();
     }
 
     /**
@@ -28,13 +25,10 @@ class UserManager extends AbstractEntityManager
      */
     public function getUserByEmail(string $email): ?User
     {
-        $stmt = $this->db->prepare('SELECT * FROM users WHERE email = :email');
+        $stmt = $this->db->prepare('SELECT id, pseudo, email, password, avatar, created_at FROM users WHERE email = :email');
         $stmt->execute(['email' => $email]);
-        $data = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($data) {
-            return new User($data);
-        }
-        return null;
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'User');
+        return $stmt->fetch();
     }
 
     /**
@@ -44,13 +38,10 @@ class UserManager extends AbstractEntityManager
      */
     public function getUserByPseudo(string $pseudo): ?User
     {
-        $stmt = $this->db->prepare('SELECT * FROM users WHERE pseudo = :pseudo');
+        $stmt = $this->db->prepare('SELECT id, pseudo, email, password, avatar, created_at FROM users WHERE pseudo = :pseudo');
         $stmt->execute(['pseudo' => $pseudo]);
-        $data = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($data) {
-            return new User($data);
-        }
-        return null;
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'User');
+        return $stmt->fetch();
     }
 
     /**
@@ -121,12 +112,8 @@ class UserManager extends AbstractEntityManager
      */
     public function getAllUsers(): array
     {
-        $stmt = $this->db->query('SELECT * FROM users ORDER BY pseudo');
-        $users = [];
-        while ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $users[] = new User($data);
-        }
-        return $users;
+        $stmt = $this->db->query('SELECT id, pseudo, email, password, avatar, created_at FROM users ORDER BY pseudo');
+        return $stmt->fetchAll(PDO::FETCH_CLASS, 'User');
     }
 
     /**

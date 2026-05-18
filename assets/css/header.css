@@ -47,6 +47,7 @@
     height: 40px;
     width: auto;
     object-fit: contain;
+    padding: 10px;
 }
 
 .nav-left a:not(.logo) {
@@ -135,4 +136,216 @@
     font-size: 10px;
     font-weight: 700;
     line-height: 1;
+}
+/**
+ * Header Responsive - Mobile Additions
+ */
+
+/* Badge pour bottom bar mobile */
+.bottom-bar-badge {
+    position: absolute;
+    top: -2px;
+    right: -6px;
+    background-color: #C56D6D;
+    min-width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    color: #FFFFFF;
+}
+
+/* Badge pour sidebar mobile */
+.badge-number-mobile {
+    display: inline-block;
+    background-color: #C56D6D;
+    min-width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    margin-left: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    color: #FFFFFF;
+    text-align: center;
+    line-height: 16px;
+}
+
+/* Style pour les icônes de la bottom bar */
+.bottom-bar .icon {
+    position: relative;
+}
+
+/* ==========================================================================
+   MENU BURGER INTEGRATION - Mobile Only
+========================================================================== */
+
+/* Style de base du bouton burger (masqué en desktop) */
+.mobile-menu-toggle {
+    display: flex; /* Active le mode flexbox */
+    flex-direction: column; /* Empile les enfants verticalement */
+    justify-content: center; /* Centre verticalement les barres */
+    align-items: center; /* Centre horizontalement les barres */
+    width: 44px;
+    height: 38px;
+    background: #F5F3EF;
+    border: 0px solid #E5E7EB;
+    cursor: pointer;
+    z-index: 1001;
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.mobile-menu-toggle span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: var(--darkGray);
+    margin: 2px 0; /* Espacement vertical entre les barres */
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+/* Sidebar Mobile */
+.mobile-nav-sidebar {
+    position: fixed;
+    top: 0;
+    left: -300px;
+    width: 80%;
+    max-width: 300px;
+    height: 100vh;
+    background: #F5F3EF;
+    z-index: 1000;
+    transition: left 0.3s ease;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.mobile-nav-sidebar.active { 
+    left: 0; 
+}
+
+.mobile-nav-sidebar .close-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 32px;
+    height: 32px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--darkGray);
+}
+
+.mobile-nav-sidebar nav {
+    display: flex;
+    flex-direction: column;
+    margin-top: 40px;
+}
+
+.mobile-nav-sidebar a {
+    display: block;
+    padding: 12px 0;
+    font-size: 16px;
+    color: var(--darkGray);
+    border-bottom: 1px solid #F3F4F6;
+    transition: color 0.2s ease;
+}
+
+.mobile-nav-sidebar a:hover { 
+    color: var(--green); 
+}
+
+/* Overlay */
+.mobile-nav-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    visibility: hidden;
+    z-index: 999;
+    transition: all 0.3s ease;
+}
+
+.mobile-nav-overlay.active { 
+    opacity: 1; 
+    visibility: visible; 
+}
+
+/* Responsive pour header */
+@media (max-width: 767px) {
+    .site-header {
+        height: 60px;
+    }
+    
+    .header-inner {
+        padding: 0 16px;
+        position: relative;
+    }
+    
+    .nav {
+        justify-content: space-between;
+    }
+    
+    .nav-left {
+        gap: 20px;
+    }
+    
+    .nav-left a:not(.logo) {
+        display: none;
+    }
+    
+    .nav-right {
+        display: none;
+    }
+    
+    .logo img {
+        height: 32px;
+    }
+    
+    .separator {
+        display: none;
+    }
+    
+    /* Intégration du burger dans le header */
+    .mobile-menu-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 424px) {
+    .site-header {
+        height: 56px;
+    }
+    
+    .header-inner {
+        padding: 0 12px;
+    }
+    
+    .logo img {
+        height: 28px;
+    }
+}
+
+/* Masquer en desktop */
+@media (min-width: 768px) {
+    .mobile-menu-toggle,
+    .mobile-nav-sidebar,
+    .mobile-nav-overlay {
+        display: none !important;
+    }
 }

@@ -15,13 +15,18 @@
                     </div>
                 </form>
             </div>
+            
+            <!-- Bouton Filtrer pour Mobile -->
+            <button class="filter-btn" aria-label="Filtrer">
+                <i class="fas fa-filter"></i> Filtrer
+            </button>
         </header>
 
         <section class="books-grid">
             <?php if (isset($books) && !empty($books)) : ?>
                 <?php foreach ($books as $book) : ?>
                     <article class="book-card">
-                        <a href="<?= BASE_URL ?>?controller=book&action=show&id=<?= htmlspecialchars($book->getId())  ?>">
+                        <a href="<?= BASE_URL ?>?controller=book&action=show&id=<?= htmlspecialchars($book->getId()) ?>">
                             <div class="book-image">
                                 <img src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($book->getImage() ?: 'Book_default.png') ?>" alt="<?= htmlspecialchars($book->getTitle()) ?>">
                                 <?php if ($book->getDisponibilite() === 'non disponible' || $book->getStatut() === 'non disponible') : ?>
@@ -49,5 +54,30 @@
         </section>
     </div>
 </main>
+
+<!-- Filter Overlay Mobile -->
+<div class="filter-overlay">
+    <div class="filter-panel">
+        <button class="close-btn" aria-label="Fermer">✕</button>
+        <h3>Filtrer les livres</h3>
+        <form action="<?= BASE_URL ?>?controller=book&action=index" method="GET" class="filter-form">
+            <div class="filter-group">
+                <label for="filter-search">Rechercher</label>
+                <input type="text" name="search" id="filter-search" placeholder="Titre, auteur..." value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
+            </div>
+            
+            <?php if (isset($_GET['category']) && !empty($_GET['category'])): ?>
+                <input type="hidden" name="category" value="<?= htmlspecialchars($_GET['category']) ?>">
+            <?php endif; ?>
+            
+            <?php if (isset($_GET['status']) && !empty($_GET['status'])): ?>
+                <input type="hidden" name="status" value="<?= htmlspecialchars($_GET['status']) ?>">
+            <?php endif; ?>
+            
+            <button type="submit" class="btn btn-outline">Appliquer les filtres</button>
+            <a href="<?= BASE_URL ?>?controller=book&action=index" class="btn-cancel">Réinitialiser</a>
+        </form>
+    </div>
+</div>
 
 <?php require_once __DIR__ . '/../../includes/footer.php'; ?>
