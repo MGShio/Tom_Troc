@@ -1,9 +1,9 @@
 <?php require_once __DIR__ . '/../../includes/header.php'; /** @var User $user */
-/** @var Book[] $books */ ?>
+/** @var Book[] $books */
+/** @var string|null $error */?>
 
 <main class="my-account-wrapper">
     <div class="profile-container">
-
         <div class="profile-header-flex">
             <h1 class="profile-main-title">Mon compte</h1>
             <a href="<?= BASE_URL ?>?controller=book&action=create" class="btn-add-book">Ajouter un livre</a>
@@ -11,15 +11,13 @@
 
         <div class="profile-top-section">
             <div class="profile-columns-flex">
-
                 <div class="profile-col-left">
                     <div class="profile-avatar-frame">
                         <img src="<?= BASE_URL ?>assets/images/<?= htmlspecialchars($user->getAvatar() ?? 'Avatar_default.png') ?>" alt="Avatar de profil" id="avatar-preview">
                     </div>
-
+                    <label class="edit-avatar-link" for="avatar-upload" style="cursor: pointer;">Modifier</label>
                     <h2 class="profile-pseudo"><?= htmlspecialchars($user->getPseudo()) ?></h2>
                     <p class="profile-member-date">Membre depuis <?= Utils::format($user->getCreatedAt()) ?></p>
-
                     <div class="profile-library-stats">
                         <span class="library-label">BIBLIOTHÈQUE</span>
                         <div class="library-count-flex">
@@ -30,16 +28,46 @@
                 </div>
 
                 <div class="profile-col-right">
-                    <div class="profile-actions">
-                        <a href="<?= BASE_URL ?>?controller=user&action=edit&id=<?= $user->getId() ?>" class="btn btn-secondary">
-                            <i class="fas fa-edit"></i> Modifier mon profil
-                        </a>
-                        <a href="<?= BASE_URL ?>?controller=user&action=deleteAccount&id=<?= $user->getId() ?>" 
-                           class="btn btn-danger" 
-                           onclick="return confirm('⚠️ Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible !')">
-                            <i class="fas fa-trash"></i> Supprimer mon compte
-                        </a>
-                    </div>
+                    <h3 class="form-section-title">Modifier mon profil</h3>
+                    <form method="POST" action="<?= BASE_URL ?>?controller=user&action=profile&id=<?= $user->getId() ?>" enctype="multipart/form-data" class="edit-form-container">
+                        <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?? '' ?>">
+                        
+                        <!-- Champ avatar caché mais dans le formulaire pour la soumission -->
+                        <input type="file" id="avatar-upload" name="avatar" accept="image/png, image/jpeg, image/jpg" style="display: none;" onchange="previewAvatar(this);">
+
+                        <?php if (isset($error)): ?>
+                            <div class="form-error"><?= $error ?></div>
+                        <?php endif; ?>
+
+                        <?php if (isset($_GET['edit_success'])): ?>
+                            <div class="form-success">Vos modifications ont été enregistrées !</div>
+                        <?php endif; ?>
+
+                        <div class="edit-forms">
+                            <label for="pseudo" class="edit-label-blue">Pseudo *</label>
+                            <input type="text" id="pseudo" name="pseudo" required value="<?= htmlspecialchars($user->getPseudo()) ?>">
+                        </div>
+
+                        <div class="edit-forms">
+                            <label for="email" class="edit-label-blue">Email *</label>
+                            <input type="email" id="email" name="email" required value="<?= htmlspecialchars($user->getEmail()) ?>">
+                        </div>
+
+                        <div class="edit-forms">
+                            <label for="password" class="edit-label-blue">Nouveau mot de passe</label>
+                            <input type="password" id="password" name="password">
+                            <small>Laisser vide pour conserver l'actuel</small>
+                        </div>
+
+                        <div class="edit-forms">
+                            <label for="password_confirm" class="edit-label-blue">Confirmer le nouveau mot de passe</label>
+                            <input type="password" id="password_confirm" name="password_confirm">
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-save-outline">Enregistrer les modifications</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -99,8 +127,21 @@
                 </tbody>
             </table>
         </div>
-
     </div>
 </main>
+
+<script>
+function previewAvatar(input) {
+    const preview = document.getElementById('avatar-preview');
+    const file = input.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+}
+</script>
 
 <?php require_once __DIR__ . '/../../includes/footer.php'; ?>

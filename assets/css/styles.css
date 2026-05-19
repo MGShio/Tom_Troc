@@ -1,11 +1,11 @@
-/* ==========================================================================
-   CSS INSPIRATION - Adapté pour TomTroc
+﻿/* ==========================================================================
+   CSS INSPIRATION - AdaptÃ© pour TomTroc
    Source : Inspiration/Tomtroc-main/public/css/style.css
    
    Notes d'adaptation :
-   - Les polices Google Fonts sont déjà chargées dans ton projet
+   - Les polices Google Fonts sont dÃ©jÃ  chargÃ©es dans ton projet
    - Les couleurs sont compatibles (#F5F3EF, #292929, etc.)
-   - Les chemins des images doivent être adaptés dans le HTML, pas dans le CSS
+   - Les chemins des images doivent Ãªtre adaptÃ©s dans le HTML, pas dans le CSS
 ========================================================================== */
 
 /* ==========================================================================
@@ -13,7 +13,7 @@
 ========================================================================== */
 
 /* On va chercher la police "Inter" et "Playfair" chez Google */
-/* Déjà chargé dans ton header, donc on commente pour éviter le doublon
+/* DÃ©jÃ  chargÃ© dans ton header, donc on commente pour Ã©viter le doublon
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 */
 
@@ -29,18 +29,18 @@
 }
 
 /* ==========================================================================
-   0.5 RÉGLAGE UNIVERSEL (Le moteur du site)
+   0.5 RÃ‰GLAGE UNIVERSEL (Le moteur du site)
 ========================================================================== */
 
 * {
-    /* Évite que les marges s'ajoutent à la largeur des boîtes */
+    /* Ã‰vite que les marges s'ajoutent Ã  la largeur des boÃ®tes */
     box-sizing: border-box;
 }
 
 html,
 body {
     height: 100%;
-    /* Force le navigateur à calculer sur toute la hauteur */
+    /* Force le navigateur Ã  calculer sur toute la hauteur */
     margin: 0;
     padding: 0;
 }
@@ -51,7 +51,7 @@ body {
     min-height: 100vh;
     font-family: 'Inter', sans-serif;
     background-color: #FFFFFF;
-    /*pour éviter de lisser les polices différemment*/
+    /*pour Ã©viter de lisser les polices diffÃ©remment*/
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -65,7 +65,7 @@ main {
     background-color: var(--backgroundLight);
 }
 
-/* On neutralise les marges automatiques qui créent tes blocs blancs */
+/* On neutralise les marges automatiques qui crÃ©ent tes blocs blancs */
 h1,
 h2,
 p,
@@ -98,7 +98,7 @@ img {
     width: 100%;
 }
 
-/* STYLE GÉNÉRAL DES BOUTONS */
+/* STYLE GÃ‰NÃ‰RAL DES BOUTONS */
 .btn-outline {
     display: inline-block;
     font-family: 'Inter', sans-serif;
@@ -161,7 +161,7 @@ img {
 }
 
 /* ==========================================================================
-   2. SECTION BANNIÈRE (Tout en haut avec Hamza)
+   2. SECTION BANNIÃˆRE (Tout en haut avec Hamza)
 ========================================================================== */
 
 .banner {
@@ -227,7 +227,7 @@ img {
 
 
 /* ==========================================================================
-   3. SECTION LIVRES (Les derniers livres ajoutés)
+   3. SECTION LIVRES (Les derniers livres ajoutÃ©s)
 ========================================================================== */
 
 .books {
@@ -313,7 +313,7 @@ img {
 
 
 /* ==========================================================================
-   4. SECTION ÉTAPES (Comment ça marche ?)
+   4. SECTION Ã‰TAPES (Comment Ã§a marche ?)
 ========================================================================== */
 
 .steps {
@@ -504,7 +504,7 @@ img {
     border: none;
 }
 
-/* Texte "Déjà inscrit" avec l'écart de 40px */
+/* Texte "DÃ©jÃ  inscrit" avec l'Ã©cart de 40px */
 .sign-ask {
     font-family: 'Inter', sans-serif;
     font-weight: 400;
@@ -515,7 +515,7 @@ img {
 
 .sign-submit-btn:hover {
     background-color: #008f53;
-    /* Un vert un peu plus foncé, comme tes autres boutons */
+    /* Un vert un peu plus foncÃ©, comme tes autres boutons */
     transition: all 0.3s ease;
     /* Rend l'animation douce */
 }
@@ -550,11 +550,11 @@ img {
 .container {
     max-width: 1440px;
     margin: 0 auto;
-    /* Centre le bloc au milieu de l'écran */
+    /* Centre le bloc au milieu de l'Ã©cran */
     padding: 0 150px;
 }
 
-/* Titre et Recherche sur la même ligne */
+/* Titre et Recherche sur la mÃªme ligne */
 .books-header {
     display: flex;
     align-items: center;
@@ -568,9 +568,9 @@ img {
     font-size: 36px;
     font-weight: 400;
     white-space: nowrap;
-    /*pour que ça ne fasse qu'une ligne*/
+    /*pour que Ã§a ne fasse qu'une ligne*/
     margin: 0;
-    /*enlève la marge qui pousse le texte */
+    /*enlÃ¨ve la marge qui pousse le texte */
 }
 
 .search-bar {
@@ -582,7 +582,7 @@ img {
     border-radius: 6px;
 }
 
-/* On force le container interne à prendre toute la place sans décaler */
+/* On force le container interne Ã  prendre toute la place sans dÃ©caler */
 .search-section {
     position: relative;
     width: 100%;
@@ -597,7 +597,7 @@ img {
     height: 15.15px;
 }
 
-/* L'input : prend tout le cadre, texte poussé après la loupe */
+/* L'input : prend tout le cadre, texte poussÃ© aprÃ¨s la loupe */
 .search-section input {
     width: 100%;
     height: 100%;
@@ -637,9 +637,9 @@ img {
 /* Grille de livres (Gap 38px) */
 .books-grid {
     display: grid;
-    /*crée un tableau invisible qui range les livres dans une case */
+    /*crÃ©e un tableau invisible qui range les livres dans une case */
     grid-template-columns: repeat(4, 200px);
-    /*formule pour focer passage de 3 à 4 colonnes de 200px  sur Chrome*/
+    /*formule pour focer passage de 3 Ã  4 colonnes de 200px  sur Chrome*/
     column-gap: 38px;
     /*espace horizntal entre les livres*/
     row-gap: 48px;
@@ -660,7 +660,7 @@ img {
     transform: translateY(-5px);
     /*le livre monte de 5 pixels*/
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
-    /*Ombre légère apparait */
+    /*Ombre lÃ©gÃ¨re apparait */
 }
 
 .book-image {
@@ -733,7 +733,7 @@ img {
 
 .no-results {
     grid-column: 1 / -1;
-    /* Force le message à prendre toute la largeur de la grille */
+    /* Force le message Ã  prendre toute la largeur de la grille */
     text-align: center;
     padding: 50px 0;
     font-family: 'Inter', sans-serif;
@@ -779,7 +779,7 @@ img {
 /* LA DIVISION 50/50 */
 .book-content-container {
     display: flex;
-    /* Met les blocs côte à côte */
+    /* Met les blocs cÃ´te Ã  cÃ´te */
     width: 100%;
     align-items: flex-start;
 }
@@ -802,7 +802,7 @@ img {
 /* --- BLOC DROITE (Prend le reste de la place) --- */
 .book-info-section {
     flex: 0 0 50%;
-    /* Remplit tout le côté droit */
+    /* Remplit tout le cÃ´tÃ© droit */
     padding-left: 85px;
     background-color: transparent !important;
 }
@@ -828,7 +828,7 @@ img {
     margin: 0 10px;
 }
 
-/* --- Typographie et Détails --- */
+/* --- Typographie et DÃ©tails --- */
 .book-main-title {
     font-family: 'Playfair Display', serif;
     font-size: 36px;
@@ -870,7 +870,7 @@ img {
     margin-bottom: 32px;
 }
 
-/* --- Bloc Propriétaire --- */
+/* --- Bloc PropriÃ©taire --- */
 .owner-card {
     display: flex;
     align-items: center;
@@ -952,7 +952,7 @@ img {
     width: 100%;
     max-width: 1440px;
     margin: 0 auto;
-    /*centre la zone sur les grands écrans */
+    /*centre la zone sur les grands Ã©crans */
     padding-left: 150px;
     box-sizing: border-box;
 }
@@ -1091,7 +1091,7 @@ img {
     /* harmonise les briques de lignes*/
 }
 
-/* --- EN-TÊTE --- */
+/* --- EN-TÃŠTE --- */
 .books-table th {
     background-color: #FFFFFF;
     font-family: 'Inter', sans-serif;
@@ -1134,12 +1134,12 @@ img {
     object-fit: cover;
 }
 
-/* --- STYLES DE TEXTE SPÉCIFIQUES --- */
+/* --- STYLES DE TEXTE SPÃ‰CIFIQUES --- */
 .books-table td.col-desc {
     font-style: italic;
     line-height: 1.5;
     max-width: 200px;
-    /* Évite que le texte ne prenne trop de place */
+    /* Ã‰vite que le texte ne prenne trop de place */
 }
 
 
@@ -1153,7 +1153,7 @@ img {
     /*L'espace exact de 92px avant le footer */
 }
 
-/* Le conteneur qui aligne tout à 150px du bord gauche */
+/* Le conteneur qui aligne tout Ã  150px du bord gauche */
 .edit-book-container {
     padding-left: 150px;
 }
@@ -1264,13 +1264,13 @@ img {
     margin-bottom: 32px;
 }
 
-/* Style des entrées  */
+/* Style des entrÃ©es  */
 /* Style des champs (Inputs et Select) */
 .edit-form-group input,
 .edit-form-group select {
     width: 100%;
     height: 50px;
-    /* réduction de 77px  à 50px pour un input standard*/
+    /* rÃ©duction de 77px  Ã  50px pour un input standard*/
     background-color: #EDF2F6;
     border: 1px solid #FFFFFF;
     border-radius: 6px;
@@ -1283,11 +1283,11 @@ img {
     box-sizing: border-box;
 }
 
-/* Le champ commentaire doit être plus grand */
+/* Le champ commentaire doit Ãªtre plus grand */
 .edit-form-group textarea {
     width: 100%;
     height: 356px;
-    /* La hauteur demandée par ton Figma */
+    /* La hauteur demandÃ©e par ton Figma */
     background-color: #EDF2F6;
     border: 1px solid #F0F0F0;
     border-radius: 6px;
@@ -1298,7 +1298,7 @@ img {
     color: #292929;
     box-sizing: border-box;
     resize: none;
-    /*indéformable, Empêche l'utilisateur de déformer la boîte*/
+    /*indÃ©formable, EmpÃªche l'utilisateur de dÃ©former la boÃ®te*/
 }
 
 /* --- Bouton Valider --- */
@@ -1337,11 +1337,11 @@ img {
     padding-left: 150px;
 }
 
-/* --- En-tête --- */
+/* --- En-tÃªte --- */
 .profile-header-flex {
     display: flex;
     justify-content: space-between;
-    /* Pousse le titre à gauche et le bouton à droite */
+    /* Pousse le titre Ã  gauche et le bouton Ã  droite */
     align-items: center;
     max-width: 1141px;
     margin-bottom: 48px;
@@ -1620,7 +1620,7 @@ img {
     /*aoute les ... automatiquement */
 }
 
-/* --- Badges Disponibilité --- */
+/* --- Badges DisponibilitÃ© --- */
 .badge-disponible {
     background-color: #6DC5A1;
     color: #FFFFFF;
@@ -1666,7 +1666,7 @@ img {
     max-width: 1141px;
     display: flex;
     justify-content: flex-end;
-    /* Aligne tout à droite */
+    /* Aligne tout Ã  droite */
 }
 
 
@@ -1708,7 +1708,7 @@ img {
     height: 100%;
 }
 
-/* --- Barre latérale (Gauche) --- */
+/* --- Barre latÃ©rale (Gauche) --- */
 .messagerie-sidebar {
     width: 308px;
     background-color: #FAF9F7;
@@ -1759,7 +1759,7 @@ img {
 .conv-header {
     display: flex;
     justify-content: space-between;
-    /*pousse l heure à droite */
+    /*pousse l heure Ã  droite */
     align-items: center;
     width: 100%;
     margin-bottom: 7px;
@@ -1800,7 +1800,7 @@ img {
     white-space: nowrap;
     /*force une seule ligne */
     overflow: hidden;
-    /*cache tout se qui dépasse*/
+    /*cache tout se qui dÃ©passe*/
     text-overflow: ellipsis;
     /*ajoute les "..." */
 }
@@ -1919,7 +1919,7 @@ img {
     margin-bottom: 29px;
 }
 
-/* Reçu (L'autre) */
+/* ReÃ§u (L'autre) */
 .msg-received {
     align-self: flex-start;
 }
@@ -1930,7 +1930,7 @@ img {
     color: #292929;
 }
 
-/* Envoyé (Moi) */
+/* EnvoyÃ© (Moi) */
 .msg-sent {
     align-self: flex-end;
 }
@@ -1940,7 +1940,7 @@ img {
     color: #292929;
     border: 1px solid #F5F3EF;
     justify-content: flex-end;
-    /*si c'est mon message h+d à droite*/
+    /*si c'est mon message h+d Ã  droite*/
 }
 
 .msg-sent .msg-meta {
@@ -2023,7 +2023,7 @@ img {
     color: #A6A6A6;
 }
 
-/* Le bouton spécifique de la page 404 */
+/* Le bouton spÃ©cifique de la page 404 */
 .error-btn {
     display: flex;
     justify-content: center;
@@ -2072,494 +2072,35 @@ img {
 /* ==========================================================================
    RESPONSIVE BASE
 ========================================================================== */
-@media (max-width: 767px) {
-    html {
-        font-size: 14px;
-    }
-    
-    body {
-        background-color: var(--mobile-bg);
-    }
-    
-    main {
-        padding: 0 var(--mobile-padding);
-    }
-    
-    h1 { font-size: 28px; }
-    h2 { font-size: 24px; }
-    h3 { font-size: 20px; }
-    p, a, span, li, div { font-size: 14px; }
-    
-    .btn {
-        width: 100%;
-        height: 48px;
-        font-size: 14px;
-        border-radius: var(--mobile-border-radius);
-        margin: 16px 0;
-    }
-    
-    .btn-outline {
-        padding: 12px 24px;
-        font-size: 14px;
-        border-radius: var(--mobile-border-radius);
-    }
-    
-    input[type="text"],
-    input[type="email"],
-    input[type="password"],
-    input[type="search"],
-    select,
-    textarea {
-        width: 100%;
-        height: 48px;
-        padding: 0 16px;
-        font-size: 14px;
-        border-radius: var(--mobile-border-radius);
-        border: 1px solid #D1D5DB;
-        margin-bottom: 12px;
-        box-sizing: border-box;
-    }
-    
-    textarea {
-        height: 120px;
-        padding: 12px 16px;
-        resize: vertical;
-    }
-    
-    .container,
-    .container-profile-main-flex,
-    .profile-container {
-        width: 100%;
-        max-width: 100%;
-        padding: 0 var(--mobile-padding);
-        box-sizing: border-box;
-    }
-}
 
-@media (max-width: 424px) {
-    html {
-        font-size: 13px;
-    }
-    
-    .btn {
-        height: 44px;
-        font-size: 13px;
-    }
-    
-    input, select, textarea {
-        height: 44px;
-        font-size: 13px;
-    }
-}
 
 /* ==========================================================================
    RESPONSIVE - BANNIERE
 ========================================================================== */
-@media (max-width: 767px) {
-    .banner {
-        flex-direction: column;
-        padding-top: 40px;
-        padding-bottom: 40px;
-        gap: 30px;
-        text-align: center;
-    }
-    
-    .banner-content {
-        order: 2; /* Texte en second */
-        width: 100%;
-        max-width: 100%;
-        margin: 0 auto 0 0;
-    
-    
-    .banner-image { 
-        order: 1; /* Image en premier */
-        width: 100%; 
-        align-items: center; 
-    }
-    
-    .banner-image .image { 
-        max-width: 280px; 
-    }
-    
-    .title { 
-        font-size: 28px; 
-        line-height: 1.2; 
-    }
-    
-    .text { 
-        font-size: 14px; 
-        max-width: 100%; 
-        margin: 0 auto 24px auto; 
-    }
-    
-    .name { 
-        margin-bottom: 30px; 
-    }
-}
-
-@media (max-width: 424px) {
-    .banner { 
-        padding-top: 0px; 
-        padding-bottom: 24px; 
-        gap: 20px; 
-    }
-    
-    .title { 
-        font-size: 24px; 
-    }
-}
 
 /* ==========================================================================
    RESPONSIVE - SECTION LIVRES (Accueil)
 ========================================================================== */
-@media (max-width: 767px) {
-    .books { 
-        padding: 40px 0; 
-    }
-    
-    .books .section-title { 
-        font-size: 28px; 
-        margin-bottom: 40px; 
-    }
-    
-    .books-list { 
-        gap: 16px; 
-        margin-bottom: 32px; 
-    }
-    
-    .book { 
-        width: 100%; 
-        max-width: 160px; 
-        height: auto; 
-        margin: 0 auto; 
-    }
-    
-    .book-cover { 
-        width: 100%; 
-        height: 180px; 
-    }
-    
-    .book-details {
-        width: 100%;
-        height: auto;
-        padding: 12px;
-        box-shadow: var(--mobile-card-shadow);
-        border-radius: var(--mobile-border-radius);
-    }
-    
-    .book-title { 
-        font-size: 14px; 
-        white-space: nowrap; 
-        overflow: hidden; 
-        text-overflow: ellipsis; 
-    }
-    
-    .book-author { 
-        font-size: 12px; 
-        margin-bottom: 12px; 
-    }
-    
-    .book-seller { 
-        font-size: 11px; 
-    }
-}
 
-@media (max-width: 424px) {
-    .books-list { 
-        gap: 12px; 
-    }
-    
-    .book { 
-        max-width: 140px; 
-    }
-    
-    .book-cover { 
-        height: 160px; 
-    }
-}
 
 /* ==========================================================================
    RESPONSIVE - SECTION ETAPES
 ========================================================================== */
-@media (max-width: 767px) {
-    .steps { 
-        padding: 40px 0; 
-    }
-    
-    .steps .section-title { 
-        font-size: 24px; 
-        margin-bottom: 16px; 
-    }
-    
-    .steps .subtitle { 
-        font-size: 14px; 
-        margin-bottom: 32px; 
-    }
-    
-    .steps-list { 
-        flex-direction: column; 
-        gap: 16px; 
-        margin-bottom: 32px; 
-    }
-    
-    .step {
-        width: 100%;
-        max-width: 280px;
-        height: auto;
-        padding: 20px;
-        margin: 0 auto;
-        font-size: 13px;
-    }
-}
 
-@media (max-width: 424px) {
-    .steps { 
-        padding: 32px 0; 
-    }
-    
-    .step { 
-        max-width: 100%; 
-        padding: 16px; 
-    }
-}
 
 /* ==========================================================================
    RESPONSIVE - SECTION VALEURS
 ========================================================================== */
-@media (max-width: 767px) {
-    .values { 
-        padding-bottom: 40px; 
-    }
-    
-    .values-content {
-        width: 100%;
-        max-width: 100%;
-        margin: 40px auto 32px auto;
-        min-height: auto;
-        padding: 0 var(--mobile-padding);
-        box-sizing: border-box;
-    }
-    
-    .values-content .title-left { 
-        font-size: 24px; 
-        margin-bottom: 20px; 
-    }
-    
-    .values-content p { 
-        font-size: 14px; 
-        line-height: 1.6; 
-    }
-    
-    .signature-box { 
-        margin-top: 24px; 
-        justify-content: center; 
-    }
-    
-    .team-name { 
-        font-size: 11px; 
-    }
-    
-    .heart {
-        position: relative;
-        top: 0;
-        left: 0;
-        width: 80px;
-        height: 68px;
-        margin: 16px auto 0 auto;
-    }
-}
 
 /* ==========================================================================
    RESPONSIVE - AUTH (Connexion/Inscription)
 ========================================================================== */
-@media (max-width: 767px) {
-    .auth { 
-        flex-direction: column; 
-        min-height: auto; 
-        padding: 24px var(--mobile-padding); 
-    }
-    
-    .auth-left { 
-        flex: 1; 
-        padding: 40px 24px 24px 24px; 
-        width: 100%; 
-    }
-    
-    .auth-img { 
-        display: none; 
-    }
-    
-    .sign-title { 
-        font-size: 28px; 
-        line-height: 1.2; 
-        margin-bottom: 24px; 
-    }
-    
-    .field { 
-        margin-top: 20px; 
-    }
-    
-    .field label { 
-        font-size: 13px; 
-    }
-    
-    .field input {
-        width: 100%;
-        height: 48px;
-        padding: 16px;
-        font-size: 14px;
-        border: 1px solid #D1D5DB;
-        border-radius: var(--mobile-border-radius);
-    }
-    
-    .sign-submit-btn {
-        width: 100%;
-        height: 48px;
-        font-size: 14px;
-        margin-top: 20px;
-    }
-    
-    .sign-ask { 
-        font-size: 13px; 
-        margin-top: 24px; 
-        text-align: center; 
-    }
-    
-    .sign-ask a { 
-        font-size: 13px; 
-    }
-}
 
-@media (max-width: 424px) {
-    .auth-left { 
-        padding: 32px 16px 16px 16px; 
-    }
-    
-    .sign-title { 
-        font-size: 24px; 
-    }
-    
-    .field input { 
-        height: 44px; 
-        padding: 14px; 
-    }
-    
-    .sign-submit-btn { 
-        height: 44px; 
-    }
-}
 
 /* ==========================================================================
    RESPONSIVE - PAGE NOS LIVRES A L'ECHANGE
 ========================================================================== */
-@media (max-width: 767px) {
-    .books-page { 
-        padding-top: 80px; 
-        padding-bottom: 40px; 
-    }
-    
-    .container { 
-        padding: 0 var(--mobile-padding); 
-    }
-    
-    .books-header { 
-        flex-direction: column; 
-        gap: 20px; 
-        align-items: stretch; 
-        margin-bottom: 40px; 
-    }
-    
-    .page-title { 
-        font-size: 24px; 
-        text-align: center; 
-    }
-    
-    .search-bar { 
-        width: 100%; 
-        height: 48px; 
-    }
-    
-    .search-section input { 
-        height: 100%; 
-        padding-top: 0; 
-        padding-left: 44px; 
-        font-size: 14px; 
-    }
-    
-    .search-section img { 
-        left: 16px; 
-        top: 50%; 
-        transform: translateY(-50%); 
-    }
-    
-    .books-grid { 
-        grid-template-columns: repeat(2, 1fr); 
-        gap: 16px; 
-        margin-top: 32px; 
-    }
-    
-    .book-card { 
-        width: 100%; 
-        height: auto; 
-        box-shadow: var(--mobile-card-shadow); 
-        border-radius: var(--mobile-border-radius); 
-    }
-    
-    .book-card:hover { 
-        transform: translateY(-2px); 
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
-    }
-    
-    .book-image { 
-        width: 100%; 
-        height: 180px; 
-    }
-    
-    .book-info { 
-        width: 100%; 
-        height: auto; 
-        padding: 12px; 
-    }
-    
-    .book-title { 
-        font-size: 14px; 
-        margin-bottom: 6px; 
-    }
-    
-    .book-author { 
-        font-size: 12px; 
-        margin-bottom: 12px; 
-    }
-    
-    .book-seller { 
-        font-size: 11px; 
-    }
-    
-    .badge-non-disponible { 
-        font-size: 10px; 
-        padding: 4px 8px; 
-    }
-    
-    .no-results { 
-        text-align: center; 
-        padding: 40px 0; 
-    }
-    
-    .no-results p { 
-        font-size: 16px; 
-    }
-}
 
-@media (max-width: 424px) {
-    .books-grid { 
-        grid-template-columns: repeat(1, 1fr); 
-        gap: 12px; 
-    }
-    
-    .book-cover { 
-        height: 160px; 
-    }
-}
 
 /* Filter Overlay Mobile */
 .filter-overlay {
@@ -2694,793 +2235,3 @@ img {
 .filter-btn .fas {
     margin-right: 8px;
 }
-
-@media (max-width: 767px) {
-    .filter-btn {
-        display: block;
-    }
-    
-    .books-header .search-bar {
-        order: -1;
-        margin-top: 0;
-    }
-}
-
-@media (min-width: 768px) {
-    .filter-btn,
-    .filter-overlay,
-    .filter-panel {
-        display: none !important;
-    }
-}
-
-/* ==========================================================================
-   RESPONSIVE - PAGE DETAILS D'UN LIVRE
-========================================================================== */
-@media (max-width: 767px) {
-    .book-page-wrapper { 
-        padding-bottom: 40px; 
-    }
-    
-    .book-page-wrapper .container { 
-        padding: 0 var(--mobile-padding); 
-    }
-    
-    .book-content-container { 
-        flex-direction: column; 
-    }
-    
-    .book-cover-section, .book-info-section { 
-        flex: 1; 
-        width: 100%; 
-        padding: 0; 
-    }
-    
-    .book-cover-section { 
-        margin-bottom: 24px; 
-    }
-    
-    .book-image-detail { 
-        width: 100%; 
-        max-height: 400px; 
-        border-radius: var(--mobile-border-radius); 
-    }
-    
-    .chemin-navigation { 
-        padding-left: 0; 
-        margin: 16px 0; 
-        font-size: 11px; 
-    }
-    
-    .book-main-title { 
-        font-size: 24px; 
-        margin-top: 24px; 
-        margin-bottom: 12px; 
-    }
-    
-    .book-main-author { 
-        font-size: 14px; 
-        margin-bottom: 20px; 
-    }
-    
-    .detail-line-separator { 
-        margin-bottom: 20px; 
-    }
-    
-    .section-main-title, .section-owner { 
-        font-size: 11px; 
-    }
-    
-    .book-main-description { 
-        font-size: 13px; 
-        max-width: 100%; 
-        line-height: 1.6; 
-    }
-    
-    .owner-card { 
-        width: auto; 
-        margin-bottom: 24px; 
-        padding: 12px 20px; 
-        border-radius: 50px; 
-    }
-    
-    .avatar-wrapper { 
-        width: 40px; 
-        height: 40px; 
-    }
-    
-    .owner-name-container a { 
-        font-size: 13px; 
-    }
-    
-    .btn-send-message { 
-        width: 100%; 
-        max-width: 100%; 
-        height: 48px; 
-        font-size: 14px; 
-        margin-top: 24px; 
-    }
-}
-
-/* ==========================================================================
-   RESPONSIVE - PAGE PROFIL PUBLIC
-========================================================================== */
-@media (max-width: 767px) {
-    .profile-page-wrapper { 
-        padding-top: 60px; 
-        padding-bottom: 60px; 
-    }
-    
-    .container-profile-main-flex { 
-        flex-direction: column; 
-        padding: 0 var(--mobile-padding); 
-    }
-    
-    .profile-sidebar, .profile-content { 
-        width: 100%; 
-        max-width: 100%; 
-        margin-bottom: 24px; 
-    }
-    
-    .profile-sidebar { 
-        height: auto; 
-        border-radius: var(--mobile-border-radius); 
-    }
-    
-    .profile-card { 
-        padding: 20px; 
-    }
-    
-    .profile-avatar { 
-        width: 100px; 
-        height: 100px; 
-        margin: 20px auto 0 auto; 
-    }
-    
-    .profile-separator-img { 
-        margin: 24px auto; 
-        max-width: 80%; 
-    }
-    
-    .profile-name { 
-        font-size: 20px; 
-        margin: 0 0 8px 0; 
-    }
-    
-    .profile-member-since { 
-        font-size: 12px; 
-        margin: 8px 0 16px 0; 
-    }
-    
-    .library-label { 
-        font-size: 10px; 
-    }
-    
-    .library-count-flex { 
-        gap: 4px; 
-    }
-    
-    .icon-book { 
-        width: 12px; 
-    }
-    
-    .library-count-text { 
-        font-size: 13px; 
-    }
-    
-    .btn-write-message { 
-        width: 100%; 
-        max-width: 200px; 
-        height: 48px; 
-        font-size: 13px; 
-        margin-top: 20px; 
-    }
-    
-    .table-round-container { 
-        border-radius: var(--mobile-border-radius); 
-    }
-    
-    .books-table { 
-        display: block; 
-        overflow-x: auto; 
-    }
-    
-    .books-table th, .books-table td { 
-        padding: 12px 8px; 
-        font-size: 11px; 
-        white-space: nowrap; 
-    }
-    
-    .books-table th:first-child, .books-table td:first-child { 
-        padding-left: 12px; 
-    }
-    
-    .table-img-frame { 
-        width: 50px; 
-        height: 50px; 
-    }
-    
-    .text-truncate-wrapper { 
-        max-width: 100px; 
-        -webkit-line-clamp: 2; 
-        line-clamp: 2; 
-    }
-}
-
-/* ==========================================================================
-   RESPONSIVE - PAGE MON COMPTE
-========================================================================== */
-@media (max-width: 767px) {
-    .my-account-wrapper { 
-        min-height: auto; 
-        padding-top: 60px; 
-        padding-bottom: 60px; 
-    }
-    
-    .profile-container { 
-        padding: 0 var(--mobile-padding); 
-    }
-    
-    .profile-header-flex { 
-        flex-direction: column; 
-        gap: 16px; 
-        align-items: stretch; 
-        max-width: 100%; 
-    }
-    
-    .profile-main-title { 
-        font-size: 20px; 
-    }
-    
-    .btn-add-book { 
-        width: 100%; 
-        text-align: center; 
-        font-size: 12px; 
-        padding: 12px; 
-    }
-    
-    .profile-columns-flex { 
-        flex-direction: column; 
-        gap: 20px; 
-    }
-    
-    .profile-col-left, .profile-col-right { 
-        width: 100%; 
-        height: auto; 
-        padding: 20px; 
-        border-radius: var(--mobile-border-radius); 
-    }
-    
-    .profile-col-right { 
-        padding: 20px; 
-    }
-    
-    .profile-avatar-frame { 
-        width: 100px; 
-        height: 100px; 
-        margin-top: 20px; 
-    }
-    
-    .empty-state { 
-        padding: 16px; 
-    }
-    
-    .profile-pseudo { 
-        font-size: 18px; 
-        margin: 12px 0 8px 0; 
-    }
-    
-    .profile-member-date { 
-        font-size: 11px; 
-        margin: 8px 0 16px 0; 
-    }
-    
-    .library-label { 
-        font-size: 10px; 
-        margin-bottom: 4px; 
-    }
-    
-    .library-count-flex { 
-        gap: 4px; 
-    }
-    
-    .icon-book { 
-        width: 12px; 
-    }
-    
-    .library-count-text { 
-        font-size: 12px; 
-    }
-    
-    .form-section-title { 
-        font-size: 14px; 
-        margin-top: 20px; 
-        margin-bottom: 16px; 
-    }
-    
-    .edit-forms { 
-        width: 100%; 
-        max-height: auto; 
-    }
-    
-    .edit-label-blue { 
-        font-size: 12px; 
-        margin-bottom: 8px; 
-    }
-    
-    .edit-forms input { 
-        height: 48px; 
-        padding: 14px; 
-    }
-    
-    .btn-save-outline { 
-        width: 100%; 
-        height: 48px; 
-        font-size: 13px; 
-    }
-    
-    .profile-table-wrapper { 
-        width: 100%; 
-        border-radius: var(--mobile-border-radius); 
-        margin-bottom: 40px; 
-    }
-    
-    .my-books-table { 
-        display: block; 
-        overflow-x: auto; 
-    }
-    
-    .my-books-table th, .my-books-table td { 
-        padding: 12px 8px; 
-        font-size: 11px; 
-        white-space: nowrap; 
-    }
-    
-    .my-books-table th:first-child, .my-books-table td:first-child { 
-        padding-left: 12px; 
-    }
-    
-    .table-img-frame { 
-        width: 50px; 
-        height: 50px; 
-    }
-    
-    .text-truncate-wrapper { 
-        max-width: 80px; 
-        -webkit-line-clamp: 2; 
-        line-clamp: 2; 
-    }
-    
-    .delete-account-zone { 
-        max-width: 100%; 
-        justify-content: flex-start; 
-    }
-    
-    .btn-delete-account { 
-        font-size: 12px; 
-        padding: 10px 16px; 
-    }
-}
-
-/* ==========================================================================
-   RESPONSIVE - PAGE MESSAGERIE
-========================================================================== */
-@media (max-width: 767px) {
-    .messagerie-page-wrapper { 
-        padding-left: 0; 
-        padding-right: 0; 
-        min-height: calc(100vh - 0px);
-    }
-    
-    .messagerie-container { 
-        flex-direction: column; 
-        height: 100%; 
-    }
-    
-    .messagerie-sidebar { 
-        width: 100%; 
-        background-color: #FFFFFF; 
-        position: relative; 
-    }
-    
-    .messagerie-title { 
-        font-size: 20px; 
-        margin: 20px 16px; 
-    }
-    
-    .conversation-list { 
-        max-height: auto; 
-        overflow-y: auto; 
-    }
-    
-    .conversation-item { 
-        padding: 12px 16px; 
-        margin-bottom: 0; 
-        border-bottom: 1px solid #F3F4F6; 
-    }
-    
-    .conversation-item.active { 
-        background-color: #F8FAFC; 
-    }
-    
-    .conv-avatar { 
-        width: 40px; 
-        height: 40px; 
-        margin: 0 10px 0 0; 
-    }
-    
-    .conv-pseudo { 
-        font-size: 13px; 
-    }
-    
-    .unread-dot { 
-        width: 6px; 
-        height: 6px; 
-        margin-left: 4px;
-    }
-    
-    .conv-time { 
-        font-size: 11px; 
-    }
-    
-    .conv-preview { 
-        width: 140px; 
-        max-height: 16px; 
-        font-size: 11px; 
-    }
-    
-    .conv-info {
-        display: flex;
-        flex-direction: column;
-        flex: 1;
-        overflow: hidden;
-    }
-    
-    .conv-header {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-    
-    .conv-preview {
-        width: auto;
-        max-width: 100%;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-    
-    .messagerie-main {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: #FFFFFF;
-        padding: 20px 16px;
-        box-sizing: border-box;
-        transform: translateX(100%);
-        transition: transform 0.3s ease;
-        z-index: 100;
-        opacity: 0;
-    }
-    
-    .messagerie-main.active { 
-        transform: translateX(0); 
-        opacity: 1; 
-    }
-    
-    .chat-header { 
-        margin-bottom: 20px; 
-        padding-bottom: 12px; 
-        border-bottom: 1px solid #F3F4F6; 
-    }
-    
-    .chat-header-avatar { 
-        width: 40px; 
-        height: 40px; 
-    }
-    
-    .chat-header-pseudo { 
-        font-size: 16px; 
-        max-width: 150px; 
-    }
-    
-    .chat-messages-area { 
-        flex: 1; 
-        overflow-y: auto; 
-        padding-bottom: 80px; 
-    }
-    
-    .message-row { 
-        gap: 4px; 
-    }
-    
-    .msg-avatar-small { 
-        width: 20px; 
-        height: 20px; 
-    }
-    
-    .msg-bubble { 
-        padding: 8px 14px 6px 14px; 
-        font-size: 13px; 
-        min-height: auto; 
-        margin-bottom: 16px; 
-    }
-    
-    .msg-meta { 
-        font-size: 10px; 
-        margin-bottom: 4px; 
-    }
-    
-    .msg-date { 
-        font-size: 10px; 
-    }
-    
-    .chat-input-wrapper {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        padding: 12px 16px 20px 16px;
-        background: #FFFFFF;
-        border-top: 1px solid #F3F4F6;
-        z-index: 101;
-    }
-    
-    .chat-form { 
-        gap: 12px; 
-    }
-    
-    .chat-input-field { 
-        max-width: auto; 
-        flex: 1; 
-        height: 44px; 
-        padding: 0 12px; 
-        font-size: 13px; 
-    }
-    
-    .btn-send-chat { 
-        width: 80px; 
-        height: 44px; 
-        font-size: 13px; 
-    }
-    
-    .chat-back-btn {
-        display: none;
-        position: absolute;
-        top: 20px;
-        left: 16px;
-        width: 40px;
-        height: 40px;
-        background: #FFFFFF;
-        border: 1px solid #E5E7EB;
-        border-radius: 50%;
-        cursor: pointer;
-        z-index: 102;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    
-    .chat-back-btn .fas {
-        color: var(--darkGray);
-        font-size: 16px;
-    }
-    
-    .chat-back-btn:hover {
-        background: #F8FAFC;
-    }
-    
-    /* Chat Back Button - affiché en mobile */
-    @media (max-width: 767px) {
-        .chat-back-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-    }
-}
-
-/* ==========================================================================
-   RESPONSIVE - PAGE MODIFIER/OUTER UN LIVRE
-========================================================================== */
-@media (max-width: 767px) {
-    .edit-book-page-wrapper { 
-        padding-bottom: 40px; 
-    }
-    
-    .edit-book-container { 
-        padding: 0 var(--mobile-padding); 
-    }
-    
-    .edit-back-navigation { 
-        margin: 20px 0; 
-    }
-    
-    .edit-main-title { 
-        font-size: 20px; 
-        margin-bottom: 20px; 
-    }
-    
-    .edit-card-white { 
-        max-width: 100%; 
-        padding: 24px var(--mobile-padding); 
-        border-radius: var(--mobile-border-radius); 
-    }
-    
-    .edit-columns-flex { 
-        flex-direction: column; 
-        gap: 20px; 
-    }
-    
-    .edit-col-left-photo, .edit-col-right-inputs { 
-        width: 100%; 
-    }
-    
-    .edit-image-frame { 
-        width: 100%; 
-        height: 300px; 
-        margin-bottom: 12px; 
-    }
-    
-    .edit-link-modify-photo { 
-        font-size: 12px; 
-        text-align: left; 
-    }
-    
-    .edit-form-group { 
-        margin-bottom: 20px; 
-    }
-    
-    .edit-form-group input, .edit-form-group select {
-        width: 100%;
-        height: 48px;
-        background-color: #F8FAFC;
-        border: 1px solid #E5E7EB;
-        border-radius: var(--mobile-border-radius);
-        padding: 14px;
-        font-size: 13px;
-    }
-    
-    .edit-form-group textarea { 
-        height: 200px; 
-        padding: 14px; 
-        font-size: 13px; 
-    }
-    
-    .edit-btn-validate { 
-        width: 100%; 
-        height: 48px; 
-        font-size: 14px; 
-        margin-top: 16px; 
-    }
-}
-
-/* ==========================================================================
-   RESPONSIVE - PAGE ERROR 404
-========================================================================== */
-@media (max-width: 767px) {
-    .error-page-wrapper { 
-        min-height: 80vh; 
-        padding: 40px 20px; 
-    }
-    
-    .error-title { 
-        font-size: 80px; 
-        margin-bottom: 16px; 
-    }
-    
-    .error-subtitle { 
-        font-size: 20px; 
-        margin-bottom: 12px; 
-    }
-    
-    .error-text { 
-        font-size: 14px; 
-    }
-    
-    .error-btn { 
-        width: 100%; 
-        max-width: 200px; 
-        height: 48px; 
-        font-size: 14px; 
-        margin: 32px auto 0 auto; 
-    }
-}
-
-@media (max-width: 424px) {
-    .error-title { 
-        font-size: 60px; 
-    }
-    
-    .error-subtitle { 
-        font-size: 18px; 
-    }
-    
-    .error-btn { 
-        width: 100%; 
-        height: 44px; 
-    }
-}
-
-/* ==========================================================================
-   RESPONSIVE - PETITS ECRANS (< 375px)
-========================================================================== */
-@media (max-width: 374px) {
-    main { 
-        padding: 0 12px; 
-    }
-    
-    .container, .profile-container, .edit-book-container { 
-        padding: 0 12px; 
-    }
-    
-    h1 { font-size: 24px; }
-    h2 { font-size: 20px; }
-    h3 { font-size: 18px; }
-    p, a, span, li, div { font-size: 13px; }
-    
-    .btn { 
-        width: 100%; 
-        height: 44px; 
-        font-size: 13px; 
-        border-radius: 6px; 
-    }
-    
-    .btn-outline { 
-        padding: 10px 16px; 
-        font-size: 13px; 
-        border-radius: 6px; 
-    }
-    
-    input, select, textarea { 
-        height: 44px; 
-        font-size: 13px; 
-        border-radius: 6px; 
-    }
-    
-    .books-grid { 
-        grid-template-columns: repeat(1, 1fr); 
-        gap: 12px; 
-    }
-    
-    .book-cover { 
-        height: 160px; 
-    }
-    
-    .conv-preview { 
-        width: 100px; 
-        font-size: 10px; 
-    }
-    
-    .msg-bubble { 
-        padding: 6px 12px 4px 12px; 
-        font-size: 12px; 
-    }
-}
-
-/* ==========================================================================
-   RESPONSIVE - TRES PETITS ECRANS (< 320px)
-========================================================================== */
-@media (max-width: 319px) {
-    html { 
-        font-size: 12px; 
-    }
-    
-    main { 
-        padding: 0 8px; 
-    }
-    
-    .banner { 
-        padding: 20px 0; 
-    }
-    
-    .title { 
-        font-size: 20px; 
-    }
-    
-    .books-list, .steps-list { 
-        gap: 8px; 
-    }
-}
-
-

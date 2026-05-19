@@ -67,7 +67,7 @@ class MessageManager extends AbstractEntityManager
         $existing = $stmt->fetch();
 
         if ($existing) {
-            return (int)$existing->id;
+            return (int)$existing->getId();
         }
 
         // Sinon, créer une nouvelle conversation

@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/header.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/footer.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/styles.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/responsive.css">
     <script src="<?= BASE_URL ?>assets/js/responsive.js" defer></script>
 </head>
 

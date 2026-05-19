@@ -7,6 +7,14 @@
 /** @var int $selectedConversationId */
 ?>
 
+<!-- Overlay pour fermer la sidebar -->
+<div class="sidebar-overlay"></div>
+
+<!-- Bouton menu mobile -->
+<button class="mobile-menu-btn" aria-label="Ouvrir les conversations">
+    <i class="fas fa-comments"></i>
+</button>
+
 <main class="messagerie-page-wrapper">
     <div class="messagerie-container">
 
@@ -64,11 +72,22 @@
                     <?php if (empty($messages)): ?>
                         <p class="mess-int">Dites bonjour !</p>
                     <?php else: ?>
-                        <?php foreach ($messages as $msg): ?>
-                            <?php $isMe = ($msg->getSenderId() == $_SESSION['user_id']);
+                        <?php 
+                        $prevIsMe = null;
+                        foreach ($messages as $index => $msg): 
+                            $isMe = ($msg->getSenderId() == $_SESSION['user_id']);
                             $classMessage = $isMe ? 'msg-sent' : 'msg-received';
-                            ?>
-
+                            
+                            // Ajouter classe pour gérer l'avatar
+                            $avatarClass = '';
+                            if (!$isMe && $index > 0) {
+                                $prevMsg = $messages[$index - 1];
+                                $prevIsMe = ($prevMsg->getSenderId() == $_SESSION['user_id']);
+                                if (!$prevIsMe) {
+                                    $classMessage .= ' has-prev-received';
+                                }
+                            }
+                        ?>
                             <div class="message-row <?= $classMessage ?>">
 
                                 <?php if (!$isMe): ?>
@@ -85,7 +104,6 @@
                                     </div>
                                 </div>
                             </div>
-
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </div>
@@ -108,5 +126,55 @@
 
     </div>
 </main>
+
+<!-- JavaScript pour la messagerie mobile -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const sidebar = document.querySelector('.messagerie-sidebar');
+    const main = document.querySelector('.messagerie-main');
+    const overlay = document.querySelector('.sidebar-overlay');
+    const menuBtn = document.querySelector('.mobile-menu-btn');
+    const backBtn = document.querySelector('.chat-back-btn');
+
+    // Ouvrir la sidebar
+    if (menuBtn && sidebar) {
+        menuBtn.addEventListener('click', () => {
+            sidebar.classList.add('active');
+            overlay.classList.add('active');
+        });
+    }
+
+    // Fermer la sidebar
+    if (backBtn && sidebar) {
+        backBtn.addEventListener('click', () => {
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+    }
+
+    if (overlay && sidebar) {
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+    }
+
+    // Fermer sidebar quand on sélectionne une conversation
+    const convItems = document.querySelectorAll('.conversation-item');
+    convItems.forEach(item => {
+        item.addEventListener('click', () => {
+            if (window.innerWidth <= 767) {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+            }
+        });
+    });
+
+    // Activer le main chat quand une conversation est sélectionnée
+    if (main && window.innerWidth <= 767) {
+        main.classList.add('active');
+    }
+});
+</script>
 
 <?php require_once __DIR__ . '/../../includes/footer.php'; ?>

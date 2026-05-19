@@ -142,7 +142,7 @@ class UserController
     }
 
     /**
-     * Affiche le profil de l'utilisateur connecté
+     * Affiche le profil de l'utilisateur connecté et gère l'édition
      * @param int|null $id ID de l'utilisateur
      */
     public function profile($id)
@@ -166,46 +166,7 @@ class UserController
         $bookManager = new BookManager($this->db);
         $books = $bookManager->getByUserId($id);
         
-        require __DIR__ . '/../views/users/profile.php';
-    }
-
-    /**
-     * Affiche le profil public d'un utilisateur
-     * Accessible sans être connecté
-     * @param int $id ID de l'utilisateur
-     */
-    public function publicProfile($id)
-    {
-        $userManager = new UserManager($this->db);
-        $user = $userManager->getUserById($id);
-        
-        if (!$user) {
-            Utils::redirect(BASE_URL . '?controller=home');
-        }
-        
-        $bookManager = new BookManager($this->db);
-        $books = $bookManager->getByUserId($id);
-        
-        require __DIR__ . '/../views/users/public_profile.php';
-    }
-
-    /**
-     * Affiche le formulaire d'édition du profil
-     * @param int $id ID de l'utilisateur
-     */
-    public function edit($id)
-    {
-        if (!Utils::isUserConnected() || $_SESSION['user_id'] != $id) {
-            Utils::redirect(BASE_URL . '?controller=home');
-        }
-
-        $userManager = new UserManager($this->db);
-        $user = $userManager->getUserById($id);
-        
-        if (!$user) {
-            Utils::redirect(BASE_URL . '?controller=home');
-        }
-
+        // Gestion de la soumission du formulaire d'édition
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Validation CSRF
             if (!isset($_POST['csrf_token']) || !Utils::verifyCsrfToken($_POST['csrf_token'])) {
@@ -278,7 +239,7 @@ class UserController
                     if ($userManager->updateUser($user)) {
                         $_SESSION['user_pseudo'] = $pseudo;
                         $_SESSION['user_email'] = $email;
-                        Utils::redirect(BASE_URL . '?controller=user&action=profile&id=' . $id);
+                        Utils::redirect(BASE_URL . '?controller=user&action=profile&id=' . $id . '&edit_success=1');
                     } else {
                         $errors[] = "Erreur lors de la mise à jour du profil.";
                     }
@@ -289,7 +250,27 @@ class UserController
         }
 
         $_SESSION['csrf_token'] = Utils::generateCsrfToken();
-        require __DIR__ . '/../views/users/edit.php';
+        require __DIR__ . '/../views/users/profile.php';
+    }
+
+    /**
+     * Affiche le profil public d'un utilisateur
+     * Accessible sans être connecté
+     * @param int $id ID de l'utilisateur
+     */
+    public function publicProfile($id)
+    {
+        $userManager = new UserManager($this->db);
+        $user = $userManager->getUserById($id);
+        
+        if (!$user) {
+            Utils::redirect(BASE_URL . '?controller=home');
+        }
+        
+        $bookManager = new BookManager($this->db);
+        $books = $bookManager->getByUserId($id);
+        
+        require __DIR__ . '/../views/users/public_profile.php';
     }
 
     /**
