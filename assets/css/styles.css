@@ -1363,7 +1363,6 @@ img {
     align-items: center;
     /* Centre tout horizontalement */
     width: 547px;
-    height: 508px;
     background-color: #FFFFFF;
     border-radius: 20px;
 
@@ -1452,7 +1451,6 @@ img {
 /* --- Colonne Droite */
 .profile-col-right {
     width: 555px;
-    height: 508px;
     background-color: #FFFFFF;
     padding-left: 117px;
     border-radius: 20px;
