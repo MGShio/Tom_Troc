@@ -55,9 +55,6 @@
 
         <section class="messagerie-main">
             <!-- Bouton Retour Mobile -->
-            <button class="chat-back-btn" aria-label="Retour">
-                <i class="fas fa-arrow-left"></i>
-            </button>
             
             <?php if (isset($selectedConversationId) && $selectedConversationId && !empty($conversations)): ?>
 
@@ -134,21 +131,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const main = document.querySelector('.messagerie-main');
     const overlay = document.querySelector('.sidebar-overlay');
     const menuBtn = document.querySelector('.mobile-menu-btn');
-    const backBtn = document.querySelector('.chat-back-btn');
 
     // Ouvrir la sidebar
     if (menuBtn && sidebar) {
         menuBtn.addEventListener('click', () => {
             sidebar.classList.add('active');
             overlay.classList.add('active');
-        });
-    }
-
-    // Fermer la sidebar
-    if (backBtn && sidebar) {
-        backBtn.addEventListener('click', () => {
-            sidebar.classList.remove('active');
-            overlay.classList.remove('active');
         });
     }
 

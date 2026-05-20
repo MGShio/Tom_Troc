@@ -57,7 +57,6 @@ function initMobileMenu() {
 function initChatOverlay() {
     const chatMain = document.querySelector('.messagerie-main');
     const conversationItems = document.querySelectorAll('.conversation-item');
-    const chatBackBtn = document.querySelector('.chat-back-btn');
     
     if (!chatMain || !conversationItems.length) return;
     
@@ -77,14 +76,6 @@ function initChatOverlay() {
             }
         });
     });
-    
-    // Bouton retour du chat
-    if (chatBackBtn) {
-        chatBackBtn.addEventListener('click', function() {
-            chatMain.classList.remove('active');
-            document.body.style.overflow = '';
-        });
-    }
 }
 
 /**
