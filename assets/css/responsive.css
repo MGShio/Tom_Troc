@@ -1749,7 +1749,7 @@
         align-items: center;
         justify-content: center;
         position: fixed;
-        top: 20px;
+        top: 100px;
         left: 20px;
         width: 44px;
         height: 44px;
@@ -1774,5 +1774,60 @@
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+}
+
+/* =============================================
+   FOOTER MOBILE - Adaptation Figma
+   ============================================ */
+
+@media (max-width: 767px) {
+    footer {
+        height: auto;
+        min-height: 3.5rem;
+        padding: 0.75rem calc(var(--mobile-padding) * 1.5);
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    footer nav {
+        width: 100%;
+    }
+
+    .footer-menu {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-menu li {
+        width: 100%;
+    }
+
+    .footer-menu a {
+        font-size: 0.75rem; /* 12px */
+        line-height: 1.2;
+    }
+
+    .footer-menu img {
+        width: 5.87vw; /* ~22px sur 375px */
+        max-width: 1.375rem; /* 22px max */
+        height: auto;
+        margin: 0.5rem auto 0;
+        display: inline-block;
+    }
+}
+
+@media (max-width: 424px) {
+    .footer-menu img {
+        width: 6vw;
+        max-width: 1.25rem; /* 20px max */
+    }
+}
+
+@media (max-width: 767px) {
+    footer nav {
+        justify-content: center !important;
     }
 }
