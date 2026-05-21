@@ -55,13 +55,12 @@
 
                         <div class="edit-forms">
                             <label for="password" class="edit-label-blue">Nouveau mot de passe</label>
-                            <input type="password" id="password" name="password">
-                            <small>Laisser vide pour conserver l'actuel</small>
+                            <input type="password" id="password" name="password" autocomplete="new-password">
                         </div>
 
                         <div class="edit-forms">
                             <label for="password_confirm" class="edit-label-blue">Confirmer le nouveau mot de passe</label>
-                            <input type="password" id="password_confirm" name="password_confirm">
+                            <input type="password" id="password_confirm" name="password_confirm" autocomplete="new-password">
                         </div>
 
                         <div class="form-actions">

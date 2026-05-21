@@ -46,3 +46,7 @@ footer nav {
     font-weight: 600;
     cursor: pointer;
 }
+
+.footer-menu img {
+    display: inline-block; /* corrige le display: block global */
+}

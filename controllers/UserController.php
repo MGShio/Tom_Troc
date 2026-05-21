@@ -249,6 +249,11 @@ class UserController
             }
         }
 
+        // Rendre les variables accessibles dans la vue via $GLOBALS
+        $GLOBALS['user'] = $user;
+        $GLOBALS['books'] = $books;
+        $GLOBALS['error'] = $error ?? null;
+        
         $_SESSION['csrf_token'] = Utils::generateCsrfToken();
         require __DIR__ . '/../views/users/profile.php';
     }
