@@ -10,18 +10,18 @@
 }
 
 /* ==========================================================================
-   0.5 RÃ‰GLAGE UNIVERSEL (Le moteur du site)
+   0.5 RÉGLAGE UNIVERSEL (Le moteur du site)
 ========================================================================== */
 
 * {
-    /* Ã‰vite que les marges s'ajoutent Ã  la largeur des boÃ®tes */
+    /* Évite que les marges s'ajoutent à la largeur des boîtes */
     box-sizing: border-box;
 }
 
 html,
 body {
     height: 100%;
-    /* Force le navigateur Ã  calculer sur toute la hauteur */
+    /* Force le navigateur à calculer sur toute la hauteur */
     margin: 0;
     padding: 0;
 }
@@ -32,7 +32,7 @@ body {
     min-height: 100vh;
     font-family: 'Inter', sans-serif;
     background-color: #FFFFFF;
-    /*pour Ã©viter de lisser les polices diffÃ©remment*/
+    /*pour éviter de lisser les polices différemment*/
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -46,7 +46,7 @@ main {
     background-color: var(--backgroundLight);
 }
 
-/* On neutralise les marges automatiques qui crÃ©ent tes blocs blancs */
+/* On neutralise les marges automatiques qui créent tes blocs blancs */
 h1,
 h2,
 p,
@@ -79,7 +79,7 @@ img {
     width: 100%;
 }
 
-/* STYLE GÃ‰NÃ‰RAL DES BOUTONS */
+/* STYLE GÉNÉRAL DES BOUTONS */
 .btn-outline {
     display: inline-block;
     font-family: 'Inter', sans-serif;
@@ -142,7 +142,7 @@ img {
 }
 
 /* ==========================================================================
-   2. SECTION BANNIÃˆRE (Tout en haut avec Hamza)
+   2. SECTION BANNIÈRE (Tout en haut avec Hamza)
 ========================================================================== */
 
 .banner {
@@ -208,7 +208,7 @@ img {
 
 
 /* ==========================================================================
-   3. SECTION LIVRES (Les derniers livres ajoutÃ©s)
+   3. SECTION LIVRES (Les derniers livres ajoutés)
 ========================================================================== */
 
 .books {
@@ -294,7 +294,7 @@ img {
 
 
 /* ==========================================================================
-   4. SECTION Ã‰TAPES (Comment Ã§a marche ?)
+   4. SECTION ÉTAPES (Comment ça marche ?)
 ========================================================================== */
 
 .steps {
@@ -485,7 +485,7 @@ img {
     border: none;
 }
 
-/* Texte "DÃ©jÃ  inscrit" avec l'Ã©cart de 40px */
+/* Texte "Déjà inscrit" avec l'écart de 40px */
 .sign-ask {
     font-family: 'Inter', sans-serif;
     font-weight: 400;
@@ -496,7 +496,7 @@ img {
 
 .sign-submit-btn:hover {
     background-color: #008f53;
-    /* Un vert un peu plus foncÃ©, comme tes autres boutons */
+    /* Un vert un peu plus foncé, comme tes autres boutons */
     transition: all 0.3s ease;
     /* Rend l'animation douce */
 }
@@ -531,11 +531,11 @@ img {
 .container {
     max-width: 1440px;
     margin: 0 auto;
-    /* Centre le bloc au milieu de l'Ã©cran */
+    /* Centre le bloc au milieu de l'écran */
     padding: 0 150px;
 }
 
-/* Titre et Recherche sur la mÃªme ligne */
+/* Titre et Recherche sur la même ligne */
 .books-header {
     display: flex;
     align-items: center;
@@ -549,9 +549,9 @@ img {
     font-size: 36px;
     font-weight: 400;
     white-space: nowrap;
-    /*pour que Ã§a ne fasse qu'une ligne*/
+    /*pour que ça ne fasse qu'une ligne*/
     margin: 0;
-    /*enlÃ¨ve la marge qui pousse le texte */
+    /*enlève la marge qui pousse le texte */
 }
 
 .search-bar {
@@ -563,7 +563,7 @@ img {
     border-radius: 6px;
 }
 
-/* On force le container interne Ã  prendre toute la place sans dÃ©caler */
+/* On force le container interne à prendre toute la place sans décaler */
 .search-section {
     position: relative;
     width: 100%;
@@ -578,7 +578,7 @@ img {
     height: 15.15px;
 }
 
-/* L'input : prend tout le cadre, texte poussÃ© aprÃ¨s la loupe */
+/* L'input : prend tout le cadre, texte poussé après la loupe */
 .search-section input {
     width: 100%;
     height: 100%;
@@ -618,9 +618,9 @@ img {
 /* Grille de livres (Gap 38px) */
 .books-grid {
     display: grid;
-    /*crÃ©e un tableau invisible qui range les livres dans une case */
+    /*crée un tableau invisible qui range les livres dans une case */
     grid-template-columns: repeat(4, 200px);
-    /*formule pour focer passage de 3 Ã  4 colonnes de 200px  sur Chrome*/
+    /*formule pour focer passage de 3 à 4 colonnes de 200px  sur Chrome*/
     column-gap: 38px;
     /*espace horizntal entre les livres*/
     row-gap: 48px;
@@ -641,7 +641,7 @@ img {
     transform: translateY(-5px);
     /*le livre monte de 5 pixels*/
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
-    /*Ombre lÃ©gÃ¨re apparait */
+    /*Ombre légère apparait */
 }
 
 .book-image {
@@ -714,7 +714,7 @@ img {
 
 .no-results {
     grid-column: 1 / -1;
-    /* Force le message Ã  prendre toute la largeur de la grille */
+    /* Force le message à prendre toute la largeur de la grille */
     text-align: center;
     padding: 50px 0;
     font-family: 'Inter', sans-serif;
@@ -760,20 +760,18 @@ img {
 /* LA DIVISION 50/50 */
 .book-content-container {
     display: flex;
-    /* Met les blocs cÃ´te Ã  cÃ´te */
+    /* Met les blocs côte à côte */
     width: 100%;
     align-items: flex-start;
 }
 
 /* --- BLOC GAUCHE  --- */
 .book-cover-section {
-    flex: 0 0 50%;
-    /* Ne bouge pas de 720px */
+    margin-left: 150px;
     overflow: hidden;
 }
 
 .book-image-detail {
-    width: 100%;
     height: auto;
     max-height: 80vh;
     object-fit: cover;
@@ -783,7 +781,7 @@ img {
 /* --- BLOC DROITE (Prend le reste de la place) --- */
 .book-info-section {
     flex: 0 0 50%;
-    /* Remplit tout le cÃ´tÃ© droit */
+    /* Remplit tout le côté droit */
     padding-left: 85px;
     background-color: transparent !important;
 }
@@ -796,20 +794,20 @@ img {
     font-weight: 300;
     margin-bottom: 16px;
     font-size: 10px;
-    color: #1f1e1e;
+    color: #A6A6A6;
 }
 
 .chemin-navigation a {
-    color: #1f1e1e;
+    color: #A6A6A6;
     text-decoration: none;
 }
 
 .chemin-navigation .separator {
-    color: #1f1e1e;
+    color: #A6A6A6;
     margin: 0 10px;
 }
 
-/* --- Typographie et DÃ©tails --- */
+/* --- Typographie et Détails --- */
 .book-main-title {
     font-family: 'Playfair Display', serif;
     font-size: 36px;
@@ -821,10 +819,25 @@ img {
 
 .book-main-author {
     font-family: 'Inter', sans-serif;
-    color: #1f1e1e;
+    color: #A6A6A6;
     font-weight: 400;
     font-size: 16px;
     margin-bottom: 32.5px;
+}
+
+.detail-separator {
+    border: none;
+    background-color: #A6A6A6;
+    width: 27px;
+    height: 1px;
+    display: block;
+    margin-bottom: 32.5px;
+    margin-left: 0; /* Aligne à gauche */
+    margin-right: auto; /* Déséquilibre les marges pour forcer l'alignement à gauche */
+}
+
+.badge-disponible-detail {
+    display: none !important;
 }
 
 .detail-line-separator {
@@ -851,7 +864,7 @@ img {
     margin-bottom: 32px;
 }
 
-/* --- Bloc PropriÃ©taire --- */
+/* --- Bloc Propriétaire --- */
 .owner-card {
     display: flex;
     align-items: center;
@@ -933,7 +946,7 @@ img {
     width: 100%;
     max-width: 1440px;
     margin: 0 auto;
-    /*centre la zone sur les grands Ã©crans */
+    /*centre la zone sur les grands écrans */
     padding-left: 150px;
     box-sizing: border-box;
 }
@@ -1072,7 +1085,7 @@ img {
     /* harmonise les briques de lignes*/
 }
 
-/* --- EN-TÃŠTE --- */
+/* --- EN-TÊTE --- */
 .books-table th {
     background-color: #FFFFFF;
     font-family: 'Inter', sans-serif;
@@ -1115,12 +1128,12 @@ img {
     object-fit: cover;
 }
 
-/* --- STYLES DE TEXTE SPÃ‰CIFIQUES --- */
+/* --- STYLES DE TEXTE SPÉCIFIQUES --- */
 .books-table td.col-desc {
     font-style: italic;
     line-height: 1.5;
     max-width: 200px;
-    /* Ã‰vite que le texte ne prenne trop de place */
+    /* Évite que le texte ne prenne trop de place */
 }
 
 
@@ -1134,7 +1147,7 @@ img {
     /*L'espace exact de 92px avant le footer */
 }
 
-/* Le conteneur qui aligne tout Ã  150px du bord gauche */
+/* Le conteneur qui aligne tout à 150px du bord gauche */
 .edit-book-container {
     padding-left: 150px;
 }
@@ -1245,13 +1258,13 @@ img {
     margin-bottom: 32px;
 }
 
-/* Style des entrÃ©es  */
+/* Style des entrées  */
 /* Style des champs (Inputs et Select) */
 .edit-form-group input,
 .edit-form-group select {
     width: 100%;
     height: 50px;
-    /* rÃ©duction de 77px  Ã  50px pour un input standard*/
+    /* réduction de 77px  à 50px pour un input standard*/
     background-color: #EDF2F6;
     border: 1px solid #FFFFFF;
     border-radius: 6px;
@@ -1264,11 +1277,11 @@ img {
     box-sizing: border-box;
 }
 
-/* Le champ commentaire doit Ãªtre plus grand */
+/* Le champ commentaire doit être plus grand */
 .edit-form-group textarea {
     width: 100%;
     height: 356px;
-    /* La hauteur demandÃ©e par ton Figma */
+    /* La hauteur demandée par ton Figma */
     background-color: #EDF2F6;
     border: 1px solid #F0F0F0;
     border-radius: 6px;
@@ -1279,7 +1292,7 @@ img {
     color: #292929;
     box-sizing: border-box;
     resize: none;
-    /*indÃ©formable, EmpÃªche l'utilisateur de dÃ©former la boÃ®te*/
+    /*indéformable, Empêche l'utilisateur de déformer la boîte*/
 }
 
 /* --- Bouton Valider --- */
@@ -1318,11 +1331,11 @@ img {
     padding-left: 150px;
 }
 
-/* --- En-tÃªte --- */
+/* --- En-tête --- */
 .profile-header-flex {
     display: flex;
     justify-content: space-between;
-    /* Pousse le titre Ã  gauche et le bouton Ã  droite */
+    /* Pousse le titre à gauche et le bouton à droite */
     align-items: center;
     max-width: 1141px;
     margin-bottom: 48px;
@@ -1599,7 +1612,7 @@ img {
     /*aoute les ... automatiquement */
 }
 
-/* --- Badges DisponibilitÃ© --- */
+/* --- Badges Disponibilité --- */
 .badge-disponible {
     background-color: #6DC5A1;
     color: #FFFFFF;
@@ -1645,7 +1658,7 @@ img {
     max-width: 1141px;
     display: flex;
     justify-content: flex-end;
-    /* Aligne tout Ã  droite */
+    /* Aligne tout à droite */
 }
 
 
@@ -1686,7 +1699,7 @@ img {
     height: 100%;
 }
 
-/* --- Barre latÃ©rale (Gauche) --- */
+/* --- Barre latérale (Gauche) --- */
 .messagerie-sidebar {
     width: 308px;
     background-color: #FAF9F7;
@@ -1737,7 +1750,7 @@ img {
 .conv-header {
     display: flex;
     justify-content: space-between;
-    /*pousse l heure Ã  droite */
+    /*pousse l heure à droite */
     align-items: center;
     width: 100%;
     margin-bottom: 7px;
@@ -1778,7 +1791,7 @@ img {
     white-space: nowrap;
     /*force une seule ligne */
     overflow: hidden;
-    /*cache tout se qui dÃ©passe*/
+    /*cache tout se qui dépasse*/
     text-overflow: ellipsis;
     /*ajoute les "..." */
 }
@@ -1876,7 +1889,7 @@ img {
     max-height: 24px;
     /*alignement avec l'avatar */
     font-size: 12px;
-    color: #1f1e1e;
+    color: #A6A6A6;
     margin-bottom: 5px;
     font-family: 'Inter', sans-serif;
     font-weight: 400;
@@ -1884,7 +1897,7 @@ img {
 
 .msg-date {
     font-size: 12px;
-    color: #1f1e1e;
+    color: #A6A6A6;
     font-family: 'Inter', sans-serif;
     font-weight: 400;
 }
@@ -1897,7 +1910,7 @@ img {
     margin-bottom: 29px;
 }
 
-/* ReÃ§u (L'autre) */
+/* Reçu (L'autre) */
 .msg-received {
     align-self: flex-start;
 }
@@ -1908,7 +1921,7 @@ img {
     color: #292929;
 }
 
-/* EnvoyÃ© (Moi) */
+/* Envoyé (Moi) */
 .msg-sent {
     align-self: flex-end;
 }
@@ -1918,7 +1931,7 @@ img {
     color: #292929;
     border: 1px solid #F5F3EF;
     justify-content: flex-end;
-    /*si c'est mon message h+d Ã  droite*/
+    /*si c'est mon message h+d à droite*/
 }
 
 .msg-sent .msg-meta {
@@ -2001,7 +2014,7 @@ img {
     color: #A6A6A6;
 }
 
-/* Le bouton spÃ©cifique de la page 404 */
+/* Le bouton spécifique de la page 404 */
 .error-btn {
     display: flex;
     justify-content: center;
@@ -2384,7 +2397,7 @@ img {
     color: #6f6b6b;
 }
 
-/* Bouton Annuler pour l'édition */
+/* Bouton Annuler pour l'�dition */
 .edit-btn-cancel {
     text-decoration: none;
     display: inline-flex;
@@ -2449,3 +2462,10 @@ img {
         font-size: 14px;
     }
 }
+
+
+
+
+
+
+

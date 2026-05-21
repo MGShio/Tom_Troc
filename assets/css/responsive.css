@@ -531,10 +531,10 @@
 
     .book-cover-section {
         margin-bottom: 24px;
+        margin-left: 0px;
     }
 
     .book-image-detail {
-        width: 100%;
         max-height: 400px;
         border-radius: var(--mobile-border-radius);
     }
