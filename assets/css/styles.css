@@ -112,7 +112,7 @@ img {
     text-decoration: none;
     /* Haut 39px, Bas 71px pour l'espace de 199px total */
     margin: 39px 0 71px 0;
-    background-color: #0e7d5f;
+    background-color: #00AC66;
     color: #FFFFFF;
     border: none;
     cursor: pointer;
@@ -128,8 +128,8 @@ img {
 /* BOUTON CONTOUR (Blanc/Transparent avec bord vert) */
 .btn-outline {
     background-color: transparent;
-    color: #0e7d5f;
-    border: 1px solid #0e7d5f;
+    color: #00AC66;
+    border: 1px solid #00AC66;
 }
 
 .book:hover {
@@ -480,7 +480,7 @@ img {
     border-radius: 10px;
     cursor: pointer;
     margin-top: 30px;
-    background-color: #036e43;
+    background-color: #00AC66;
     color: #FFFFFF;
     border: none;
 }
@@ -904,7 +904,7 @@ img {
 .btn-send-message {
     width: 485px;
     height: 63px;
-    background-color: #036e43;
+    background-color: #00AC66;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1054,8 +1054,8 @@ img {
     width: 215px;
     height: 63px;
     background-color: #F5F3EF;
-    color: #0e7d5f;
-    border: 1px solid #0e7d5f;
+    color: #00AC66;
+    border: 1px solid #00AC66;
     /* bordure verte*/
     border-radius: 10px;
     display: flex;
@@ -1351,8 +1351,8 @@ img {
 
 .btn-add-book {
     background-color: #FFFFFF;
-    color: #036e43;
-    border: 1px solid #036e43;
+    color: #00AC66;
+    border: 1px solid #00AC66;
     text-decoration: none;
     font-family: 'Inter', sans-serif;
     font-size: 12px;
@@ -1510,8 +1510,8 @@ img {
     width: 150px;
     height: 63px;
     background-color: #F5F3EF;
-    color: #036e43;
-    border: 1px solid #036e43;
+    color: #00AC66;
+    border: 1px solid #00AC66;
     border-radius: 10px;
     font-family: 'Inter', sans-serif;
     font-size: 16px;
@@ -1525,12 +1525,21 @@ img {
 
 /* --- Tableau des livres (Tes nouvelles classes) --- */
 .profile-table-wrapper {
-    width: 1141px;
+    width: 100%;
+    max-width: 1140px;
     border-radius: 20px;
     overflow: hidden;
     background-color: #FFFFFF;
     margin-bottom: 104px;
     padding: 0;
+}
+
+@media (min-width: 768px) {
+    .text-truncate-wrapper {
+        max-width: 100% !important;    /* Prend toute la largeur de la colonne */
+        -webkit-line-clamp: 4 !important; /* 4 lignes */
+        line-clamp: 4 !important;
+    }
 }
 
 .my-books-table {
@@ -1562,6 +1571,38 @@ img {
     background-color: #EDF2F6;
     /* une ligne sur deux */
 }
+
+/* ========== DESKTOP (768px et +) ========== */
+@media (min-width: 768px) {
+    /* Hauteur des lignes */
+    .my-books-table th,
+    .my-books-table td {
+        min-height: 130px; /* Uniquement en desktop */
+        vertical-align: middle;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    /* Largeurs des colonnes (desktop) */
+    .my-books-table th:nth-child(1),
+    .my-books-table td:nth-child(1) { width: 10%; } /* PHOTO */
+
+    .my-books-table th:nth-child(2),
+    .my-books-table td:nth-child(2) { width: 18%; } /* TITRE */
+
+    .my-books-table th:nth-child(3),
+    .my-books-table td:nth-child(3) { width: 15%; } /* AUTEUR */
+
+    .my-books-table th:nth-child(4),
+    .my-books-table td:nth-child(4) { width: 35%; } /* DESCRIPTION */
+
+    .my-books-table th:nth-child(5),
+    .my-books-table td:nth-child(5) { width: 10%; } /* DISPONIBILITÉ */
+
+    .my-books-table th:nth-child(6),
+    .my-books-table td:nth-child(6) { width: 12%; } /* ACTION */
+}
+
 
 .table-img-frame {
     width: 78px;
@@ -1639,10 +1680,16 @@ img {
 
 /* --- Liens Action --- */
 .table-actions a {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
     font-family: 'Inter', sans-serif;
     font-size: 12px;
     text-decoration: underline;
-    margin-right: 15px;
+}
+
+.table-actions {
+    height: 100%; /* Prend toute la hauteur de la cellule */
 }
 
 .action-edit {
@@ -1964,7 +2011,7 @@ img {
 .btn-send-chat {
     width: 132px;
     height: 49px;
-    background-color: #0b614a;
+    background-color: #00AC66;
     color: #FFFFFF;
     border: none;
     border-radius: 10px;
@@ -2462,10 +2509,3 @@ img {
         font-size: 14px;
     }
 }
-
-
-
-
-
-
-

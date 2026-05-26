@@ -114,6 +114,7 @@
                                     <a href="<?= BASE_URL ?>?controller=book&action=edit&id=<?= $book->getId() ?>" class="action-edit">
                                         <i class="fas fa-edit"></i> Éditer
                                     </a>
+                                    <br>
                                     <a href="<?= BASE_URL ?>?controller=book&action=delete&id=<?= $book->getId() ?>" 
                                        class="action-delete" 
                                        onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce livre ?');">
