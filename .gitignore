@@ -1,2 +1,36 @@
-Figma
-Inspiration
+# Environnement
+.env
+
+# Système
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+error.log
+
+# Uploads
+/uploads/
+
+# Dossiers temporaires
+/tmp/
+/temp/
+
+# Cache
+*.cache
+/cache/
+
+# Dependencies (si vous utilisez Composer)
+/vendor/
+composer.lock
+
+# Figma
+Figma/
+Inspiration/

@@ -14,11 +14,12 @@ class Message
 
     /**
      * Constructeur
-     * @param array|null $data Données pour initialiser le message
+     * @param array|mixed ...$args Données pour initialiser le message
      */
-    public function __construct($data = null)
+    public function __construct(...$args)
     {
-        if ($data !== null) {
+        if (count($args) === 1 && is_array($args[0])) {
+            $data = $args[0];
             $this->id = $data['id'] ?? null;
             $this->conversation_id = $data['conversation_id'] ?? null;
             $this->sender_id = $data['sender_id'] ?? null;
@@ -26,6 +27,7 @@ class Message
             $this->created_at = $data['created_at'] ?? null;
             $this->is_read = $data['is_read'] ?? 0;
         }
+        // Sinon PDO assignera automatiquement les propriétés par nom
     }
 
     // Getters

@@ -18,11 +18,12 @@ class Book
 
     /**
      * Constructeur
-     * @param array|null $data Données pour initialiser le livre
+     * @param array|mixed ...$args Données pour initialiser le livre
      */
-    public function __construct($data = null)
+    public function __construct(...$args)
     {
-        if ($data !== null) {
+        if (count($args) === 1 && is_array($args[0])) {
+            $data = $args[0];
             $this->id = $data['id'] ?? null;
             $this->title = $data['title'] ?? '';
             $this->author = $data['author'] ?? '';
@@ -34,6 +35,7 @@ class Book
             $this->disponibilite = $data['disponibilite'] ?? $data['statut'] ?? 'disponible';
             $this->seller = $data['seller'] ?? $data['pseudo'] ?? null;
         }
+        // Sinon PDO assignera automatiquement les propriétés par nom
     }
 
     // Getters

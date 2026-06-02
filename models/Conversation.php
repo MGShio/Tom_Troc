@@ -12,16 +12,18 @@ class Conversation
 
     /**
      * Constructeur
-     * @param array|null $data Données pour initialiser la conversation
+     * @param array|mixed ...$args Données pour initialiser la conversation
      */
-    public function __construct($data = null)
+    public function __construct(...$args)
     {
-        if ($data !== null) {
+        if (count($args) === 1 && is_array($args[0])) {
+            $data = $args[0];
             $this->id = $data['id'] ?? null;
             $this->user1_id = $data['user1_id'] ?? null;
             $this->user2_id = $data['user2_id'] ?? null;
             $this->created_at = $data['created_at'] ?? null;
         }
+        // Sinon PDO assignera automatiquement les propriétés par nom
     }
 
     // Getters

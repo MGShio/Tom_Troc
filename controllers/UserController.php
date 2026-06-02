@@ -142,6 +142,15 @@ class UserController
     }
 
     /**
+     * Redirige vers le profil avec mode édition
+     * @param int|null $id ID de l'utilisateur
+     */
+    public function edit($id)
+    {
+        $this->profile($id);
+    }
+
+    /**
      * Affiche le profil de l'utilisateur connecté et gère l'édition
      * @param int|null $id ID de l'utilisateur
      */
@@ -248,7 +257,7 @@ class UserController
                 $error = implode('<br>', $errors);
             }
         }
-
+        
         // Rendre les variables accessibles dans la vue via $GLOBALS
         $GLOBALS['user'] = $user;
         $GLOBALS['books'] = $books;

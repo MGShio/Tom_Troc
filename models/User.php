@@ -16,11 +16,13 @@ class User
 
     /**
      * Constructeur
-     * @param array|null $data Données pour initialiser l'utilisateur
+     * @param array|mixed ...$args Données pour initialiser l'utilisateur
      */
-    public function __construct($data = null)
+    public function __construct(...$args)
     {
-        if ($data !== null) {
+        if (count($args) === 1 && is_array($args[0])) {
+            // Appel direct : new User(['id' => 1, ...])
+            $data = $args[0];
             $this->id = $data['id'] ?? null;
             $this->pseudo = $data['pseudo'] ?? ($data['name'] ?? '');
             $this->email = $data['email'] ?? '';
@@ -30,6 +32,7 @@ class User
             $this->name = $data['name'] ?? null;
             $this->date_inscription = $data['date_inscription'] ?? null;
         }
+        // Sinon PDO assignera automatiquement les propriétés par nom
     }
 
     /**

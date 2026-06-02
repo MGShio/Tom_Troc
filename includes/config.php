@@ -1,9 +1,28 @@
 <?php
 session_start();
 
+// Charger les variables d'environnement depuis .env
+if (file_exists(__DIR__ . '/../.env')) {
+    $envLines = file(__DIR__ . '/../.env', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    foreach ($envLines as $line) {
+        // Ignorer les commentaires et lignes vides
+        $trimmedLine = trim($line);
+        if (empty($trimmedLine) || strpos($trimmedLine, '#') === 0) {
+            continue;
+        }
+        $pos = strpos($trimmedLine, '=');
+        if ($pos === false) {
+            continue;
+        }
+        $key = trim(substr($trimmedLine, 0, $pos));
+        $value = trim(substr($trimmedLine, $pos + 1));
+        $_ENV[$key] = $value;
+    }
+}
+
 // Configuration de base
 define('SITE_NAME', 'Tom Troc');
-define('BASE_URL', 'http://localhost/tom_troc/');
+define('BASE_URL', $_ENV['BASE_URL'] ?? 'http://localhost/tom_troc/');
 
 // Connexion à la base de données - using environment variables for security
 define('DB_HOST', $_ENV['DB_HOST'] ?? 'localhost');

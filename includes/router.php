@@ -31,18 +31,17 @@ $valid_actions = [
     'message' => ['index', 'conversation', 'send']
 ];
 
-// Redirect to home if controller is invalid
+// Afficher page 404 si le contrôleur est invalide
 if (!in_array($controller, $valid_controllers)) {
-    error_log("Invalid controller: $controller");
     header("HTTP/1.1 404 Not Found");
-    header('Location: ' . BASE_URL . '?controller=home');
+    require_once 'views/error/404.php';
     exit;
 }
 
-// Redirect to default action if action is invalid
+// Afficher page 404 si l'action est invalide
 if (!isset($valid_actions[$controller]) || !in_array($action, $valid_actions[$controller])) {
-    error_log("Invalid action: $action for controller: $controller");
-    header('Location: ' . BASE_URL . '?controller=' . $controller);
+    header("HTTP/1.1 404 Not Found");
+    require_once 'views/error/404.php';
     exit;
 }
 
@@ -77,8 +76,9 @@ switch ($controller) {
                 $userController->deleteAccount($id);
                 break;
             default:
-                header('Location: ' . BASE_URL . '?controller=home');
-                break;
+                header("HTTP/1.1 404 Not Found");
+                require_once 'views/error/404.php';
+                exit;
         }
         break;
 
@@ -101,8 +101,9 @@ switch ($controller) {
                 $bookController->delete($id);
                 break;
             default:
-                header('Location: ' . BASE_URL . '?controller=home');
-                break;
+                header("HTTP/1.1 404 Not Found");
+                require_once 'views/error/404.php';
+                exit;
         }
         break;
 
@@ -119,13 +120,14 @@ switch ($controller) {
                 $messageController->send();
                 break;
             default:
-                header('Location: ' . BASE_URL . '?controller=home');
-                break;
+                header("HTTP/1.1 404 Not Found");
+                require_once 'views/error/404.php';
+                exit;
         }
         break;
 
     default:
-        header('Location: ' . BASE_URL . '?controller=home');
-        break;
+        header("HTTP/1.1 404 Not Found");
+        require_once 'views/error/404.php';
+        exit;
 }
-?>
